@@ -6,7 +6,7 @@
       "prerelease": true
     }
   ],
-  "tagFormat": "project1-v${version}",
+  "tagFormat": "webapp-v${version}",
   "extends": "semantic-release-monorepo",
   "plugins": [
     [
