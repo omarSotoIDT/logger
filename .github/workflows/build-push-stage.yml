@@ -21,7 +21,7 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        project: [project1, project2] # Subdirectorios
+        project: [webapp] # Subdirectorios
 
     steps:
       - name: Checkout code
