@@ -47,6 +47,9 @@ jspm_packages/
 .env.test
 .env.production
 
+#config launch.json
+.vscode
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache

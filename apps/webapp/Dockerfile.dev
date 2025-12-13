@@ -5,7 +5,7 @@ COPY ./src /app
 RUN composer install --ignore-platform-reqs
 
 # Etapa 2: Crear imagen optimizada para desarrollo
-FROM php:8.2-apache
+FROM php:8.4-apache
 
 # Instalar Composer en la imagen final
 COPY --from=composerstep /usr/bin/composer /usr/bin/composer

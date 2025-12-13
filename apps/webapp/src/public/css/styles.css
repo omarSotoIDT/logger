@@ -1,0 +1,149 @@
+:root {
+  /* === Brand / Primary === */
+  --color-primary: #5b3df5;
+  --color-primary-hover: #4a2fe0;
+  --color-primary-light: #ede9ff;
+
+  /* === Backgrounds === */
+  --color-bg-page: #eef3ff;
+  --color-bg-card: #ffffff;
+  --color-bg-muted: #f7f8fc;
+
+  /* === Text === */
+  --color-text-title: #1f2937;
+  --color-text-base: #374151;
+  --color-text-muted: #6b7280;
+  --color-text-inverse: #ffffff;
+
+  /* === Inputs & Borders === */
+  --color-border: #e5e7eb;
+  --color-border-focus: var(--color-primary);
+  --color-input-bg: #ffffff;
+
+  /* === States === */
+  --color-success: #16a34a;
+  --color-error: #dc2626;
+  --color-warning: #f59e0b;
+
+  /* === Shadows === */
+  --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.08);
+  --shadow-focus: 0 0 0 3px rgba(91, 61, 245, 0.25);
+
+  /* === Radius === */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  /* === Spacing === */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  /* === Typography === */
+  --font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1.25rem;
+  --font-size-lg: 1.6rem;
+}
+
+
+/* GLOBALES */
+
+/* Snipped Paul Irish */
+html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+    -webkit-text-size-adjust: 100%;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    background-color: var(--color-bg-page);
+    color: var(--color-text-base);
+}
+
+input {
+    width: 100%;
+    border: solid 1px #dbdbdb;
+    border-radius: var(--radius-sm);
+    padding: .7rem;
+}
+
+.titulo {
+    color: var(--color-text-title);
+}
+
+.btn-principal {
+    background-color: var(--color-primary);
+    padding: 1rem 0;
+    width: 100%;
+    border-radius: var(--radius-sm);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition:
+        background-color 0.25s ease,
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.btn-principal:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(91, 61, 245, 0.25);
+}
+
+
+
+
+/*========== LOGIN ========== */
+
+.card {
+    background-color: var(--color-bg-card);
+    box-shadow: var(--shadow-card);
+    padding: 3rem;
+}
+
+.subcard {
+    background-color: var(--color-bg-muted);
+    padding: 1.2rem;
+    margin-top: 2rem;
+    border-radius: var(--radius-sm);
+}
+
+.card-login {
+    width: 40rem;
+}
+
+body.centrar {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-cabecera {
+    text-align: center;
+}
+.card-cabecera svg {
+    background-color: var(--color-primary);
+    border-radius: var(--radius-md);
+    color: var(--color-primary-light);
+    padding: .8rem;
+}
+.formulario-campo {
+    margin-bottom: 1.5rem;
+}
+.formulario-campo label {
+    color: var(--color-text-title);
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+
