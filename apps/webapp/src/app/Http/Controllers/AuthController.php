@@ -18,7 +18,7 @@ class AuthController extends Controller
         try {
             $credentials = $request->validate([
                 'usuario'  => 'required|string|max:20',
-                'password' => 'required|string|max:128',
+                'password' => 'required|string|max:30',
             ]);
 
             $success = AuthService::logearUsuario($credentials);

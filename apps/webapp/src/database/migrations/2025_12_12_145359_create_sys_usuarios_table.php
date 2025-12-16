@@ -1,6 +1,6 @@
 <?php
 
-use App\const\Constances;
+use App\const\StatusConsts;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->timestamp('ultimo_acceso_fecha')->nullable();
             
             // Permisos
-            $table->string('status', 10)->default(Constances::ACTIVO);
+            $table->string('status', 10)->default(StatusConsts::ACTIVO);
 
             // Auditoría
             $table->timestamp('registro_fecha');

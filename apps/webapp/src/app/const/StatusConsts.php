@@ -2,7 +2,7 @@
 
 namespace App\const;
 
-class Constances
+class StatusConsts
 {
     public const ACTIVO = 'ACTIVO';
     public const ELIMINADO = 'ELIMINADO';

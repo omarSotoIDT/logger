@@ -57,15 +57,13 @@
    GLOBALES
 ========================= */
 
-/* Snippet Paul Irish */
-html {
-    box-sizing: border-box;
-    font-size: 62.5%;
-    -webkit-text-size-adjust: 100%;
+* {
+box-sizing: border-box;
 }
 
-*, *:before, *:after {
-    box-sizing: inherit;
+html {
+    font-size: 62.5%;
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
