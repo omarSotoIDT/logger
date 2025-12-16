@@ -5,29 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Logger Inicio de Sesión</title>
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 <body class="centrar">
 
     <div class="card card-login">
 
         <div class="card-cabecera">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="50"
-              height="50"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#fff"
-              stroke-width="1"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+            <img
+                src="{{ asset('assets/icons/logo-login.svg') }}"
+                alt="Login Logger"
+                class="login-logo"
             >
-              <path d="M15 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
-              <path d="M21 12h-13l3 -3" />
-              <path d="M11 15l-3 -3" />
-            </svg>
     
             <p class="titulo">Logger</p>
             <p>Sistema de gestión de logs</p>
@@ -88,12 +78,6 @@
                 Iniciar Sesión
             </button>
         </form>
-
-        <div class="subcard">
-            <p class="titulo">Credenciales de prueba:</p>
-            <p>admin / password(Administrador)</p> 
-            <p>user1 / password(Usuario)</p> 
-        </div>
 
     </div> <!--.card-->
 </body>

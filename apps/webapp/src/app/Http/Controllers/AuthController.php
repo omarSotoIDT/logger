@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\AuthService;
+use Exception;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -17,7 +18,7 @@ class AuthController extends Controller
         try {
             $credentials = $request->validate([
                 'usuario'  => 'required|string|max:20',
-                'password' => 'required|string',
+                'password' => 'required|string|max:128',
             ]);
 
             $success = AuthService::logearUsuario($credentials);
@@ -33,7 +34,7 @@ class AuthController extends Controller
             return redirect()->route('proyecto.dashboard')
                 ->with('success', 'Inicio de sesión exitoso');
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return back()->with('error', 'Ocurrió un error inesperado.');
         }
     }

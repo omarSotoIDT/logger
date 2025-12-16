@@ -29,10 +29,4 @@ class AuthService
     {
         Auth::logout();
     }
-
-    public static function esSuperUsuario(): bool
-    {
-        $u = Auth::user();
-        return $u && ((int)$u->super_usuario === 1);
-    }
 }

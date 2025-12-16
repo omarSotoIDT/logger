@@ -1,91 +1,110 @@
+/* =========================
+   VARIABLES GLOBALES
+========================= */
+
 :root {
-  /* === Brand / Primary === */
-  --color-primary: #5b3df5;
-  --color-primary-hover: #4a2fe0;
-  --color-primary-light: #ede9ff;
+  /* === Marca / Primario === */
+  --color-primario: #5b3df5;
+  --color-primario-hover: #4a2fe0;
+  --color-primario-claro: #ede9ff;
 
-  /* === Backgrounds === */
-  --color-bg-page: #eef3ff;
-  --color-bg-card: #ffffff;
-  --color-bg-muted: #f7f8fc;
+  /* === Fondos === */
+  --color-fondo-pagina: #eef3ff;
+  --color-fondo-tarjeta: #ffffff;
+  --color-fondo-muted: #f7f8fc;
 
-  /* === Text === */
-  --color-text-title: #1f2937;
-  --color-text-base: #374151;
-  --color-text-muted: #6b7280;
-  --color-text-inverse: #ffffff;
+  /* === Texto === */
+  --color-texto-titulo: #1f2937;
+  --color-texto-base: #374151;
+  --color-texto-muted: #6b7280;
+  --color-texto-inverso: #ffffff;
 
-  /* === Inputs & Borders === */
-  --color-border: #e5e7eb;
-  --color-border-focus: var(--color-primary);
-  --color-input-bg: #ffffff;
+  /* === Inputs y Bordes === */
+  --color-borde: #e5e7eb;
+  --color-borde-focus: var(--color-primario);
+  --color-fondo-input: #ffffff;
 
-  /* === States === */
-  --color-success: #16a34a;
+  /* === Estados === */
+  --color-exito: #16a34a;
   --color-error: #dc2626;
-  --color-warning: #f59e0b;
+  --color-advertencia: #f59e0b;
 
-  /* === Shadows === */
-  --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.08);
-  --shadow-focus: 0 0 0 3px rgba(91, 61, 245, 0.25);
+  /* === Sombras === */
+  --sombra-tarjeta: 0 10px 25px rgba(0, 0, 0, 0.08);
+  --sombra-focus: 0 0 0 3px rgba(91, 61, 245, 0.25);
 
-  /* === Radius === */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
+  /* === Bordes redondeados === */
+  --radio-sm: 6px;
+  --radio-md: 10px;
+  --radio-lg: 14px;
 
-  /* === Spacing === */
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
+  /* === Espaciados === */
+  --espacio-xs: 4px;
+  --espacio-sm: 8px;
+  --espacio-md: 16px;
+  --espacio-lg: 24px;
+  --espacio-xl: 32px;
 
-  /* === Typography === */
-  --font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1.25rem;
-  --font-size-lg: 1.6rem;
+  /* === Tipografía === */
+  --fuente-base: 'Inter', system-ui, -apple-system, sans-serif;
+  --fuente-tamano-sm: 0.875rem;
+  --fuente-tamano-base: 1.25rem;
+  --fuente-tamano-lg: 1.6rem;
 }
 
 
-/* GLOBALES */
+/* =========================
+   GLOBALES
+========================= */
 
-/* Snipped Paul Irish */
+/* Snippet Paul Irish */
 html {
     box-sizing: border-box;
     font-size: 62.5%;
     -webkit-text-size-adjust: 100%;
 }
+
 *, *:before, *:after {
     box-sizing: inherit;
 }
 
 body {
-    font-family: var(--font-family-base);
-    font-size: var(--font-size-base);
-    background-color: var(--color-bg-page);
-    color: var(--color-text-base);
+    font-family: var(--fuente-base);
+    font-size: var(--fuente-tamano-base);
+    background-color: var(--color-fondo-pagina);
+    color: var(--color-texto-base);
 }
 
 input {
     width: 100%;
-    border: solid 1px #dbdbdb;
-    border-radius: var(--radius-sm);
+    border: solid 1px var(--color-borde);
+    border-radius: var(--radio-sm);
     padding: .7rem;
+    background-color: var(--color-fondo-input);
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--color-borde-focus);
+    box-shadow: var(--sombra-focus);
 }
 
 .titulo {
-    color: var(--color-text-title);
+    color: var(--color-texto-titulo);
 }
 
+
+/* =========================
+   BOTONES
+========================= */
+
 .btn-principal {
-    background-color: var(--color-primary);
+    background-color: var(--color-primario);
     padding: 1rem 0;
     width: 100%;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radio-sm);
     border: none;
-    color: #fff;
+    color: var(--color-texto-inverso);
     cursor: pointer;
     transition:
         background-color 0.25s ease,
@@ -94,27 +113,28 @@ input {
 }
 
 .btn-principal:hover {
-    background-color: var(--color-primary-hover);
+    background-color: var(--color-primario-hover);
     transform: translateY(-1px) scale(1.02);
     box-shadow: 0 8px 20px rgba(91, 61, 245, 0.25);
 }
 
 
-
-
-/*========== LOGIN ========== */
+/* =========================
+   LOGIN
+========================= */
 
 .card {
-    background-color: var(--color-bg-card);
-    box-shadow: var(--shadow-card);
+    background-color: var(--color-fondo-tarjeta);
+    box-shadow: var(--sombra-tarjeta);
     padding: 3rem;
+    border-radius: var(--radio-md);
 }
 
 .subcard {
-    background-color: var(--color-bg-muted);
+    background-color: var(--color-fondo-muted);
     padding: 1.2rem;
     margin-top: 2rem;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radio-sm);
 }
 
 .card-login {
@@ -130,20 +150,22 @@ body.centrar {
 
 .card-cabecera {
     text-align: center;
+    margin-bottom: 2rem;
 }
-.card-cabecera svg {
-    background-color: var(--color-primary);
-    border-radius: var(--radius-md);
-    color: var(--color-primary-light);
+
+.card-cabecera img {
+    background-color: var(--color-primario);
+    border-radius: var(--radio-md);
+    color: var(--color-primario-claro);
     padding: .8rem;
 }
+
 .formulario-campo {
     margin-bottom: 1.5rem;
 }
+
 .formulario-campo label {
-    color: var(--color-text-title);
+    color: var(--color-texto-titulo);
     display: inline-block;
     margin-bottom: 1rem;
 }
-
-
