@@ -31,7 +31,7 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->route('proyecto.dashboard')
+            return redirect()->route('dashboard.index')
                 ->with('success', 'Inicio de sesión exitoso');
 
         } catch (Exception $e) {
