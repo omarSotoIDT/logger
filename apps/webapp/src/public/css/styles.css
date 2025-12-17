@@ -1,0 +1,169 @@
+/* =========================
+   VARIABLES GLOBALES
+========================= */
+
+:root {
+  /* === Marca / Primario === */
+  --color-primario: #5b3df5;
+  --color-primario-hover: #4a2fe0;
+  --color-primario-claro: #ede9ff;
+
+  /* === Fondos === */
+  --color-fondo-pagina: #eef3ff;
+  --color-fondo-tarjeta: #ffffff;
+  --color-fondo-muted: #f7f8fc;
+
+  /* === Texto === */
+  --color-texto-titulo: #1f2937;
+  --color-texto-base: #374151;
+  --color-texto-muted: #6b7280;
+  --color-texto-inverso: #ffffff;
+
+  /* === Inputs y Bordes === */
+  --color-borde: #e5e7eb;
+  --color-borde-focus: var(--color-primario);
+  --color-fondo-input: #ffffff;
+
+  /* === Estados === */
+  --color-exito: #16a34a;
+  --color-error: #dc2626;
+  --color-advertencia: #f59e0b;
+
+  /* === Sombras === */
+  --sombra-tarjeta: 0 10px 25px rgba(0, 0, 0, 0.08);
+  --sombra-focus: 0 0 0 3px rgba(91, 61, 245, 0.25);
+
+  /* === Bordes redondeados === */
+  --radio-sm: 6px;
+  --radio-md: 10px;
+  --radio-lg: 14px;
+
+  /* === Espaciados === */
+  --espacio-xs: 4px;
+  --espacio-sm: 8px;
+  --espacio-md: 16px;
+  --espacio-lg: 24px;
+  --espacio-xl: 32px;
+
+  /* === Tipografía === */
+  --fuente-base: 'Inter', system-ui, -apple-system, sans-serif;
+  --fuente-tamano-sm: 9px;
+  --fuente-tamano-base: 13px;
+  --fuente-tamano-lg: 16px;
+}
+
+
+/* =========================
+   GLOBALES
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--fuente-base);
+  font-size: var(--fuente-tamano-base);
+  background-color: var(--color-fondo-pagina);
+  color: var(--color-texto-base);
+}
+
+input {
+  width: 100%;
+  border: solid 1px var(--color-borde);
+  border-radius: var(--radio-sm);
+  padding: 7px; /* .7rem -> 7px */
+  background-color: var(--color-fondo-input);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--color-borde-focus);
+  box-shadow: var(--sombra-focus);
+}
+
+.titulo {
+  color: var(--color-texto-titulo);
+}
+
+
+/* =========================
+   BOTONES
+========================= */
+
+.btn-principal {
+  background-color: var(--color-primario);
+  padding: 10px 0; /* 1rem -> 10px */
+  width: 100%;
+  border-radius: var(--radio-sm);
+  border: none;
+  color: var(--color-texto-inverso);
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.btn-principal:hover {
+  background-color: var(--color-primario-hover);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(91, 61, 245, 0.25);
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+.card {
+  background-color: var(--color-fondo-tarjeta);
+  box-shadow: var(--sombra-tarjeta);
+  padding: 30px; /* 3rem -> 30px */
+  border-radius: var(--radio-md);
+}
+
+.subcard {
+  background-color: var(--color-fondo-muted);
+  padding: 12px;   /* 1.2rem -> 12px */
+  margin-top: 20px; /* 2rem -> 20px */
+  border-radius: var(--radio-sm);
+}
+
+.card-login {
+  width: 400px; /* 40rem -> 400px */
+}
+
+body.centrar {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-cabecera {
+  text-align: center;
+  margin-bottom: 20px; /* 2rem -> 20px */
+}
+
+.card-cabecera img {
+  background-color: var(--color-primario);
+  border-radius: var(--radio-md);
+  color: var(--color-primario-claro);
+  padding: 8px; /* .8rem -> 8px */
+}
+
+.formulario-campo {
+  margin-bottom: 15px; /* 1.5rem -> 15px */
+}
+
+.formulario-campo label {
+  color: var(--color-texto-titulo);
+  display: inline-block;
+  margin-bottom: 10px; /* 1rem -> 10px */
+}

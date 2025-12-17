@@ -13,6 +13,7 @@
 .env
 .env.*
 !.env.example
+/bootstrap/cache/
 
 # =========================
 # Laravel Mix / Vite
