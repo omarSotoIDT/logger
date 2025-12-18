@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
+    {{-- CDN Vue--}}
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+
     {{-- Head adicional por vista --}}
     @yield('head')
 </head>
