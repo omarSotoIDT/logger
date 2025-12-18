@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\TipoController;
+use App\Http\Controllers\TipoProyectoController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,11 +36,11 @@ Route::middleware(['auth'])
             });
 
         /* Tipos de Proyecto */
-        Route::controller(TipoController::class)
-            ->prefix('tipos')
+        Route::controller(TipoProyectoController::class)
+            ->prefix('tipos-proyecto')
             ->name('tipos.')
             ->group(function () {
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'gestor')->name('index');
                 Route::post('/', 'crear')->name('crear');
                 Route::patch('/{id}', 'actualizar')->name('actualizar');
                 Route::delete('/{id}', 'eliminar')->name('eliminar');

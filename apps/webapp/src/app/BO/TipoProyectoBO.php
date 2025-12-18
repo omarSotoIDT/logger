@@ -2,18 +2,20 @@
 
 namespace App\BO;
 
+use App\const\StatusConsts;
 use Illuminate\Support\Facades\Auth;
 
 use function Symfony\Component\Clock\now;
 
-class TipoBO
+class TipoProyectoBO
 {
-    public static function armarInsertAgregatTipo($data)
+    public static function armarInsertAgregarTipo($data)
     {
         return [
             'nombre'            => $data['nombre'],
             'registro_fecha'    => now(),
-            'registro_autor_id' => Auth::id()
+            'registro_autor_id' => Auth::id(),
+            'status'            => StatusConsts::ACTIVO
         ];
     }
 
@@ -29,7 +31,7 @@ class TipoBO
     public static function armarUpdateEliminarTipo()
     {
         return [
-            'status'                 => 'ELIMINADO',
+            'status'                 => StatusConsts::ELIMINADO,
             'actualizacion_fecha'    => now(),
             'actualizacion_autor_id' => Auth::id()
         ];

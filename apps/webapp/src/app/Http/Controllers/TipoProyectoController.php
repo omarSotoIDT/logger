@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\TipoService;
+use App\Services\TipoProyectoService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 
-class TipoController extends Controller
+class TipoProyectoController extends Controller
 {
-    public function index() {
+    public function gestor() {
         try {
-            $tipos = TipoService::listarTipos();
+            $tipos = TipoProyectoService::listarTipos();
 
             return view('tipos.index', compact('tipos'));
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             return back()->with('error', 'Error al listar los tipos de categorías');
         }
     }
@@ -31,13 +31,13 @@ class TipoController extends Controller
 
             $data = $validator->validated();
 
-            TipoService::agregarTipo($data);
+            TipoProyectoService::agregarTipo($data);
 
             return back()->with('success', 'Tipo creado correctamente');
 
             
-        } catch(\Exception $e) {
-            return back()->with('error', 'Error al crear el nuevo tipo de proyecto');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
     }
 
@@ -53,18 +53,18 @@ class TipoController extends Controller
 
             $data = $validator->validated();
 
-            TipoService::actualizarTipo($id, $data);
+            TipoProyectoService::actualizarTipo($id, $data);
 
             return back()->with('success', 'Tipo de proyecto actualizado correctamente');
 
-        } catch(\Exception $e) {
-            return back()->with('error', 'Error al actualizar el tipo de proyecto');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
     }
 
     public function eliminar($id) {
         try {
-            TipoService::eliminarTipo($id);
+            TipoProyectoService::eliminarTipo($id);
 
             return back()->with('success', 'Tipo de proyecto eliminado correctamente');
         } catch(\Exception $e) {

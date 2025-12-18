@@ -17,7 +17,7 @@ return new class extends Migration
 
             // Auditoría
             $table->timestamp('registro_fecha')->useCurrent();
-            $table->unsignedBigInteger('registro_autor_id')->nullable();
+            $table->unsignedBigInteger('registro_autor_id');
             $table->timestamp('actualizacion_fecha')->nullable();
             $table->unsignedBigInteger('actualizacion_autor_id')->nullable();
         });

@@ -4,7 +4,7 @@ namespace App\Repositories\RepoAction;
 
 use Illuminate\Support\Facades\DB;
 
-class TipoRepoAction 
+class TipoProyectoRepoAction 
 {
     public static function agregar($data)
     {

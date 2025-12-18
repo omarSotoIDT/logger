@@ -33,24 +33,5 @@ class DatabaseSeeder extends Seeder
             'actualizacion_fecha'         => null,
             'actualizacion_autor_id'      => null,
         ]);
-
-        $tipos = [
-            'Laravel',
-            'Python',
-            'Node.JS',
-            'Django'
-        ];
-
-        foreach ($tipos as $nombre) {
-            DB::table('cat_tipos_proyecto')->insert([
-                'nombre'                  => $nombre,
-                'status'                  => 'ACTIVO',
-                'registro_fecha'          => now(),
-                'registro_autor_id'       => null,
-                'actualizacion_fecha'     => null,
-                'actualizacion_autor_id'  => null,
-            ]);
-        }
-    
     }
 }

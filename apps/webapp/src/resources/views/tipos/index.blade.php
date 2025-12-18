@@ -8,7 +8,7 @@
 <div class="modal-overlay" id="modal-tipo">
     <div class="modal">
         <header class="modal-cabecera">
-            <h2 class="modal-titulo">Nuevo Tipo de Proyecto</h2>
+            <h2 class="modal-titulo">Nuevo tipo de proyecto</h2>
 
             <button type="button" class="modal-cerrar" id="btn-cerrar-modal-tipo" aria-label="Cerrar">✕</button>
         </header>
@@ -39,7 +39,7 @@
 <div class="modal-overlay" id="modal-tipo-editar">
     <div class="modal">
         <header class="modal-cabecera">
-            <h2 class="modal-titulo">Editar Tipo de Proyecto</h2>
+            <h2 class="modal-titulo">Editar tipo de proyecto</h2>
 
             <button type="button" class="modal-cerrar" data-modal-cerrar="modal-tipo-editar" aria-label="Cerrar">✕</button>
         </header>
@@ -105,7 +105,7 @@
     {{-- Cabecera --}}
     <section class="pagina-encabezado">
         <div class="pagina-encabezado-texto">
-            <h1 class="titulo pagina-titulo">Catálogo de Tipos de Proyecto</h1>
+            <h1 class="titulo pagina-titulo">Catálogo de tipos de proyecto</h1>
             <p class="pagina-descripcion">Gestiona los tipos de proyectos disponibles</p>
         </div>
 
@@ -122,7 +122,7 @@
                 <thead class="tabla-cabecera">
                     <tr>
                         <th class="tabla-col-id">ID</th>
-                        <th>Nombre del Tipo</th>
+                        <th>Nombre del tipo</th>
                         <th class="tabla-col-acciones">Acciones</th>
                     </tr>
                 </thead>
