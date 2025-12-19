@@ -32,7 +32,10 @@ Route::middleware(['auth'])
             ->prefix('proyectos')
             ->name('proyectos.')
             ->group(function () {
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'gestor')->name('index');
+                Route::post('/', 'crear')->name('crear');
+                Route::patch('/{id}', 'actualizar')->name('actualizar');
+                Route::delete('/{id}', 'eliminar')->name('eliminar');
             });
 
         /* Tipos de Proyecto */

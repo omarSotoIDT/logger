@@ -5,142 +5,161 @@
 @section('contenido')
 
 <div id="app-tipos">
-    {{-- MODAL NUEVO TIPO --}}
-    <div
-        class="modal-overlay"
-        id="modal-tipo"
-        :class="{ 'esta-activo': modales.crear }"
-        @click.self="cerrarModal('crear')"
-    >
-        <div class="modal">
-            <header class="modal-cabecera">
-                <h2 class="modal-titulo">Nuevo tipo de proyecto</h2>
+    {{-- =========================
+       MODAL NUEVO TIPO
+    ========================= --}}
+    <transition name="transicion-modal">
+        <div
+            v-if="modales.crear"
+            class="modal-overlay"
+            id="modal-tipo"
+            @click.self="cerrarModal('crear')"
+        >
+            <div class="modal">
+                <header class="modal-cabecera">
+                    <h2 class="modal-titulo">Nuevo tipo de proyecto</h2>
 
-                <button
-                    type="button"
-                    class="modal-cerrar"
-                    aria-label="Cerrar"
-                    @click.prevent="cerrarModal('crear')"
-                >✕</button>
-            </header>
-
-            <form class="modal-cuerpo" method="POST" action="{{ route('tipos.crear') }}">
-                @csrf
-
-                <div class="formulario-campo">
-                    <label for="nombre">Nombre del tipo</label>
-                    <input
-                        type="text"
-                        id="nombre"
-                        name="nombre"
-                        value="{{ old('nombre') }}"
-                        placeholder="Ej: Laravel, Python, NodeJS"
-                        required
-                    >
-                </div>
-
-                <footer class="modal-pie">
-                    <button type="submit" class="btn btn-principal">Agregar</button>
                     <button
                         type="button"
-                        class="btn btn-secundario"
+                        class="modal-cerrar"
+                        aria-label="Cerrar"
                         @click.prevent="cerrarModal('crear')"
-                    >Cancelar</button>
-                </footer>
-            </form>
-        </div>
-    </div>
+                    >✕</button>
+                </header>
 
-    {{-- MODAL EDITAR TIPO --}}
-    <div
-        class="modal-overlay"
-        id="modal-tipo-editar"
-        :class="{ 'esta-activo': modales.editar }"
-        @click.self="cerrarModal('editar')"
-    >
-        <div class="modal">
-            <header class="modal-cabecera">
-                <h2 class="modal-titulo">Editar tipo de proyecto</h2>
-
-                <button
-                    type="button"
-                    class="modal-cerrar"
-                    aria-label="Cerrar"
-                    @click.prevent="cerrarModal('editar')"
-                >✕</button>
-            </header>
-
-            <form class="modal-cuerpo" method="POST" id="form-editar-tipo" :action="formEditarAction">
-                @csrf
-                @method('PATCH')
-
-                <div class="formulario-campo">
-                    <label for="nombre_editar">Nombre del tipo</label>
-                    <input
-                        type="text"
-                        id="nombre_editar"
-                        name="nombre"
-                        v-model="editar.nombre"
-                        placeholder="Ej: Laravel, Python, NodeJS"
-                        required
-                        ref="inputNombreEditar"
-                    >
-                </div>
-
-                <footer class="modal-pie">
-                    <button type="submit" class="btn-principal">Guardar cambios</button>
-                    <button
-                        type="button"
-                        class="btn-secundario"
-                        @click.prevent="cerrarModal('editar')"
-                    >Cancelar</button>
-                </footer>
-            </form>
-        </div>
-    </div>
-
-    {{-- MODAL CONFIRMAR ELIMINACIÓN --}}
-    <div
-        class="modal-overlay"
-        id="modal-tipo-eliminar"
-        :class="{ 'esta-activo': modales.eliminar }"
-        @click.self="cerrarModal('eliminar')"
-    >
-        <div class="modal">
-            <header class="modal-cabecera">
-                <h2 class="modal-titulo">Confirmar eliminación</h2>
-
-                <button
-                    type="button"
-                    class="modal-cerrar"
-                    aria-label="Cerrar"
-                    @click.prevent="cerrarModal('eliminar')"
-                >✕</button>
-            </header>
-
-            <div class="modal-cuerpo">
-                <p class="modal-texto">
-                    ¿Seguro que deseas eliminar el tipo
-                    <strong id="tipo-eliminar-nombre">@{{ eliminar.nombre || '—' }}</strong>?
-                </p>
-
-                <form method="POST" id="form-eliminar-tipo" :action="formEliminarAction">
+                <form class="modal-cuerpo" method="POST" action="{{ route('tipos.crear') }}">
                     @csrf
-                    @method('DELETE')
+
+                    <div class="formulario-campo">
+                        <label for="nombre">Nombre del tipo</label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            value="{{ old('nombre') }}"
+                            placeholder="Ej: Laravel, Python, NodeJS"
+                            required
+                            ref="inputNombreCrear"
+                        >
+                    </div>
 
                     <footer class="modal-pie">
+                        <button type="submit" class="btn btn-principal">Agregar</button>
                         <button
                             type="button"
-                            class="btn-secundario"
-                            @click.prevent="cerrarModal('eliminar')"
+                            class="btn btn-secundario"
+                            @click.prevent="cerrarModal('crear')"
                         >Cancelar</button>
-                        <button type="submit" class="btn-peligro">Sí, eliminar</button>
                     </footer>
                 </form>
             </div>
         </div>
-    </div>
+    </transition>
 
+
+    {{-- =========================
+       MODAL EDITAR TIPO
+    ========================= --}}
+    <transition name="transicion-modal">
+        <div
+            v-if="modales.editar"
+            class="modal-overlay"
+            id="modal-tipo-editar"
+            @click.self="cerrarModal('editar')"
+        >
+            <div class="modal">
+                <header class="modal-cabecera">
+                    <h2 class="modal-titulo">Editar tipo de proyecto</h2>
+
+                    <button
+                        type="button"
+                        class="modal-cerrar"
+                        aria-label="Cerrar"
+                        @click.prevent="cerrarModal('editar')"
+                    >✕</button>
+                </header>
+
+                <form class="modal-cuerpo" method="POST" id="form-editar-tipo" :action="formEditarAction">
+                    @csrf
+                    @method('PATCH')
+
+                    <div class="formulario-campo">
+                        <label for="nombre_editar">Nombre del tipo</label>
+                        <input
+                            type="text"
+                            id="nombre_editar"
+                            name="nombre"
+                            v-model="editar.nombre"
+                            placeholder="Ej: Laravel, Python, NodeJS"
+                            required
+                            ref="inputNombreEditar"
+                        >
+                    </div>
+
+                    <footer class="modal-pie">
+                        <button type="submit" class="btn-principal">Guardar cambios</button>
+                        <button
+                            type="button"
+                            class="btn-secundario"
+                            @click.prevent="cerrarModal('editar')"
+                        >Cancelar</button>
+                    </footer>
+                </form>
+            </div>
+        </div>
+    </transition>
+
+
+    {{-- =========================
+       MODAL CONFIRMAR ELIMINACIÓN
+    ========================= --}}
+    <transition name="transicion-modal">
+        <div
+            v-if="modales.eliminar"
+            class="modal-overlay"
+            id="modal-tipo-eliminar"
+            @click.self="cerrarModal('eliminar')"
+        >
+            <div class="modal">
+                <header class="modal-cabecera">
+                    <h2 class="modal-titulo">Confirmar eliminación</h2>
+
+                    <button
+                        type="button"
+                        class="modal-cerrar"
+                        aria-label="Cerrar"
+                        @click.prevent="cerrarModal('eliminar')"
+                    >✕</button>
+                </header>
+
+                <div class="modal-cuerpo">
+                    <p class="modal-texto">
+                        ¿Seguro que deseas eliminar el tipo
+                        <strong id="tipo-eliminar-nombre">@{{ eliminar.nombre || '—' }}</strong>?
+                    </p>
+
+                    <form method="POST" id="form-eliminar-tipo" :action="formEliminarAction">
+                        @csrf
+                        @method('DELETE')
+
+                        <footer class="modal-pie">
+                            <button
+                                type="button"
+                                class="btn-secundario"
+                                @click.prevent="cerrarModal('eliminar')"
+                            >Cancelar</button>
+                            <button type="submit" class="btn-peligro">Sí, eliminar</button>
+                        </footer>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </transition>
+
+
+    {{-- =========================
+       CONTENIDO PRINCIPAL
+    ========================= --}}
     <main class="contenedor">
         {{-- Cabecera --}}
         <section class="pagina-encabezado">
@@ -172,13 +191,19 @@
                     </thead>
 
                     <tbody class="tabla-cuerpo">
-                        @foreach ($tipos as $tipo)
+                        @forelse ($tipos as $tipo)
                             <tr class="tabla-fila">
                                 <td class="tabla-col-id">{{ $tipo->tipo_proyecto_id }}</td>
 
-                                <td class="tabla-nombre">
-                                    <span class="tabla-icono" aria-hidden="true">&lt;/&gt;</span>
-                                    <span>{{ $tipo->nombre }}</span>
+                                <td>
+                                    <div class="tabla-nombre">
+                                        <img
+                                            src="{{ asset('assets/icons/tipos.svg') }}"
+                                            alt="Icono de proyectos"
+                                            class=""
+                                        >
+                                        <span>{{ $tipo->nombre }}</span>
+                                    </div>
                                 </td>
 
                                 <td class="tabla-col-acciones">
@@ -201,7 +226,13 @@
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr class="tabla-fila">
+                                <td colspan="7" class="tabla-vacia">
+                                    No hay tipos de proyectos agregados aún.
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
 
                 </table>
@@ -209,10 +240,10 @@
         </section>
     </main>
 </div>
+
 @endsection
 
 @section('scripts')
-
 <script>
 const { createApp, nextTick } = Vue;
 
@@ -263,6 +294,11 @@ createApp({
         abrirModal(key) {
             this.modales[key] = true;
             this.aplicarBodyClass();
+
+            nextTick(() => {
+                if (key === 'crear') this.$refs.inputNombreCrear?.focus?.();
+                if (key === 'editar') this.$refs.inputNombreEditar?.focus?.();
+            });
         },
 
         cerrarModal(key) {
@@ -281,10 +317,6 @@ createApp({
             this.editar.id = payload.id;
             this.editar.nombre = payload.nombre || '';
             this.abrirModal('editar');
-
-            nextTick(() => {
-                this.$refs.inputNombreEditar?.focus?.();
-            });
         },
 
         abrirEliminar(payload) {
@@ -308,6 +340,7 @@ createApp({
 
     beforeUnmount() {
         document.removeEventListener('keydown', this.onKeydown);
+        document.body.classList.remove('modal-abierto');
     },
 }).mount('#app-tipos');
 </script>
