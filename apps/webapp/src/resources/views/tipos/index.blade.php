@@ -9,13 +9,19 @@
     <div
         class="modal-overlay"
         id="modal-tipo"
-        v-if="mCrear"
-        @click.self="cerrarTodo"
+        :class="{ 'esta-activo': modales.crear }"
+        @click.self="cerrarModal('crear')"
     >
         <div class="modal">
             <header class="modal-cabecera">
                 <h2 class="modal-titulo">Nuevo tipo de proyecto</h2>
-                <button type="button" class="modal-cerrar" aria-label="Cerrar" @click="cerrarTodo">✕</button>
+
+                <button
+                    type="button"
+                    class="modal-cerrar"
+                    aria-label="Cerrar"
+                    @click.prevent="cerrarModal('crear')"
+                >✕</button>
             </header>
 
             <form class="modal-cuerpo" method="POST" action="{{ route('tipos.crear') }}">
@@ -35,7 +41,11 @@
 
                 <footer class="modal-pie">
                     <button type="submit" class="btn btn-principal">Agregar</button>
-                    <button type="button" class="btn btn-secundario" @click="cerrarTodo">Cancelar</button>
+                    <button
+                        type="button"
+                        class="btn btn-secundario"
+                        @click.prevent="cerrarModal('crear')"
+                    >Cancelar</button>
                 </footer>
             </form>
         </div>
@@ -45,16 +55,22 @@
     <div
         class="modal-overlay"
         id="modal-tipo-editar"
-        v-if="mEditar"
-        @click.self="cerrarTodo"
+        :class="{ 'esta-activo': modales.editar }"
+        @click.self="cerrarModal('editar')"
     >
         <div class="modal">
             <header class="modal-cabecera">
                 <h2 class="modal-titulo">Editar tipo de proyecto</h2>
-                <button type="button" class="modal-cerrar" aria-label="Cerrar" @click="cerrarTodo">✕</button>
+
+                <button
+                    type="button"
+                    class="modal-cerrar"
+                    aria-label="Cerrar"
+                    @click.prevent="cerrarModal('editar')"
+                >✕</button>
             </header>
 
-            <form class="modal-cuerpo" method="POST" id="form-editar-tipo" :action="rutaActualizar">
+            <form class="modal-cuerpo" method="POST" id="form-editar-tipo" :action="formEditarAction">
                 @csrf
                 @method('PATCH')
 
@@ -64,15 +80,20 @@
                         type="text"
                         id="nombre_editar"
                         name="nombre"
-                        v-model="editarNombre"
+                        v-model="editar.nombre"
                         placeholder="Ej: Laravel, Python, NodeJS"
                         required
+                        ref="inputNombreEditar"
                     >
                 </div>
 
                 <footer class="modal-pie">
                     <button type="submit" class="btn-principal">Guardar cambios</button>
-                    <button type="button" class="btn-secundario" @click="cerrarTodo">Cancelar</button>
+                    <button
+                        type="button"
+                        class="btn-secundario"
+                        @click.prevent="cerrarModal('editar')"
+                    >Cancelar</button>
                 </footer>
             </form>
         </div>
@@ -82,27 +103,37 @@
     <div
         class="modal-overlay"
         id="modal-tipo-eliminar"
-        v-if="mEliminar"
-        @click.self="cerrarTodo"
+        :class="{ 'esta-activo': modales.eliminar }"
+        @click.self="cerrarModal('eliminar')"
     >
         <div class="modal">
             <header class="modal-cabecera">
                 <h2 class="modal-titulo">Confirmar eliminación</h2>
-                <button type="button" class="modal-cerrar" aria-label="Cerrar" @click="cerrarTodo">✕</button>
+
+                <button
+                    type="button"
+                    class="modal-cerrar"
+                    aria-label="Cerrar"
+                    @click.prevent="cerrarModal('eliminar')"
+                >✕</button>
             </header>
 
             <div class="modal-cuerpo">
                 <p class="modal-texto">
                     ¿Seguro que deseas eliminar el tipo
-                    <strong id="tipo-eliminar-nombre">@{{ eliminarNombre || '—' }}</strong>?
+                    <strong id="tipo-eliminar-nombre">@{{ eliminar.nombre || '—' }}</strong>?
                 </p>
 
-                <form method="POST" id="form-eliminar-tipo" :action="rutaEliminar">
+                <form method="POST" id="form-eliminar-tipo" :action="formEliminarAction">
                     @csrf
                     @method('DELETE')
 
                     <footer class="modal-pie">
-                        <button type="button" class="btn-secundario" @click="cerrarTodo">Cancelar</button>
+                        <button
+                            type="button"
+                            class="btn-secundario"
+                            @click.prevent="cerrarModal('eliminar')"
+                        >Cancelar</button>
                         <button type="submit" class="btn-peligro">Sí, eliminar</button>
                     </footer>
                 </form>
@@ -118,7 +149,11 @@
                 <p class="pagina-descripcion">Gestiona los tipos de proyectos disponibles</p>
             </div>
 
-            <button type="button" class="btn-principal btn-encabezado" @click="abrirCrear">
+            <button
+                type="button"
+                class="btn-principal btn-encabezado"
+                @click="abrirModal('crear')"
+            >
                 <span class="btn-icono">+</span>
                 Agregar Tipo
             </button>
@@ -138,34 +173,34 @@
 
                     <tbody class="tabla-cuerpo">
                         @foreach ($tipos as $tipo)
-                        <tr class="tabla-fila">
-                            <td class="tabla-col-id">{{ $tipo->tipo_proyecto_id }}</td>
+                            <tr class="tabla-fila">
+                                <td class="tabla-col-id">{{ $tipo->tipo_proyecto_id }}</td>
 
-                            <td class="tabla-nombre">
-                                <span class="tabla-icono" aria-hidden="true">&lt;/&gt;</span>
-                                <span>{{ $tipo->nombre }}</span>
-                            </td>
+                                <td class="tabla-nombre">
+                                    <span class="tabla-icono" aria-hidden="true">&lt;/&gt;</span>
+                                    <span>{{ $tipo->nombre }}</span>
+                                </td>
 
-                            <td class="tabla-col-acciones">
-                                <div class="tabla-acciones">
-                                    <button
-                                        type="button"
-                                        class="btn-terciario"
-                                        @click="abrirEditar({{ $tipo->tipo_proyecto_id }}, @js($tipo->nombre))"
-                                    >
-                                        Editar
-                                    </button>
+                                <td class="tabla-col-acciones">
+                                    <div class="tabla-acciones">
+                                        <button
+                                            type="button"
+                                            class="btn-terciario"
+                                            @click="abrirEditar({ id: {{ $tipo->tipo_proyecto_id }}, nombre: @js($tipo->nombre) })"
+                                        >
+                                            Editar
+                                        </button>
 
-                                    <button
-                                        type="button"
-                                        class="btn-peligro"
-                                        @click="abrirEliminar({{ $tipo->tipo_proyecto_id }}, @js($tipo->nombre))"
-                                    >
-                                        Eliminar
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                                        <button
+                                            type="button"
+                                            class="btn-peligro"
+                                            @click="abrirEliminar({ id: {{ $tipo->tipo_proyecto_id }}, nombre: @js($tipo->nombre) })"
+                                        >
+                                            Eliminar
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
 
@@ -179,73 +214,101 @@
 @section('scripts')
 
 <script>
-Vue.createApp({
+const { createApp, nextTick } = Vue;
+
+createApp({
     data() {
         return {
-            // modales
-            mCrear: false,
-            mEditar: false,
-            mEliminar: false,
+            modales: {
+                crear: false,
+                editar: false,
+                eliminar: false,
+            },
 
-            editarId: null,
-            editarNombre: '',
-            eliminarId: null,
-            eliminarNombre: '',
+            editar: {
+                id: null,
+                nombre: '',
+            },
 
-            tplActualizar: @json(route('tipos.actualizar', ['id' => ':id'])),
-            tplEliminar:   @json(route('tipos.eliminar',   ['id' => ':id'])),
+            eliminar: {
+                id: null,
+                nombre: '',
+            },
+
+            rutaActualizarTemplate: @json(route('tipos.actualizar', ['id' => ':id'])),
+            rutaEliminarTemplate:   @json(route('tipos.eliminar',   ['id' => ':id'])),
 
             abrirCrearPorErrores: @json($errors->any()),
         };
     },
 
     computed: {
-        rutaActualizar() {
-            return this.editarId ? this.tplActualizar.replace(':id', this.editarId) : '';
+        formEditarAction() {
+            if (!this.editar.id) return '';
+            return this.rutaActualizarTemplate.replace(':id', this.editar.id);
         },
-        rutaEliminar() {
-            return this.eliminarId ? this.tplEliminar.replace(':id', this.eliminarId) : '';
-        }
+
+        formEliminarAction() {
+            if (!this.eliminar.id) return '';
+            return this.rutaEliminarTemplate.replace(':id', this.eliminar.id);
+        },
     },
 
     methods: {
-        setBody() {
-            const abierto = this.mCrear || this.mEditar || this.mEliminar;
-            document.body.classList.toggle('modal-abierto', abierto);
+        aplicarBodyClass() {
+            const algunoActivo = this.modales.crear || this.modales.editar || this.modales.eliminar;
+            document.body.classList.toggle('modal-abierto', !!algunoActivo);
         },
 
-        cerrarTodo() {
-            this.mCrear = this.mEditar = this.mEliminar = false;
-            this.setBody();
+        abrirModal(key) {
+            this.modales[key] = true;
+            this.aplicarBodyClass();
         },
 
-        abrirCrear() {
-            this.mCrear = true;
-            this.setBody();
+        cerrarModal(key) {
+            this.modales[key] = false;
+            this.aplicarBodyClass();
         },
 
-        abrirEditar(id, nombre) {
-            this.editarId = id;
-            this.editarNombre = nombre || '';
-            this.mEditar = true;
-            this.setBody();
+        cerrarTodos() {
+            this.modales.crear = false;
+            this.modales.editar = false;
+            this.modales.eliminar = false;
+            this.aplicarBodyClass();
         },
 
-        abrirEliminar(id, nombre) {
-            this.eliminarId = id;
-            this.eliminarNombre = nombre || '';
-            this.mEliminar = true;
-            this.setBody();
-        }
+        abrirEditar(payload) {
+            this.editar.id = payload.id;
+            this.editar.nombre = payload.nombre || '';
+            this.abrirModal('editar');
+
+            nextTick(() => {
+                this.$refs.inputNombreEditar?.focus?.();
+            });
+        },
+
+        abrirEliminar(payload) {
+            this.eliminar.id = payload.id;
+            this.eliminar.nombre = payload.nombre || '';
+            this.abrirModal('eliminar');
+        },
+
+        onKeydown(e) {
+            if (e.key === 'Escape') this.cerrarTodos();
+        },
     },
 
     mounted() {
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') this.cerrarTodo();
-        });
+        document.addEventListener('keydown', this.onKeydown);
 
-        if (this.abrirCrearPorErrores) this.abrirCrear();
-    }
+        if (this.abrirCrearPorErrores) {
+            this.abrirModal('crear');
+        }
+    },
+
+    beforeUnmount() {
+        document.removeEventListener('keydown', this.onKeydown);
+    },
 }).mount('#app-tipos');
 </script>
 @endsection

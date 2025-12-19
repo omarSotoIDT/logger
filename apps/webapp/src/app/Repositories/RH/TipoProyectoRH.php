@@ -2,8 +2,6 @@
 
 namespace App\Repositories\RH;
 
-use App\const\StatusConsts;
-
 class TipoProyectoRH 
 {
     public static function obtenerColumnas(&$query, string $columnas = '') 
@@ -48,11 +46,10 @@ class TipoProyectoRH
             $query->where('ctp.tipo_proyecto_id', '!=', $filtros['excluirId']);
         }
 
-        $status = $filtros['status'] ?? StatusConsts::ACTIVO;
-
-        if (!empty($status) && $status !== 'ALL') {
-            $query->where('ctp.status', $status);
+        if (array_key_exists('status', $filtros) && !empty($filtros['status'])) {
+            $query->where('ctp.status', $filtros['status']);
         }
+
     }
 
     public static function obtenerOrden(&$query, string $orden = '')

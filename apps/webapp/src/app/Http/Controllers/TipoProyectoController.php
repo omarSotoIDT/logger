@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\const\StatusConsts;
 use App\Services\TipoProyectoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,7 +12,7 @@ class TipoProyectoController extends Controller
 {
     public function gestor() {
         try {
-            $tipos = TipoProyectoService::listarTipos();
+            $tipos = TipoProyectoService::listarTipos(['status' => StatusConsts::ACTIVO]);
 
             return view('tipos.index', compact('tipos'));
         } catch(Exception $e) {
@@ -67,7 +68,7 @@ class TipoProyectoController extends Controller
             TipoProyectoService::eliminarTipo($id);
 
             return back()->with('success', 'Tipo de proyecto eliminado correctamente');
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             return back()->with('error', 'Error al eliminar el tipo de proyecto');
         }
     }

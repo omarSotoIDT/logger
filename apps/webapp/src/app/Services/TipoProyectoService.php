@@ -18,20 +18,13 @@ class TipoProyectoService
     {
         $filtros = [
             'nombre' => $nombre,
-            'status' => 'ALL',
         ];
 
         if (!empty($excluirId)) {
             $filtros['excluirId'] = $excluirId;
         }
 
-        $existente = self::listarTipos(
-            $filtros,
-            'id',
-            1,
-            null,
-            ''
-        );
+        $existente = self::listarTipos($filtros,'id', 1);
 
         if ($existente->isNotEmpty()) {
             throw new Exception('Ya existe un tipo de proyecto con ese nombre.');
