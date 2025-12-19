@@ -1,16 +1,59 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProyectosController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProyectoController;
+use App\Http\Controllers\TipoController;
+use App\Http\Controllers\TipoProyectoController;
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
+
+
+ /* Autenticación */
 
 Route::get('/', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.logger');
 
-Route::middleware(['auth'])->group(function () {
 
-    Route::get('/logger', [ProyectosController::class, 'dashboardProyectos'])
-        ->name('proyecto.dashboard');
+Route::middleware(['auth'])
+    ->prefix('logger')
+    ->group(function () {
 
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-});
+        /* Dashboard */
+        Route::controller(DashboardController::class)
+            ->prefix('/')
+            ->name('dashboard.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+            });
+
+        /* Proyectos */
+        Route::controller(ProyectoController::class)
+            ->prefix('proyectos')
+            ->name('proyectos.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+            });
+
+        /* Tipos de Proyecto */
+        Route::controller(TipoProyectoController::class)
+            ->prefix('tipos-proyecto')
+            ->name('tipos.')
+            ->group(function () {
+                Route::get('/', 'gestor')->name('index');
+                Route::post('/', 'crear')->name('crear');
+                Route::patch('/{id}', 'actualizar')->name('actualizar');
+                Route::delete('/{id}', 'eliminar')->name('eliminar');
+            });
+
+        /* Usuarios */
+        Route::controller(UsuarioController::class)
+            ->prefix('usuarios')
+            ->name('usuarios.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+            });
+
+        /* Logout */
+        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    });

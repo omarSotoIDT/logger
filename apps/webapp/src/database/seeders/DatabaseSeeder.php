@@ -33,6 +33,5 @@ class DatabaseSeeder extends Seeder
             'actualizacion_fecha'         => null,
             'actualizacion_autor_id'      => null,
         ]);
-    
     }
 }
