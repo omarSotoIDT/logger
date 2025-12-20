@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\const\StatusConsts;
 use App\Coordinators\ProyectoCoordinator;
 use App\Services\ProyectoService;
 use Exception;
@@ -16,6 +17,21 @@ class ProyectoController extends Controller
             return view('proyectos.index', compact('proyectos', 'tipos', 'timezones'));
         } catch(Exception $e) {
             return back()->with('error', 'Error al listar los proyectos');
+        }
+    }
+
+    public function obtener() {
+        
+    }
+
+    public function dashboard() {
+        try {
+            $proyectos = ProyectoService::listarProyectos([
+                'status' => [StatusConsts::ACTIVO, StatusConsts::INACTIVO]
+            ]);
+            return view('dashboard.index', compact('proyectos'));
+        } catch(Exception $e) {
+            return back()->with('errors', 'Hubo un problema al recuperar el dashboard');
         }
     }
 

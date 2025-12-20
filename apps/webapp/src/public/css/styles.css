@@ -303,7 +303,7 @@ input:focus {
 
   transform: translateX(-120%);
   opacity: 0;
-  animation: toast-in 0.28s cubic-bezier(.22,1,.36,1) forwards;
+  animation: toast-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .toast-icono {
@@ -552,7 +552,6 @@ select:focus {
   background-color: var(--color-fondo-tarjeta);
 }
 
-
 /* Cabecera tabla */
 
 .tabla-cabecera {
@@ -588,6 +587,7 @@ select:focus {
   font-size: var(--fuente-tamano-sm);
   font-weight: 600;
   line-height: 1;
+  font-size: var(--fuente-tamano-base);
 }
 
 .badge-activo {
@@ -738,4 +738,41 @@ body.modal-abierto {
 .transicion-modal-enter-from .modal,
 .transicion-modal-leave-to .modal {
   transform: translateY(10px) scale(0.98);
+}
+
+/* =========================
+   Dashboard
+========================= */
+
+.layout-dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.card-dashboard {
+}
+
+.card-dashboard-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-dashboard-cabecera img {
+  padding: 5px;
+  height: 40px;
+  width: 40px;
+  background-color: var(--color-primario-claro);
+  border-radius: var(--radio-md);
+}
+
+.card-dashboard-contenido h2 {
+  font-size: var(--fuente-tamano-base);
+}
+.card-dashboard-contenido div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--color-texto-muted);
+  margin: 0;
 }

@@ -48,8 +48,8 @@
 
             {{-- Navegación --}}
             <nav class="barra-superior-navegacion">
-                <a href="{{ route('dashboard.index') }}"
-                class="barra-superior-enlace {{ request()->routeIs('dashboard.*') ? 'esta-activo' : '' }}">
+                <a href="{{ route('proyectos.dashboard') }}"
+                class="barra-superior-enlace {{ request()->routeIs('proyectos.dashboard') ? 'esta-activo' : '' }}">
                     <span class="barra-superior-icono" aria-hidden="true">
                         <img
                             src="{{ asset('assets/icons/dashboard.svg') }}"
@@ -61,7 +61,7 @@
                 </a>
 
                 <a href="{{ route('proyectos.index') }}"
-                class="barra-superior-enlace {{ request()->routeIs('proyectos.*') ? 'esta-activo' : '' }}">
+                class="barra-superior-enlace {{ request()->routeIs('proyectos.index') ? 'esta-activo' : '' }}">
                     <span class="barra-superior-icono" aria-hidden="true">
                         <img
                             src="{{ asset('assets/icons/proyectos.svg') }}"

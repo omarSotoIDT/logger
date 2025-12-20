@@ -12,6 +12,11 @@ class ProyectoService
         return ProyectoRepoData::listar($filtros, $columnas, $limit, $offset, $orden);
     }
 
+    public static function obtenerProyecto()
+    {
+        
+    }
+
     public static function agregarProyecto($data)
     {
         $insert = ProyectoBO::armarInsertAgregarProyecto($data);

@@ -26,4 +26,16 @@ class ProyectoRepoData
 
         return $query->get();
     }
+
+    public static function obtener($id, $columnas)
+    {
+        $query = DB::table('proyectos AS p')
+            ->leftJoin('cat_tipos_proyecto AS ctp', 'ctp.tipo_proyecto_id', '=', 'p.tipo_proyecto_id');
+        
+        ProyectoRH::obtenerColumnas($query, $columnas);
+
+        return $query
+            ->where('id', $id)
+            ->first();
+    }
 }
