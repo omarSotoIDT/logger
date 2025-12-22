@@ -90,7 +90,7 @@ input:focus {
   color: var(--color-texto-titulo);
 }
 .contenedor {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 25px auto;
 }
 
@@ -160,7 +160,7 @@ input:focus {
 }
 
 .barra-superior-interior {
-  max-width: 120rem;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 12px var(--espacio-lg);
   display: flex;
@@ -274,8 +274,8 @@ input:focus {
 
 .toast-contenedor {
   position: fixed;
-  top: 22px;
-  right: 22px;
+  top: 55px;
+  left: -10px;
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -284,12 +284,11 @@ input:focus {
 }
 
 .toast {
-  width: min(440px, calc(100vw - 28px));
+  width: min(300px, calc(100vw - 28px));
   pointer-events: auto;
 
   display: grid;
   grid-template-columns: 44px 1fr 34px;
-  gap: 12px;
 
   padding: 16px;
   border-radius: var(--radio-lg);
@@ -302,14 +301,14 @@ input:focus {
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18),
     0 2px 0 rgba(255, 255, 255, 0.55) inset;
 
-  transform: translateX(18px);
+  transform: translateX(-120%);
   opacity: 0;
-  animation: toast-in 0.28s ease forwards;
+  animation: toast-in 0.28s cubic-bezier(.22,1,.36,1) forwards;
 }
 
 .toast-icono {
-  width: 44px;
-  height: 44px;
+  width: 25px;
+  height: 25px;
   border-radius: var(--radio-md);
   display: grid;
   place-items: center;
@@ -321,26 +320,27 @@ input:focus {
 .toast-cuerpo {
   display: flex;
   flex-direction: column;
-  gap: 4px;
   min-width: 0;
 }
 
 .toast-titulo {
   font-weight: 700;
-  font-size: var(--fuente-tamano-lg);
+  font-size: var(--fuente-tamano-base);
   color: var(--color-texto-titulo);
+  margin: 0;
 }
 
 .toast-texto {
-  font-size: var(--fuente-tamano-base);
+  font-size: var(--fuente-tamano-sm);
   line-height: 1.35;
   color: var(--color-texto-base);
   word-wrap: break-word;
+  margin: 0;
 }
 
 .toast-cerrar {
-  width: 34px;
-  height: 34px;
+  width: 25px;
+  height: 25px;
   border-radius: var(--radio-md);
   border: 1px solid rgba(17, 24, 39, 0.08);
   background: rgba(255, 255, 255, 0.65);
@@ -361,11 +361,11 @@ input:focus {
 /* Barra de progreso */
 .toast-progress {
   grid-column: 1 / -1;
-  height: 4px;
+  height: 1px;
   border-radius: 999px;
   background: rgba(17, 24, 39, 0.08);
   overflow: hidden;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .toast-progress span {
@@ -410,7 +410,7 @@ input:focus {
 
 @keyframes toast-out {
   to {
-    transform: translateX(18px);
+    transform: translateX(-120%);
     opacity: 0;
   }
 }
@@ -464,6 +464,27 @@ body.centrar {
   color: var(--color-texto-titulo);
   display: inline-block;
   margin-bottom: 10px; /* 1rem -> 10px */
+}
+
+.url {
+  background-color: var(--color-fondo-muted);
+  padding: 2px;
+  border-radius: var(--radio-md);
+  text-align: center;
+}
+
+select {
+  width: 100%;
+  border: solid 1px var(--color-borde);
+  border-radius: var(--radio-sm);
+  padding: 7px;
+  background-color: var(--color-fondo-input);
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--color-borde-focus);
+  box-shadow: var(--sombra-focus);
 }
 
 /*========== TIPOS DE PROYECTO ==========*/
@@ -531,7 +552,12 @@ body.centrar {
   background-color: var(--color-fondo-tarjeta);
 }
 
+
 /* Cabecera tabla */
+
+.tabla-cabecera {
+  background-color: var(--color-primario-claro);
+}
 .tabla-cabecera th {
   text-align: left;
   font-size: var(--fuente-tamano-base);
@@ -554,6 +580,26 @@ body.centrar {
 }
 
 /* Columnas */
+
+.badge-status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: var(--fuente-tamano-sm);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.badge-activo {
+  background: rgba(34, 197, 94, 0.15); /* verde suave */
+  color: #166534;
+}
+
+.badge-inactivo {
+  background: rgba(245, 158, 11, 0.18); /* amarillo suave */
+  color: #92400e;
+}
+
 .tabla-col-id {
   width: 100px;
   color: var(--color-texto-muted);
@@ -561,7 +607,7 @@ body.centrar {
 
 .tabla-col-acciones {
   width: 220px;
-  text-align: right;
+  text-align: left;
 }
 
 /* Nombre con icono */
@@ -569,6 +615,12 @@ body.centrar {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.tabla-nombre img {
+  background-color: var(--color-fondo-pagina);
+  padding: 7px;
+  border-radius: var(--radio-md);
 }
 
 .tabla-icono {
@@ -590,7 +642,7 @@ body.centrar {
   gap: var(--espacio-sm);
 }
 
-/*========== MODAL TIPOS DE PROYECTO ==========*/
+/*========== MODAL ==========*/
 
 .modal-overlay {
   position: fixed;
@@ -601,15 +653,6 @@ body.centrar {
   justify-content: center;
   padding: var(--espacio-lg);
   z-index: 1000;
-
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
-
-.modal-overlay.esta-activo {
-  opacity: 1;
-  pointer-events: auto;
 }
 
 .modal {
@@ -619,12 +662,6 @@ body.centrar {
   border-radius: var(--radio-lg);
   box-shadow: var(--sombra-tarjeta);
   overflow: hidden;
-  transform: translateY(10px) scale(0.98);
-  transition: transform 0.25s ease;
-}
-
-.modal-overlay.esta-activo .modal {
-  transform: translateY(0) scale(1);
 }
 
 /* Cabecera */
@@ -680,4 +717,25 @@ body.centrar {
 /* Bloquear scroll */
 body.modal-abierto {
   overflow: hidden;
+}
+
+/* Animaciones */
+.transicion-modal-enter-active,
+.transicion-modal-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.transicion-modal-enter-from,
+.transicion-modal-leave-to {
+  opacity: 0;
+}
+
+.transicion-modal-enter-active .modal,
+.transicion-modal-leave-active .modal {
+  transition: transform 0.25s ease;
+}
+
+.transicion-modal-enter-from .modal,
+.transicion-modal-leave-to .modal {
+  transform: translateY(10px) scale(0.98);
 }
