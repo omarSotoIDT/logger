@@ -12,9 +12,9 @@ class ProyectoService
         return ProyectoRepoData::listar($filtros, $columnas, $limit, $offset, $orden);
     }
 
-    public static function obtenerProyecto()
+    public static function obtenerProyecto($id, $filtros = [], $columnas = '')
     {
-        
+        return ProyectoRepoData::obtener($id, $filtros, $columnas);
     }
 
     public static function agregarProyecto($data)

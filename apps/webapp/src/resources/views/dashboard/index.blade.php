@@ -40,7 +40,12 @@
                     </div>
                 </section>
 
-                <button class="btn-principal">Ver Detalle</button>
+                <a
+                href="{{ route('proyectos.obtener', ['id' => $proyecto->proyectoId]) }}"
+                class="btn-principal btn-fix"
+                >
+                Ver Detalle
+                </a>
             </div>
             @endforeach
         </div>

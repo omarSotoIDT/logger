@@ -20,8 +20,16 @@ class ProyectoController extends Controller
         }
     }
 
-    public function obtener() {
-        
+    public function obtener($id) {
+        try {
+            $proyecto = ProyectoService::obtenerProyecto($id);
+            if (!$proyecto) {
+                return back()->with('error', 'Proyecto no encontrado.');
+            }
+            return view('dashboard.detalles', compact('proyecto'));
+        } catch(Exception $e) {
+            return back()->with('error', 'Error al obtener los detalles de proyecto');
+        }
     }
 
     public function dashboard() {
