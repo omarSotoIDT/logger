@@ -26,16 +26,14 @@ return new class extends Migration
             $table->string('status', 20)->default(StatusConsts::ACTIVO);
 
             // Auditoría
-            $table->timestamp('registro_fecha')->useCurrent();
+            $table->timestamp('registro_fecha');
             $table->unsignedBigInteger('registro_autor_id');
             $table->timestamp('actualizacion_fecha')->nullable();
             $table->unsignedBigInteger('actualizacion_autor_id')->nullable();
 
             $table->foreign('tipo_proyecto_id')
                 ->references('tipo_proyecto_id')
-                ->on('cat_tipos_proyecto')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
+                ->on('cat_tipos_proyecto');
         });
     }
 
