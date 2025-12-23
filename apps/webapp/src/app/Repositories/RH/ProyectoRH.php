@@ -12,7 +12,7 @@ class ProyectoRH
             'tipoProyectoId' => 'p.tipo_proyecto_id AS tipoId',
             'tipoProyectoNobre' => 'ctp.nombre AS tipoNombre',
             'urlEndpoint' => 'p.url_endpoint AS url',
-            'apiKey' => 'p.api_key AS api',
+            'apiKey' => 'p.api_key AS apikey',
             'timezone' => 'p.timezone AS timezone',
             'status' => 'p.status AS status'
         ];

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\const\StatusConsts;
 use App\Coordinators\ProyectoCoordinator;
+use App\Coordinators\ProyectoDetalleCoordinator;
 use App\Services\ProyectoService;
 use Exception;
 use Illuminate\Http\Request;
@@ -22,15 +23,14 @@ class ProyectoController extends Controller
 
     public function obtener($id) {
         try {
-            $proyecto = ProyectoService::obtenerProyecto($id);
-            if (!$proyecto) {
-                return back()->with('error', 'Proyecto no encontrado.');
-            }
-            return view('dashboard.detalles', compact('proyecto'));
+            [$proyecto, $diasDisponibles] = ProyectoDetalleCoordinator::obtenerDetalle($id);
+
+            return view('dashboard.detalles', compact('proyecto', 'diasDisponibles'));
         } catch(Exception $e) {
-            return back()->with('error', 'Error al obtener los detalles de proyecto');
+            return back()->with('error', $e->getMessage());
         }
     }
+
 
     public function dashboard() {
         try {
@@ -64,7 +64,7 @@ class ProyectoController extends Controller
 
             return back()->with('success', 'Proyecto creado correctamente');
         } catch(Exception $e) {
-
+            return back()->with('error', "Error al crear el proyecto {$e}");
         }
     }
 
