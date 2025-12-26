@@ -40,6 +40,7 @@ Route::middleware(['auth'])
                 /* Dashboard */
                 Route::get('/dashboard', 'dashboard')->name('dashboard');
                 Route::get('/{id}', 'obtener')->name('obtener');
+                Route::post('/sync', 'sync')->name('sync');
 
             });
 

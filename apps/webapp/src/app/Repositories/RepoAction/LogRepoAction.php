@@ -15,4 +15,12 @@ class LogRepoAction
     {
         return DB::table('logs')->insert($rows);
     }
+
+    public static function actualizar($id, $data)
+    {
+        return DB::table('logs')
+            ->where('log_id', $id)
+            ->update($data);
+    }
+
 }

@@ -79,16 +79,35 @@
                         </div>
 
                         <div class="dia-right">
-                            <button type="button" class="btn-pill btn-pill-outline">
-                                <img src="{{ asset('assets/icons/doc.svg') }}" alt="" class="btn-pill-ico">
+                            <a href="#">
+                                <img
+                                    src="{{ asset('assets/icons/doc.svg') }}"
+                                    alt=""
+                                    class="btn-pill-ico"
+                                >
                                 Ver Logs
-                            </button>
+                            </a>
 
-                            <button type="button" class="btn-pill btn-pill-solid">
-                                <img src="{{ asset('assets/icons/sync.svg') }}" alt="" class="btn-pill-ico">
-                                Sincronizar
-                            </button>
+                            <form
+                                method="POST"
+                                action="{{ route('proyectos.sync') }}"
+                                style="display:inline;"
+                            >
+                                @csrf
+                                <input type="hidden" name="proyecto_id" value="{{ $proyecto->proyectoId }}">
+                                <input type="hidden" name="nombre_archivo" value="{{ $log->nombre }}">
+
+                                <button type="submit" class="btn-pill btn-pill-solid">
+                                    <img
+                                        src="{{ asset('assets/icons/sync.svg') }}"
+                                        alt=""
+                                        class="btn-pill-ico"
+                                    >
+                                    Sincronizar
+                                </button>
+                            </form>
                         </div>
+
                     </div>
                 @endforeach
             @else

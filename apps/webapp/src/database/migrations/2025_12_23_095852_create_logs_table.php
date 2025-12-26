@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nombre', 255);
             $table->text('path');
             $table->date('log_fecha');
-
+            $table->timestamp('ultima_sincronizacion')->nullable();
             // Auditoría
             $table->timestamp('registro_fecha');
             $table->unsignedBigInteger('registro_autor_id');

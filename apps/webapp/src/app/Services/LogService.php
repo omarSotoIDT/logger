@@ -13,6 +13,13 @@ class LogService
         return LogRepoData::listar($filtros, $columnas, $limit, $offset, $orden);
     }
 
+
+    public static function obtenerLog($id, $filtros = [], $columnas = '')
+    {
+        return LogRepoData::obtener($id, $filtros, $columnas);
+    }
+
+
     public static function insertarNuevosLogsDeProyecto($proyectoId, $logsRemotos)
     {
         $existentes = LogRepoData::listar(
@@ -36,7 +43,7 @@ class LogService
 
             if (isset($existentesSet[$item['nombre']])) continue;
 
-            $row = LogBO::armarInsertLog($proyectoId, $item);
+            $row = LogBO::armarInsertAgregarLog($proyectoId, $item);
 
             if (empty($row['log_fecha'])) continue;
 
@@ -45,5 +52,10 @@ class LogService
 
         LogRepoAction::agregarMasivo($rows);
         return count($rows);
+    }
+
+    public static function actualizarLog($id, $data) {
+        $update = LogBO::armarUpdateActualizarLog($data);
+        return LogRepoAction::actualizar($id, $update);
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LogBO
 {
-    public static function armarInsertLog($proyectoId, $item)
+    public static function armarInsertAgregarLog($proyectoId, $item)
     {
         return [
             'proyecto_id' => $proyectoId,
@@ -16,6 +16,14 @@ class LogBO
 
             'registro_fecha'    => now(),
             'registro_autor_id' => Auth::id(),
+        ];
+    }
+
+    public static function armarUpdateActualizarLog() {
+        return [
+            'ultima_sincronizacion' => now(),
+            'actualizacion_fecha' => now(),
+            'actualizacion_autor_id' => Auth::id(),
         ];
     }
 

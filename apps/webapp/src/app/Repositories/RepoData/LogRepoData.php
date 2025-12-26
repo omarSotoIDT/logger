@@ -20,4 +20,15 @@ class LogRepoData
 
         return $query->get();
     }
+
+    public static function obtener($id, $filtros = [], $columnas = '')
+    {
+        $query = DB::table('logs AS l');
+
+        LogRH::obtenerColumnas($query, $columnas);
+        LogRH::obtenerFiltros($query, $filtros);
+
+        return $query->where('l.log_id', $id)->first();
+    }
+
 }

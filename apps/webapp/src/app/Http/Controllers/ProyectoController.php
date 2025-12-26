@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\const\StatusConsts;
 use App\Coordinators\ProyectoCoordinator;
 use App\Coordinators\ProyectoDetalleCoordinator;
+use App\Coordinators\ProyectoLogDetalleCoordinator;
 use App\Services\ProyectoService;
 use Exception;
 use Illuminate\Http\Request;
@@ -31,7 +32,33 @@ class ProyectoController extends Controller
         }
     }
 
+    public function sync(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'proyecto_id'    => 'required|integer|min:1',
+                'nombre_archivo' => 'required|string|max:255',
+            ]);
 
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+
+            $data = $validator->validated();
+
+            $insertados = ProyectoLogDetalleCoordinator::sincronizarDetalles(
+                $data['proyecto_id'],
+                $data['nombre_archivo']
+            );
+
+            return back()->with('success', "Sincronización completa. Insertados: {$insertados}");
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+
+    
     public function dashboard() {
         try {
             $proyectos = ProyectoService::listarProyectos([
