@@ -7,28 +7,51 @@ use Illuminate\Support\Facades\DB;
 
 class LogRepoData
 {
-    public static function listar($filtros = [], $columnas = '', $limit = null, $offset = null, $orden = '')
+    public static function listarLogs($filtros = [], $columnas = '', $limit = null, $offset = null, $orden = '')
     {
         $query = DB::table('logs AS l');
+        $query->select();
 
-        LogRH::obtenerColumnas($query, $columnas);
-        LogRH::obtenerFiltros($query, $filtros);
-        LogRH::obtenerOrden($query, $orden);
+        LogRH::obtenerColumnasLog($query, $columnas);
+        LogRH::obtenerFiltrosLog($query, $filtros);
+        LogRH::obtenerOrdenLog($query, $orden);
 
-        if (!empty($offset)) $query->offset($offset);
-        if (!empty($limit))  $query->limit($limit);
+        if (!empty($offset)) {
+            $query->offset($offset);
+        }
+        if (!empty($limit)) {
+            $query->limit($limit);
+        }
 
         return $query->get();
     }
 
-    public static function obtener($id, $filtros = [], $columnas = '')
+    public static function obtenerLog($id, $columnas = '')
     {
         $query = DB::table('logs AS l');
-
-        LogRH::obtenerColumnas($query, $columnas);
-        LogRH::obtenerFiltros($query, $filtros);
+        LogRH::obtenerColumnasLog($query, $columnas);
 
         return $query->where('l.log_id', $id)->first();
+    }
+
+    public static function listarLogsDetalle($filtros = [], $columnas = '', $limit = null, $offset = null, $orden = '')
+    {
+        $query = DB::table('logs_detalle AS ld')
+            ->leftJoin('logs AS l', 'l.log_id', '=', 'ld.log_id');
+        $query->select();
+
+        LogRH::obtenerColumnasLogDetalle($query, $columnas);
+        LogRH::obtenerFiltrosLogDetalle($query, $filtros);
+        LogRH::obtenerOrdenLogDetalle($query, $orden);
+
+        if (!empty($offset)) {
+            $query->offset($offset);
+        } 
+        if (!empty($limit)) {
+            $query->limit($limit);
+        } 
+
+        return $query->get();
     }
 
 }

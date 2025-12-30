@@ -7,14 +7,14 @@ class ProyectoRH
     public static function obtenerColumnas(&$query, $columnas)
     {
         $mapa = [
-            'id' => 'p.proyecto_id AS proyectoId',
-            'nombre' => 'p.nombre AS nombre',
-            'tipoProyectoId' => 'p.tipo_proyecto_id AS tipoId',
-            'tipoProyectoNobre' => 'ctp.nombre AS tipoNombre',
-            'urlEndpoint' => 'p.url_endpoint AS url',
-            'apiKey' => 'p.api_key AS apikey',
-            'timezone' => 'p.timezone AS timezone',
-            'status' => 'p.status AS status'
+            'id' => 'p.proyecto_id',
+            'nombre' => 'p.nombre',
+            'tipoProyectoId' => 'p.tipo_proyecto_id',
+            'tipoProyectoNobre' => 'ctp.nombre AS tipo_nombre',
+            'urlEndpoint' => 'p.url_endpoint',
+            'apiKey' => 'p.api_key',
+            'timezone' => 'p.timezone',
+            'status' => 'p.status'
         ];
 
         if(empty($columnas)) {

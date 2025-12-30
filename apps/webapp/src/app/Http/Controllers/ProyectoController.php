@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\const\StatusConsts;
 use App\Coordinators\ProyectoCoordinator;
-use App\Coordinators\ProyectoDetalleCoordinator;
-use App\Coordinators\ProyectoLogDetalleCoordinator;
 use App\Services\ProyectoService;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Exception;
+use Throwable;
 
 class ProyectoController extends Controller
 {
@@ -22,22 +21,29 @@ class ProyectoController extends Controller
         }
     }
 
-    public function obtener($id) {
+    public function obtener($id)
+    {
         try {
-            [$proyecto, $diasDisponibles] = ProyectoDetalleCoordinator::obtenerDetalle($id);
+            [$proyecto, $diasDisponibles, $syncWarning] = ProyectoCoordinator::obtenerDetalle($id);
+
+            if (!empty($syncWarning)) {
+                session()->flash('warning', $syncWarning);
+            }
 
             return view('dashboard.detalles', compact('proyecto', 'diasDisponibles'));
-        } catch(Exception $e) {
+
+        } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
     }
 
-    public function sync(Request $request)
+    public function sincronizarDetalles(Request $request)
     {
         try {
             $validator = Validator::make($request->all(), [
                 'proyecto_id'    => 'required|integer|min:1',
                 'nombre_archivo' => 'required|string|max:255',
+                'log_id'         => 'required|integer|min:1',
             ]);
 
             if ($validator->fails()) {
@@ -46,13 +52,14 @@ class ProyectoController extends Controller
 
             $data = $validator->validated();
 
-            $insertados = ProyectoLogDetalleCoordinator::sincronizarDetalles(
+            $insertados = ProyectoCoordinator::sincronizarDetalles(
                 $data['proyecto_id'],
-                $data['nombre_archivo']
+                $data['nombre_archivo'],
+                $data['log_id']
             );
 
             return back()->with('success', "Sincronización completa. Insertados: {$insertados}");
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return back()->with('error', $e->getMessage());
         }
     }

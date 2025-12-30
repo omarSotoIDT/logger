@@ -36,12 +36,12 @@
                                 alt="Icono de tipos"
                                 class=""
                             >   
-                        <p>{{$proyecto->tipoNombre}}</p>
+                        <p>{{$proyecto->tipo_nombre}}</p>
                     </div>
                 </section>
 
                 <a
-                href="{{ route('proyectos.obtener', ['id' => $proyecto->proyectoId]) }}"
+                href="{{ route('proyectos.obtener', ['id' => $proyecto->proyecto_id]) }}"
                 class="btn-principal btn-fix"
                 >
                 Ver Detalle

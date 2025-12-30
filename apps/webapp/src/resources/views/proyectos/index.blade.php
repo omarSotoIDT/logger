@@ -330,11 +330,11 @@
                                     </div>
                                 </td>
 
-                                <td>{{ $proyecto->tipoNombre ?? '—' }}</td>
+                                <td>{{ $proyecto->tipo_nombre ?? '—' }}</td>
 
                                 <td>
                                     <p class="url">
-                                        {{ $proyecto->url ?? '—' }}
+                                        {{ $proyecto->url_endpoint ?? '—' }}
                                     </p>
                                 </td>
 
@@ -352,11 +352,11 @@
                                             type="button"
                                             class="btn-terciario"
                                             @click="abrirEditar({
-                                                id: {{ $proyecto->proyectoId ?? $proyecto->proyecto_id }},
+                                                id: {{ $proyecto->proyecto_id }},
                                                 nombre: @js($proyecto->nombre ?? ''),
-                                                tipoId: {{ $proyecto->tipoId ?? $proyecto->tipo_proyecto_id ?? 'null' }},
-                                                url: @js($proyecto->url ?? ''),
-                                                api: @js($proyecto->api ?? ''),
+                                                tipoId: {{ $proyecto->tipo_proyecto_id}},
+                                                url: @js($proyecto->url_endpoint ?? ''),
+                                                api: @js($proyecto->api_key ?? ''),
                                                 timezone: @js($proyecto->timezone ?? ''),
                                                 status: @js($proyecto->status ?? 'ACTIVO'),
                                             })"
@@ -424,7 +424,6 @@ createApp({
                 nombre: '',
             },
 
-            // Para que los selects de editar salgan "bonitos" y consistentes
             tipos: @json(collect($tipos ?? [])->map(function($t){
                 return [
                     'id' => $t->tipo_proyecto_id ?? $t->tipoProyectoId ?? $t->id,

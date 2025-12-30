@@ -7,12 +7,12 @@ class TipoProyectoRH
     public static function obtenerColumnas(&$query, string $columnas = '') 
     {
         $mapa = [
-            'id'                 => 'ctp.tipo_proyecto_id',
-            'nombre'             => 'ctp.nombre',
-            'status'             => 'ctp.status',
-            'registroFecha'      => 'ctp.registro_fecha',
-            'registroAutorId'    => 'ctp.registro_autor_id',
-            'actualizacionFecha' => 'ctp.actualizacion_fecha',
+            'id'                   => 'ctp.tipo_proyecto_id',
+            'nombre'               => 'ctp.nombre',
+            'status'               => 'ctp.status',
+            'registroFecha'        => 'ctp.registro_fecha',
+            'registroAutorId'      => 'ctp.registro_autor_id',
+            'actualizacionFecha'   => 'ctp.actualizacion_fecha',
             'actualizacionAutorId' => 'ctp.actualizacion_autor_id',
         ];
 

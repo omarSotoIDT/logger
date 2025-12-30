@@ -27,13 +27,12 @@ class ProyectoRepoData
         return $query->get();
     }
 
-    public static function obtener($id, $filtros, $columnas)
+    public static function obtener($id, $columnas)
     {
         $query = DB::table('proyectos AS p')
             ->leftJoin('cat_tipos_proyecto AS ctp', 'ctp.tipo_proyecto_id', '=', 'p.tipo_proyecto_id');
         
         ProyectoRH::obtenerColumnas($query, $columnas);
-        ProyectoRH::obtenerFiltros($query, $filtros);
 
         return $query
             ->where('p.proyecto_id', $id)

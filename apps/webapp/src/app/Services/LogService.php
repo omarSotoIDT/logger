@@ -10,19 +10,19 @@ class LogService
 {
     public static function listarLogs($filtros = [], $columnas = '', $limit = null, $offset = null, $orden = '')
     {
-        return LogRepoData::listar($filtros, $columnas, $limit, $offset, $orden);
+        return LogRepoData::listarLogs($filtros, $columnas, $limit, $offset, $orden);
     }
 
 
     public static function obtenerLog($id, $filtros = [], $columnas = '')
     {
-        return LogRepoData::obtener($id, $filtros, $columnas);
+        return LogRepoData::obtenerLog($id, $filtros, $columnas);
     }
 
 
     public static function insertarNuevosLogsDeProyecto($proyectoId, $logsRemotos)
     {
-        $existentes = LogRepoData::listar(
+        $existentes = LogRepoData::listarLogs(
             ['proyectoId' => $proyectoId],
             'nombre',
             null,
@@ -30,32 +30,85 @@ class LogService
             'nombre_asc'    
         )->all();
 
-        // array map
         $existentesSet = array_fill_keys(
-            array_map(fn($e) => $e->nombre, $existentes),
+            array_map(fn($e) => $e->nombre, $existentes),   
             true
         );
 
 
         $rows = [];
         foreach ($logsRemotos as $item) {
-            if (empty($item['nombre']) || empty($item['path'])) continue;
-
-            if (isset($existentesSet[$item['nombre']])) continue;
+            if (empty($item['nombre']) || empty($item['path'])) {
+                continue;
+            } 
+            if (isset($existentesSet[$item['nombre']])) {
+                continue;
+            }
 
             $row = LogBO::armarInsertAgregarLog($proyectoId, $item);
 
-            if (empty($row['log_fecha'])) continue;
+            if (empty($row['log_fecha'])) {
+                continue;
+            } 
 
             $rows[] = $row;
         }
 
-        LogRepoAction::agregarMasivo($rows);
+        LogRepoAction::agregarMasivoLogs($rows);
         return count($rows);
+    }
+
+    public static function insertarLogsDetalleProyecto($proyectoId, array $logsDetalleRemotos)
+    {
+        $existentes = LogRepoData::listarLogsDetalle(
+            ['proyectoId' => $proyectoId],
+            'ld.codigo_interno, ld.fecha_hora_log'
+        )->all();
+
+        $existentesSet = [];
+        foreach ($existentes as $e) {
+            if (empty($e->codigo_interno) || empty($e->fecha_hora_log)) {
+                continue;
+            } 
+            $existentesSet[$e->codigo_interno . '|' . (string)$e->fecha_hora_log] = true;
+        }
+
+        $rows = [];
+
+        foreach ($logsDetalleRemotos as $item) {
+            $codigoInterno = $item['codigo_interno'] ?? null;
+            $fechaHoraLog  = $item['fecha_hora_log'] ?? null;
+
+            if (empty($codigoInterno) || empty($fechaHoraLog)) {
+                continue;
+            } 
+
+            $key = $codigoInterno . '|' . $fechaHoraLog;
+
+            if (isset($existentesSet[$key])) {
+                continue;
+            } 
+
+            $row = LogBO::armarInsertAgregarDetalle($item);
+
+            $rows[] = $row;
+            $existentesSet[$key] = true;
+        }
+
+        if (empty($rows)) {
+            return 0;
+        } 
+
+        LogRepoAction::agregarMasivoLogsDetalle($rows);
+        return count($rows);
+    }
+
+    public static function parsearContenido($contenido, $logId) {
+        return LogBO::parsearContenido($contenido, $logId);
     }
 
     public static function actualizarLog($id, $data) {
         $update = LogBO::armarUpdateActualizarLog($data);
-        return LogRepoAction::actualizar($id, $update);
+        LogRepoAction::actualizarLog($id, $update);
     }
 }

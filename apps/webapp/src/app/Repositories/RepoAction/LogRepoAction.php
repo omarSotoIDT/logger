@@ -6,21 +6,28 @@ use Illuminate\Support\Facades\DB;
 
 class LogRepoAction
 {
-    public static function agregar($data)
+    public static function agregarLog($data)
     {
         return DB::table('logs')->insertGetId($data);
     }
 
-    public static function agregarMasivo($rows)
+    public static function agregarMasivoLogs($rows)
     {
         return DB::table('logs')->insert($rows);
     }
 
-    public static function actualizar($id, $data)
+    public static function actualizarLog($id, $data)
     {
-        return DB::table('logs')
+        DB::table('logs')
             ->where('log_id', $id)
             ->update($data);
     }
+    
+    public static function agregarLogDetalle($data) {
+        return DB::table('logs_detalle')->insertGetId($data);
+    }
 
+    public static function agregarMasivoLogsDetalle($rows) {
+        return DB::table('logs_detalle')->insert($rows);
+    }
 }
