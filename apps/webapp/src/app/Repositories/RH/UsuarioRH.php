@@ -54,17 +54,21 @@ class UsuarioRH
     public static function obtenerOrden($orden, &$query){
 
         $ordersDisponibles = [
-            'usuario_asc'   => ['usuario', 'asc'],
-            'usuario_desc'  => ['usuario', 'desc'],
 
-            'status_asc'          => ['status', 'asc'],
-            'status_desc'         => ['status', 'desc'],
+            'usuario_id_asc' => ['usuario_id', 'asc'],
+            'usuario_id_desc' => ['usuario_id', 'desc'],
 
-            'registro_fecha_asc'  => ['registro_fecha', 'asc'],
+            'usuario_asc' => ['usuario', 'asc'],
+            'usuario_desc' => ['usuario', 'desc'],
+
+            'status_asc' => ['status', 'asc'],
+            'status_desc' => ['status', 'desc'],
+
+            'registro_fecha_asc' => ['registro_fecha', 'asc'],
             'registro_fecha_desc' => ['registro_fecha', 'desc'],
         ];
 
-        $defaultKey = 'usuario_asc';
+        $defaultKey = 'usuario_id_asc';
 
         $key = !empty($orden) ? $orden : $defaultKey;
 
