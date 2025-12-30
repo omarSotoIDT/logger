@@ -94,7 +94,9 @@ class LogRH
 
     public static function obtenerFiltrosLogDetalle(&$query, $filtros)
     {
-        if (empty($filtros)) return;
+        if (empty($filtros)) {
+            return;
+        }
 
         if (!empty($filtros['proyectoId'])) {
             $query->where('l.proyecto_id', $filtros['proyectoId']);

@@ -9,8 +9,7 @@ class LogRepoData
 {
     public static function listarLogs($filtros = [], $columnas = '', $limit = null, $offset = null, $orden = '')
     {
-        $query = DB::table('logs AS l');
-        $query->select();
+        $query = DB::table('logs AS l')->select();
 
         LogRH::obtenerColumnasLog($query, $columnas);
         LogRH::obtenerFiltrosLog($query, $filtros);
@@ -37,8 +36,7 @@ class LogRepoData
     public static function listarLogsDetalle($filtros = [], $columnas = '', $limit = null, $offset = null, $orden = '')
     {
         $query = DB::table('logs_detalle AS ld')
-            ->leftJoin('logs AS l', 'l.log_id', '=', 'ld.log_id');
-        $query->select();
+            ->leftJoin('logs AS l', 'l.log_id', '=', 'ld.log_id')->select();
 
         LogRH::obtenerColumnasLogDetalle($query, $columnas);
         LogRH::obtenerFiltrosLogDetalle($query, $filtros);

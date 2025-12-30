@@ -68,7 +68,7 @@ class ProyectoController extends Controller
             ]);
             return view('dashboard.index', compact('proyectos'));
         } catch(Throwable $e) {
-            return back()->with('errors', 'Hubo un problema al recuperar el dashboard');
+            return back()->with('error', 'Hubo un problema al recuperar el dashboard');
         }
     }
 
