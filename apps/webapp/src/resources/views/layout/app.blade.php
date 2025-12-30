@@ -13,6 +13,14 @@
 
     {{-- CDN Vue--}}
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/dayjs/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs/plugin/localizedFormat.js"></script>
+    <script src="https://unpkg.com/dayjs/locale/es.js"></script>
+    <script>
+        dayjs.extend(dayjs_plugin_localizedFormat);
+        dayjs.locale('es');
+    </script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
 
     {{-- Head adicional por vista --}}
     @yield('head')

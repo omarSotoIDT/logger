@@ -30,7 +30,7 @@
         <div class="detalles-contenido">
             <div class="detalles-campo">
                 <p>Tipo de proyecto</p>
-                <p>{{$proyecto->tipoNombre}}</p>
+                <p>{{$proyecto->tipo_nombre}}</p>
             </div>
             <div class="detalles-campo">
                 <p>Timezone</p>
@@ -38,12 +38,12 @@
             </div>
             <div class="detalles-campo">
                 <p>Endpoint</p>
-                <span>{{ $proyecto->url }}</span>
+                <span>{{ $proyecto->url_endpoint }}</span>
             </div>
         </div>
         
         <a
-            href="{{ route('proyectos.obtener', ['id' => $proyecto->proyectoId]) }}"
+            href="{{ route('proyectos.obtener', ['id' => $proyecto->proyecto_id]) }}"
             class="btn-analisis"
             >
             Dashboard Analítico
@@ -58,65 +58,64 @@
             </div>
         </div>
 
-        <div class="dias-disponibles">
-            @if(!empty($diasDisponibles) && count($diasDisponibles) > 0)
-                @foreach($diasDisponibles as $log)
-                    <div class="dia-row">
-                        <div class="dia-left">
-                            <div class="dia-icono">
-                                <img src="{{ asset('assets/icons/calendario.svg') }}" alt="Calendario">
-                            </div>
+        <div id="diasApp" class="dias-disponibles">
+    <div
+  class="dia-row"
+  v-for="log in diasDisponibles"
+  :key="`${log.log_fecha}-${log.nombre}`"
+>
 
-                            <div class="dia-texto">
-                                <p class="dia-fecha">
-                                    {{ \Carbon\Carbon::parse($log->logFecha)->translatedFormat('l, j \\d\\e F \\d\\e Y') }}
-                                </p>
+        <div class="dia-left">
+            <div class="dia-icono">
+                <img src="{{ asset('assets/icons/calendario.svg') }}" alt="Calendario">
+            </div>
 
-                                <p class="dia-sub">
-                                    {{ $log->nombre }}
-                                </p>
-                            </div>
-                        </div>
+            <div class="dia-texto">
+                <p class="dia-fecha">
+                    @{{ formatearFecha(log.log_fecha) }}
+                </p>
 
-                        <div class="dia-right">
-                            <a href="#">
-                                <img
-                                    src="{{ asset('assets/icons/doc.svg') }}"
-                                    alt=""
-                                    class="btn-pill-ico"
-                                >
-                                Ver Logs
-                            </a>
-
-                            <form
-                                method="POST"
-                                action="{{ route('proyectos.sync') }}"
-                                style="display:inline;"
-                            >
-                                @csrf
-                                <input type="hidden" name="proyecto_id" value="{{ $proyecto->proyectoId }}">
-                                <input type="hidden" name="nombre_archivo" value="{{ $log->nombre }}">
-
-                                <button type="submit" class="btn-pill btn-pill-solid">
-                                    <img
-                                        src="{{ asset('assets/icons/sync.svg') }}"
-                                        alt=""
-                                        class="btn-pill-ico"
-                                    >
-                                    Sincronizar
-                                </button>
-                            </form>
-                        </div>
-
-                    </div>
-                @endforeach
-            @else
-                <p class="dias-vacio">No hay días disponibles todavía.</p>
-            @endif
+                <p class="dia-sub">
+                    @{{ log.nombre }}
+                </p>
+            </div>
         </div>
 
+        <div class="dia-right">
+            <a href="#" class="btn-pill-outline btn-pill">
+                <img
+                    src="{{ asset('assets/icons/doc.svg') }}"
+                    class="btn-pill-ico"
+                >
+                Ver Logs
+            </a>
 
+            <form
+                method="POST"
+                action="{{ route('proyectos.sync') }}"
+                style="display:inline;"
+            >
+                @csrf
+                <input type="hidden" name="proyecto_id" value="{{ $proyecto->proyecto_id }}">
+                <input type="hidden" name="nombre_archivo" :value="log.nombre">
+                <input type="hidden" name="log_id" :value="log.log_id">
 
+                <button type="submit" class="btn-pill btn-pill-solid">
+                    <img
+                        src="{{ asset('assets/icons/sync.svg') }}"
+                        class="btn-pill-ico"
+                    >
+                    Sincronizar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <p v-if="diasDisponibles.length === 0" class="dias-vacio">
+        No hay días disponibles todavía.
+    </p>
+</div>
+ 
 
     </section>
 
@@ -126,6 +125,20 @@
 
 @section('scripts')
 <script>
+    const { createApp } = Vue;
 
+    createApp({
+        data() {
+            return {
+                diasDisponibles: @json($diasDisponibles ?? [])
+            }
+        },
+        methods: {
+            formatearFecha(fecha) {
+                return window.formatearFechaLarga(fecha);
+            }
+        }
+    }).mount('#diasApp');
 </script>
 @endsection
+
