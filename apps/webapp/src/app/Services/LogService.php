@@ -22,7 +22,7 @@ class LogService
 
     public static function insertarNuevosLogsDeProyecto($proyectoId, $logsRemotos)
     {
-        $existentes = LogRepoData::listarLogs(
+        $logsExistentes = LogRepoData::listarLogs(
             ['proyectoId' => $proyectoId],
             'nombre',
             null,
@@ -31,7 +31,7 @@ class LogService
         )->all();
 
         $existentesSet = array_fill_keys(
-            array_map(fn($e) => $e->nombre, $existentes),   
+            array_map(fn($e) => $e->nombre, $logsExistentes),   
             true
         );
 
@@ -60,17 +60,17 @@ class LogService
 
     public static function insertarLogsDetalleProyecto($proyectoId, array $logsDetalleRemotos)
     {
-        $existentes = LogRepoData::listarLogsDetalle(
+        $logsExistentes = LogRepoData::listarLogsDetalle(
             ['proyectoId' => $proyectoId],
             'ld.codigo_interno, ld.fecha_hora_log'
         )->all();
 
         $existentesSet = [];
-        foreach ($existentes as $e) {
-            if (empty($e->codigo_interno) || empty($e->fecha_hora_log)) {
+        foreach ($logsExistentes as $logExistente) {
+            if (empty($logExistente->codigo_interno) || empty($logExistente->fecha_hora_log)) {
                 continue;
             } 
-            $existentesSet[$e->codigo_interno . '|' . (string)$e->fecha_hora_log] = true;
+            $existentesSet[$logExistente->codigo_interno . '|' . (string)$logExistente->fecha_hora_log] = true;
         }
 
         $rows = [];
