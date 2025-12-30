@@ -37,15 +37,15 @@ class LogService
 
 
         $rows = [];
-        foreach ($logsRemotos as $item) {
-            if (empty($item['nombre']) || empty($item['path'])) {
+        foreach ($logsRemotos as $logRemoto) {
+            if (empty($logRemoto['nombre']) || empty($logRemoto['path'])) {
                 continue;
             } 
-            if (isset($existentesSet[$item['nombre']])) {
+            if (isset($existentesSet[$logRemoto['nombre']])) {
                 continue;
             }
 
-            $row = LogBO::armarInsertAgregarLog($proyectoId, $item);
+            $row = LogBO::armarInsertAgregarLog($proyectoId, $logRemoto);
 
             if (empty($row['log_fecha'])) {
                 continue;
@@ -75,9 +75,9 @@ class LogService
 
         $rows = [];
 
-        foreach ($logsDetalleRemotos as $item) {
-            $codigoInterno = $item['codigo_interno'] ?? null;
-            $fechaHoraLog  = $item['fecha_hora_log'] ?? null;
+        foreach ($logsDetalleRemotos as $logDetalleRemotos) {
+            $codigoInterno = $logDetalleRemotos['codigo_interno'] ?? null;
+            $fechaHoraLog  = $logDetalleRemotos['fecha_hora_log'] ?? null;
 
             if (empty($codigoInterno) || empty($fechaHoraLog)) {
                 continue;
@@ -89,7 +89,7 @@ class LogService
                 continue;
             } 
 
-            $row = LogBO::armarInsertAgregarDetalle($item);
+            $row = LogBO::armarInsertAgregarDetalle($logDetalleRemotos);
 
             $rows[] = $row;
             $existentesSet[$key] = true;
