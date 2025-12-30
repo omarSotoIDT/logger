@@ -57,25 +57,25 @@ class ProyectoCoordinator
     }
 
 
-    public static function sincronizarDetalles($proyectoId, $nombreArchivo, $logId)
+    public static function sincronizarDetalles($logId)
     {
-        $proyecto = ProyectoService::obtenerProyecto($proyectoId);
+        $log = LogService::obtenerLog($logId);
 
-        $urlContenido = UtilsRequest::armarUrlContenidoLog($proyecto->url_endpoint, $nombreArchivo);
+        $proyecto = ProyectoService::obtenerProyecto($log->proyecto_id);
+
+        $urlContenido = UtilsRequest::armarUrlContenidoLog($proyecto->url_endpoint, $log->nombre);
 
         $json = UtilsRequest::hacerPeticionGet($urlContenido, $proyecto->api_key, 30);
         $contenido = $json['datos']['contenido'] ?? '';
 
-        $logId = (int)$logId;
-        if ($logId <= 0) {
-            throw new Exception("No existe el log '{$nombreArchivo}' en BD para el proyecto {$proyectoId}");
+        if (empty($logId)) {
+            throw new Exception("No existe el log '{$log->nombre}' en BD para el proyecto {$proyecto->proyecto_id}");
         }
         $items = LogService::parsearContenido($contenido, $logId);
 
-        return DB::transaction(function () use ($proyectoId, $items) {
-            return LogService::insertarLogsDetalleProyecto($proyectoId, $items);
+        return DB::transaction(function () use ($proyecto, $items) {
+            return LogService::insertarLogsDetalleProyecto($proyecto->proyecto_id, $items);
         }, 5);
     }
-
     
 }

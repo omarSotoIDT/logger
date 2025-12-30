@@ -41,9 +41,7 @@ class ProyectoController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'proyecto_id'    => 'required|integer|min:1',
-                'nombre_archivo' => 'required|string|max:255',
-                'log_id'         => 'required|integer|min:1',
+                'log_id'         => 'required|integer|min:1'
             ]);
 
             if ($validator->fails()) {
@@ -53,8 +51,6 @@ class ProyectoController extends Controller
             $data = $validator->validated();
 
             $insertados = ProyectoCoordinator::sincronizarDetalles(
-                $data['proyecto_id'],
-                $data['nombre_archivo'],
                 $data['log_id']
             );
 

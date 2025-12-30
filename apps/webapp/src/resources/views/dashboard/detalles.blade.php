@@ -96,8 +96,6 @@
                 style="display:inline;"
             >
                 @csrf
-                <input type="hidden" name="proyecto_id" value="{{ $proyecto->proyecto_id }}">
-                <input type="hidden" name="nombre_archivo" :value="log.nombre">
                 <input type="hidden" name="log_id" :value="log.log_id">
 
                 <button type="submit" class="btn-pill btn-pill-solid">
