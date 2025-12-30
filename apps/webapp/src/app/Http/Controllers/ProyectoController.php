@@ -7,7 +7,6 @@ use App\Coordinators\ProyectoCoordinator;
 use App\Services\ProyectoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Exception;
 use Throwable;
 
 class ProyectoController extends Controller
@@ -16,7 +15,7 @@ class ProyectoController extends Controller
         try {
             [$proyectos, $tipos, $timezones] = ProyectoCoordinator::listarProyectos();
             return view('proyectos.index', compact('proyectos', 'tipos', 'timezones'));
-        } catch(Exception $e) {
+        } catch(Throwable $e) {
             return back()->with('error', 'Error al listar los proyectos');
         }
     }
@@ -32,7 +31,7 @@ class ProyectoController extends Controller
 
             return view('dashboard.detalles', compact('proyecto', 'diasDisponibles'));
 
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return back()->with('error', $e->getMessage());
         }
     }
@@ -68,7 +67,7 @@ class ProyectoController extends Controller
                 'status' => [StatusConsts::ACTIVO, StatusConsts::INACTIVO]
             ]);
             return view('dashboard.index', compact('proyectos'));
-        } catch(Exception $e) {
+        } catch(Throwable $e) {
             return back()->with('errors', 'Hubo un problema al recuperar el dashboard');
         }
     }
@@ -93,7 +92,7 @@ class ProyectoController extends Controller
             ProyectoService::agregarProyecto($data);
 
             return back()->with('success', 'Proyecto creado correctamente');
-        } catch(Exception $e) {
+        } catch(Throwable $e) {
             return back()->with('error', "Error al crear el proyecto {$e}");
         }
     }
@@ -118,7 +117,7 @@ class ProyectoController extends Controller
             ProyectoService::actualizarProyecto($id, $data);
 
             return back()->with('success', 'Proyecto actualizado correctamente');
-        } catch(Exception $e) {
+        } catch(Throwable $e) {
             return back()->with('error', 'Error al actualizar el proyecto');
         }
     }
@@ -129,7 +128,7 @@ class ProyectoController extends Controller
             ProyectoService::eliminarProyecto($id);
 
             return back()->with('success', 'Proyecto eliminado correctamente');
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return back()->with('error', 'Error al eliminar el proyecto');
         }
     }

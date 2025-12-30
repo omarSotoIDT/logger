@@ -6,7 +6,7 @@ use App\const\StatusConsts;
 use App\Services\TipoProyectoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Exception;
+use Throwable;
 
 class TipoProyectoController extends Controller
 {
@@ -15,7 +15,7 @@ class TipoProyectoController extends Controller
             $tipos = TipoProyectoService::listarTipos(['status' => StatusConsts::ACTIVO]);
 
             return view('tipos.index', compact('tipos'));
-        } catch(Exception $e) {
+        } catch(Throwable $e) {
             return back()->with('error', 'Error al listar los tipos de categorías');
         }
     }
@@ -37,7 +37,7 @@ class TipoProyectoController extends Controller
             return back()->with('success', 'Tipo creado correctamente');
 
             
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return back()->with('error', $e->getMessage());
         }
     }
@@ -58,7 +58,7 @@ class TipoProyectoController extends Controller
 
             return back()->with('success', 'Tipo de proyecto actualizado correctamente');
 
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return back()->with('error', $e->getMessage());
         }
     }
@@ -68,7 +68,7 @@ class TipoProyectoController extends Controller
             TipoProyectoService::eliminarTipo($id);
 
             return back()->with('success', 'Tipo de proyecto eliminado correctamente');
-        } catch(Exception $e) {
+        } catch(Throwable $e) {
             return back()->with('error', 'Error al eliminar el tipo de proyecto');
         }
     }
