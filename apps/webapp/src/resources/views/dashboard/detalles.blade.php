@@ -72,7 +72,7 @@
 
             <div class="dia-texto">
                 <p class="dia-fecha">
-                    @{{ formatearFecha(log.log_fecha) }}
+                    @{{ formatearFechaLarga(log.log_fecha) }}
                 </p>
 
                 <p class="dia-sub">
@@ -123,20 +123,18 @@
 
 @section('scripts')
 <script>
-    const { createApp } = Vue;
+  const { createApp } = Vue;
 
-    createApp({
-        data() {
-            return {
-                diasDisponibles: @json($diasDisponibles ?? [])
-            }
-        },
-        methods: {
-            formatearFecha(fecha) {
-                return window.formatearFechaLarga(fecha);
-            }
+  createApp({
+    data() {
+        return {
+        diasDisponibles: @json($diasDisponibles ?? []),
+        formatearFechaLarga: window.formatearFechaLarga
         }
+    }
     }).mount('#diasApp');
+
 </script>
+
 @endsection
 
