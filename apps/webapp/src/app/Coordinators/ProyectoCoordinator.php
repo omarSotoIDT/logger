@@ -60,6 +60,9 @@ class ProyectoCoordinator
     public static function sincronizarDetalles($logId)
     {
         $log = LogService::obtenerLog($logId);
+        if(empty($log)) {
+            throw new Exception("No se pudo hayar el log que se busca sincronizar");
+        }
 
         $proyecto = ProyectoService::obtenerProyecto($log->proyecto_id);
 
@@ -67,10 +70,7 @@ class ProyectoCoordinator
 
         $json = UtilsRequest::hacerPeticionGet($urlContenido, $proyecto->api_key, 30);
         $contenido = $json['datos']['contenido'] ?? '';
-
-        if (empty($logId)) {
-            throw new Exception("No existe el log '{$log->nombre}' en BD para el proyecto {$proyecto->proyecto_id}");
-        }
+        
         $items = LogService::parsearContenido($contenido, $logId);
 
         return DB::transaction(function () use ($proyecto, $items) {

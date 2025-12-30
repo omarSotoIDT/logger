@@ -4,7 +4,7 @@
 
 @section('contenido')
 <main class="contenedor">
-    <div style="margin-top: 16px;">
+    <div">
         <a href="{{ route('proyectos.dashboard') }}" class="volver">
             <img
                 src="{{ asset('assets/icons/arrow-back.svg') }}"
