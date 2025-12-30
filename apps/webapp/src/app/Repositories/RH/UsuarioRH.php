@@ -41,11 +41,11 @@ class UsuarioRH
         ];
 
         foreach($filtro as $key => $value){
-            if(!empty($filtros_usuarios[$value])){
-                if(is_array($filtro)){
-                    $query->whereIn($key, $filtros_usuarios[$value]);
+            if(!empty($filtros_usuarios[$key])){
+                if(is_array($value)){
+                    $query->whereIn($key, $value);
                 }else{
-                    $query->where($key, $filtros_usuarios[$value]);
+                    $query->where($key, $value);
                 }
             }
         }
