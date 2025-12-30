@@ -116,7 +116,6 @@ input:focus {
 
 .btn-principal:hover {
   background-color: var(--color-primario-hover);
-  transform: translateY(-1px) scale(1.02);
   box-shadow: 0 8px 20px rgba(91, 61, 245, 0.25);
 }
 
