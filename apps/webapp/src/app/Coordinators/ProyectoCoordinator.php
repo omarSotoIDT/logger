@@ -77,5 +77,20 @@ class ProyectoCoordinator
             return LogService::insertarLogsDetalleProyecto($proyecto->proyecto_id, $items);
         }, 5);
     }
+
+    public static function obtenerDetallesLogs($id, $filtros = []) 
+    {
+        $log = LogService::obtenerLog($id);
+        if(empty($log)) {
+            throw new Exception('No se pudo hallar el log que se busca sincronizar');
+        }
+
+        $filtros = array_merge(['logId' => $id], $filtros);
+        $logDetalles = LogService::listarLogsDetalle($filtros);
+        $proyecto = ProyectoService::obtenerProyecto($log->proyecto_id);
+        
+        return [$logDetalles, $proyecto];
+
+    }
     
 }
