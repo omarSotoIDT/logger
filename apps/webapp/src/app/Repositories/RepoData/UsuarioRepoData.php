@@ -24,14 +24,4 @@ class UsuarioRepoData{
         
         return $query->get();
     }
-
-    public static function obtener($id, $columnas, $filtros)
-    {
-        $query = DB::table('sys_usuarios');
-
-        UsuarioRH::obtenerColumnas($columnas, $query);
-        UsuarioRH::obtenerFiltro($filtros, $query);
-
-        return $query->where('usuario_id', $id)->first();
-    }
 }
