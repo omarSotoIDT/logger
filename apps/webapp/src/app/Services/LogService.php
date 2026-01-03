@@ -25,6 +25,11 @@ class LogService
 
     public static function obtenerAnalisisLogs($id)
     {
+        return self::obtenerAnalisisLogsRango($id, 'all');
+    }
+
+    public static function obtenerAnalisisLogsRango($id, $rango = 'all')
+    {
         $analisis = [
             'conteoDetalles' => LogRepoData::contarLogsDetalle($id),
             'conteoWarning'  => LogRepoData::contarLogsDetalleNivel($id, 'WARNING'),
@@ -34,7 +39,8 @@ class LogService
             'topArchivosErrores' => LogRepoData::listarTopArchivosErrores($id),
         ];
 
-        $rows = LogRepoData::contarErroresPorHora($id);
+        $desde = self::resolverFechaDesde($rango);
+        $rows = LogRepoData::contarErroresPorHora($id, $desde);
         $map = [];
         foreach ($rows as $row) {
             $map[(int)$row->hora] = (int)$row->total;
@@ -49,6 +55,7 @@ class LogService
 
         $analisis['erroresPorHoraLabels'] = $labels;
         $analisis['erroresPorHoraData']   = $data;
+        $analisis['rangoSeleccionado']    = $rango;
 
         $dist = LogRepoData::contarDistribucionPorNivel($id);
 
@@ -62,10 +69,27 @@ class LogService
         $analisis['nivelesLabels'] = $nivelesLabels;
         $analisis['nivelesData']   = $nivelesData;
         
-
-
-
         return $analisis;
+    }
+
+    private static function resolverFechaDesde($rango)
+    {
+        $rango = strtolower((string)$rango);
+
+        switch ($rango) {
+            case '24h':
+                return now()->subHours(24);
+            case '1w':
+                return now()->subWeek();
+            case '1m':
+                return now()->subMonth();
+            case '3m':
+                return now()->subMonths(3);
+            case '1y':
+                return now()->subYear();
+            default:
+                return null;
+        }
     }
 
 

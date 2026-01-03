@@ -116,14 +116,14 @@ class ProyectoCoordinator
 
     }
 
-    public static function obtenerAnalisisLogs($id)
+    public static function obtenerAnalisisLogs($id, $rango = 'all')
     {
         $proyecto = ProyectoService::obtenerProyecto($id);
         if (empty($proyecto)) {
             throw new Exception('No se pudo hallar el proyecto que se busca analizar');
         }
 
-        $analisis = LogService::obtenerAnalisisLogs($id);
+        $analisis = LogService::obtenerAnalisisLogsRango($id, $rango);
         return array_merge(['proyecto' => $proyecto], $analisis);
     }
     

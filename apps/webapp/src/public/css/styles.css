@@ -1395,3 +1395,10 @@ body.modal-abierto {
 .archivo-item .total{
   color: var(--color-error);
 }
+.rango {
+  margin-top: 20px;
+  width: 20%;
+}
+.rango select {
+  margin-top: 10px;
+}

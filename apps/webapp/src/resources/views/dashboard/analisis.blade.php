@@ -37,6 +37,20 @@
             </div>
         </section>
 
+        <section class="rango">
+            <form method="GET" action="{{ route('proyectos.analisis', ['id' => $proyecto->proyecto_id]) }}">
+                    <label for="rango">Rango</label>
+                    <select id="rango" name="rango" onchange="this.form.submit()">
+                        <option value="24h" @selected(($rangoSeleccionado ?? 'all') === '24h')>Ultimas 24 horas</option>
+                        <option value="1w" @selected(($rangoSeleccionado ?? 'all') === '1w')>1 semana</option>
+                        <option value="1m" @selected(($rangoSeleccionado ?? 'all') === '1m')>1 mes</option>
+                        <option value="3m" @selected(($rangoSeleccionado ?? 'all') === '3m')>3 meses</option>
+                        <option value="1y" @selected(($rangoSeleccionado ?? 'all') === '1y')>1 año</option>
+                        <option value="all" @selected(($rangoSeleccionado ?? 'all') === 'all')>Todos</option>
+                    </select>
+                </form>
+        </section>
+
         <section class="estadisticas">
             <div class="card card-chart">
                 <canvas id="myChart"></canvas>

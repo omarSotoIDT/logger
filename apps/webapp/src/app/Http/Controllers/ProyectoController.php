@@ -88,9 +88,10 @@ class ProyectoController extends Controller
         }
     }
 
-    public function verAnalisis($id) {
+    public function verAnalisis(Request $request, $id) {
         try {
-            $data = ProyectoCoordinator::obtenerAnalisisLogs($id);
+            $rango = $request->input('rango', 'all');
+            $data = ProyectoCoordinator::obtenerAnalisisLogs($id, $rango);
             return view('dashboard.analisis', $data);
         } catch(Throwable $e) {
             return back()->with('error', 'Hubo un problema al recuperar el análisis del proyecto');

@@ -69,13 +69,18 @@ class LogRepoData
             ->count();
     }
 
-    public static function contarErroresPorHora($id)
+    public static function contarErroresPorHora($id, $desde = null)
     {
-        return DB::table('logs_detalle AS ld')
+        $query = DB::table('logs_detalle AS ld')
             ->leftJoin('logs AS l', 'ld.log_id', '=', 'l.log_id')
             ->where('l.proyecto_id', $id)
-            ->where('ld.nivel', 'ERROR')
-            ->selectRaw('HOUR(ld.fecha_hora_log) AS hora, COUNT(*) AS total')
+            ->where('ld.nivel', 'ERROR');
+
+        if (!empty($desde)) {
+            $query->where('ld.fecha_hora_log', '>=', $desde);
+        }
+
+        return $query->selectRaw('HOUR(ld.fecha_hora_log) AS hora, COUNT(*) AS total')
             ->groupByRaw('HOUR(ld.fecha_hora_log)')
             ->orderBy('hora')
             ->get();
