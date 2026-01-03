@@ -37,6 +37,7 @@ class LogService
             'conteoDebug'    => LogRepoData::contarLogsDetalleNivel($id, 'DEBUG'),
             'topCodigosInternos' => LogRepoData::listarTopCodigosInternosMensaje($id),
             'topArchivosErrores' => LogRepoData::listarTopArchivosErrores($id),
+            'ultimosLogs'        => LogRepoData::listarUltimosLogs($id)
         ];
 
         $desde = self::resolverFechaDesde($rango);

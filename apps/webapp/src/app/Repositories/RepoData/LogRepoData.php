@@ -127,9 +127,14 @@ class LogRepoData
             ->get();
     }
 
-    public static function listarUltimosLogs()
+    public static function listarUltimosLogs($id, $limit = 5)
     {
-
+        return DB::table('logs_detalle AS ld')
+            ->leftJoin('logs AS l', 'l.log_id', '=', 'ld.log_id')
+            ->where('l.proyecto_id', $id)
+            ->orderBy('log_detalle_id', 'desc')
+            ->limit($limit)
+            ->get();
     }
 
 }

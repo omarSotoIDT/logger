@@ -94,6 +94,40 @@
                 </div>
             </div>
         </section>
+
+        <section class="ultimos-logs card">
+            <div class="log-card-cabecera">
+                <h2 class="log-filtros-titulo">Últimos Registros</h2>
+            </div>
+
+            <div class="log-lista">
+                @forelse ($ultimosLogs as $log)
+                    <article @class([
+                        'card',
+                        'log-nivel-error' => ($log->nivel ?? '') === 'ERROR',
+                        'log-nivel-warning' => ($log->nivel ?? '') === 'WARNING',
+                        'log-nivel-debug' => ($log->nivel ?? '') === 'DEBUG',
+                        'log-nivel-info' => !in_array(($log->nivel ?? ''), ['ERROR', 'WARNING', 'DEBUG'], true),
+                    ])>
+                        <header class="log-card-cabecera">
+                            <div class="log-card-meta">
+                                <span class="log-icono">{{ ($log->nivel ?? '') === 'WARNING' ? '!' : 'x' }}</span>
+                                <span class="log-pill log-pill-nivel">{{ $log->nivel ?? 'INFO' }}</span>
+                                <span class="log-pill log-pill-codigo">{{ $log->codigo_excepcion ?? $log->codigo_interno ?? 'SIN_CODIGO' }}</span>
+                            </div>
+                            <span class="log-hora">{{ $log->fecha_hora_log ?? '--:--' }}</span>
+                        </header>
+
+                        <p class="log-mensaje">{{ $log->mensaje ?? 'Mensaje no disponible' }}</p>
+                        <p class="log-path">{{ $log->archivo ?? 'Archivo no disponible' }}{{ !empty($log->linea) ? ':' . $log->linea : '' }}</p>
+                    </article>
+                @empty
+                    <div class="card log-vacio">
+                        No hay registros recientes.
+                    </div>
+                @endforelse
+            </div>
+        </section>
     </main>
 @endsection
 
