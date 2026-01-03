@@ -12,7 +12,11 @@ class ProyectoService
         return ProyectoRepoData::listar($filtros, $columnas, $limit, $offset, $orden);
     }
 
-    public static function obtenerProyecto($id, $columnas = '')
+    public static function listarProyectosPorUsuario($columna, $filtros, $limite, $offset, $orden){
+        return ProyectoRepoData::listarProyectosPorUsuario($columna, $filtros, $limite, $offset, $orden);
+    }
+
+    public static function obtenerProyecto($id, $filtros = [], $columnas = '')
     {
         return ProyectoRepoData::obtener($id, $columnas);
     }
