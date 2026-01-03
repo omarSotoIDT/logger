@@ -1476,6 +1476,29 @@ body.modal-abierto {
   color: var(--color-texto-muted);
 }
 
+.datos-proyecto {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  align-items: center;
+}
+
+.usuario-nameCorto{
+  margin: 0;
+  color: var(--color-primario);
+  background: var(--color-fondo-pagina);
+  border-radius: var(--radio-sm);
+  padding: 2px 6px;
+  order: 1;
+}
+
+.usuario-proyectos {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-texto-muted);
+  order: 2;
+}
+
 /* Acción derecha */
 .usuario-accion {
   font-size: 18px;
@@ -1521,15 +1544,81 @@ body.modal-abierto {
   animation: fadeIn 0.2s ease-in-out;
 }
 
-@keyframes fadeIn {
-  from {
-      opacity: 0;
-      transform: translateY(-4px);
-  }
-  to {
-      opacity: 1;
-      transform: translateY(0);
-  }
+.usuario-panel-seccion {
+  margin-bottom: var(--espacio-md);
+}
+
+.usuario-panel-titulo {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* PERFIL CARD */
+.perfil-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-fondo-tarjeta);
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: var(--espacio-sm);
+}
+
+.perfil-icono {
+  font-size: 20px;
+}
+
+.perfil-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.perfil-nombre {
+  font-weight: 600;
+  font-size: var(--fuente-tamano-base);
+}
+
+.perfil-meta {
+  font-size: 12px;
+  color: var(--color-texto-muted);
+}
+
+/* PROYECTO CARD */
+.proyecto-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-fondo-tarjeta);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-sm);
+  padding: 10px 12px;
+  margin-bottom: var(--espacio-sm);
+}
+
+.proyecto-nombre {
+  font-size: var(--fuente-tamano-base);
+  font-weight: 500;
+}
+
+.proyecto-estado {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.proyecto-estado {
+  background: #e6f7ee;
+  color: var(--color-exito);
+}
+
+/* VACÍO */
+.usuario-panel-vacio {
+  font-size: var(--fuente-tamano-base);
+  color: var(--color-texto-muted);
+  padding: var(--espacio-sm);
 }
 
 /*MODAL USUARIOS*/
