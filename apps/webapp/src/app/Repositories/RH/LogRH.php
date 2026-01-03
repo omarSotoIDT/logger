@@ -64,6 +64,7 @@ class LogRH
 
             'codigoExcepcion'   => 'ld.codigo_excepcion',
             'codigoInterno'     => 'ld.codigo_interno',
+            'codigoInternoMensaje' => 'ld.codigo_interno_mensaje',
             'mensaje'           => 'ld.mensaje',
             'nivel'             => 'ld.nivel',
             'fechaHoraLog'      => 'ld.fecha_hora_log',

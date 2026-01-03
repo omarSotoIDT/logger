@@ -88,6 +88,15 @@ class ProyectoController extends Controller
         }
     }
 
+    public function verAnalisis($id) {
+        try {
+            $data = ProyectoCoordinator::obtenerAnalisisLogs($id);
+            return view('dashboard.analisis', $data);
+        } catch(Throwable $e) {
+            return back()->with('error', 'Hubo un problema al recuperar el análisis del proyecto');
+        }
+    }
+
     public function crear(Request $request) {
         try {
             $validator = Validator::make($request->all(), [

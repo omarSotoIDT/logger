@@ -23,6 +23,52 @@ class LogService
         return LogRepoData::obtenerLog($id, $filtros, $columnas);
     }
 
+    public static function obtenerAnalisisLogs($id)
+    {
+        $analisis = [
+            'conteoDetalles' => LogRepoData::contarLogsDetalle($id),
+            'conteoWarning'  => LogRepoData::contarLogsDetalleNivel($id, 'WARNING'),
+            'conteoError'    => LogRepoData::contarLogsDetalleNivel($id, 'ERROR'),
+            'conteoDebug'    => LogRepoData::contarLogsDetalleNivel($id, 'DEBUG'),
+            'topCodigosInternos' => LogRepoData::listarTopCodigosInternosMensaje($id),
+            'topArchivosErrores' => LogRepoData::listarTopArchivosErrores($id),
+        ];
+
+        $rows = LogRepoData::contarErroresPorHora($id);
+        $map = [];
+        foreach ($rows as $row) {
+            $map[(int)$row->hora] = (int)$row->total;
+        }
+
+        $labels = [];
+        $data   = [];
+        for ($i = 0; $i < 24; $i++) {
+            $labels[] = str_pad((string)$i, 2, '0', STR_PAD_LEFT) . ':00';
+            $data[]   = $map[$i] ?? 0;
+        }
+
+        $analisis['erroresPorHoraLabels'] = $labels;
+        $analisis['erroresPorHoraData']   = $data;
+
+        $dist = LogRepoData::contarDistribucionPorNivel($id);
+
+        $nivelesLabels = [];
+        $nivelesData   = [];
+        foreach ($dist as $row) {
+            $nivelesLabels[] = strtoupper((string)$row->nivel);
+            $nivelesData[]   = (int)$row->total;
+        }
+
+        $analisis['nivelesLabels'] = $nivelesLabels;
+        $analisis['nivelesData']   = $nivelesData;
+        
+
+
+
+        return $analisis;
+    }
+
+
 
     public static function insertarNuevosLogsDeProyecto($proyectoId, $logsRemotos)
     {
