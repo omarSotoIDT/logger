@@ -51,6 +51,9 @@ class ProyectoRH
     public static function obtenerOrden(&$query, $orden)
     {
         $ordersDisponibles = [
+            'usuario_id_asc'          => ['rup.usuario_id', 'asc'],
+            'usuario_id_desc'         => ['rup.usuario_id', 'desc'],
+
             'nombre_asc'          => ['p.nombre', 'asc'],
             'nombre_desc'         => ['p.nombre', 'desc'],
 
