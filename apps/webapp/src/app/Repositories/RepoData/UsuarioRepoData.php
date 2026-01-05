@@ -22,6 +22,6 @@ class UsuarioRepoData{
             $query->offset($offset);
         }
         
-        return $query->get();
+        return $query->paginate(5);
     }
 }

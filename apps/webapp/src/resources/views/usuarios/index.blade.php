@@ -370,12 +370,16 @@
                             @endforelse
                         </div>
                     </div>
-
                 @empty
                     <p>No se encontraron usuarios registrados</p>
                 @endforelse
             </section>
         </section>
+       
+        <div class="paginacion">
+            Página {{ $usuarios->currentPage() }} de {{ $usuarios->lastPage() }}
+            {{ $usuarios->links() }}
+        </div>
     </main>
 </div>
 @endsection
