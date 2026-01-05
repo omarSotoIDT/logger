@@ -7,10 +7,18 @@ class UsuarioRepoAction
 {
     public static function agregar($datos)
     {
-        DB::table('sys_usuarios')->insert($datos);
+        return DB::table('sys_usuarios')->insertGetId($datos);
     }
 
     public static function editar($datos, $id){
         DB::table('sys_usuarios')->where('usuario_id', $id)->update($datos);
+    }
+
+    public static function agregarRelacionProyecto($datos){
+        DB::table('rel_usuarios_proyectos')->insert($datos);
+    }
+
+    public static function eliminarRelacionProyecto($usuarioId){
+        DB::table('rel_usuarios_proyectos')->where('usuario_id', $usuarioId)->delete();
     }
 }

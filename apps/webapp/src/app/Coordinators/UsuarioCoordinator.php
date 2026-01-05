@@ -30,4 +30,20 @@ class UsuarioCoordinator
 
         return [$usuarios, $proyectos];
     }
+
+    public static function agregarUsuarioConProyecto($data)
+    {
+        $usuarioId = UsuarioService::agregarUsuario($data);
+
+        foreach($data['proyectos'] ?? [] as $proyectoId){
+            UsuarioService::agregarRelacionProyecto($usuarioId, $proyectoId);
+        }
+    }
+
+    public static function actualizarUsuarioConProyecto($data, $usuarioId)
+    {
+        UsuarioService::editarUsuario($data, $usuarioId);
+
+        UsuarioService::nuevaRelacionProyecto($usuarioId, $data['proyectos'] ?? []);
+    }
 }
