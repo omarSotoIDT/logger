@@ -1691,3 +1691,34 @@ body.modal-abierto {
   justify-content: flex-end;
   gap: 12px;
 }
+
+/* =========================
+   PAGINACION
+========================= */
+
+.paginacion nav {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.paginacion p {
+  display: none;
+}
+
+.paginacion a,
+.paginacion span {
+  min-width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radio-sm);
+  font-size: 14px;
+  color: #4b3a99;
+}
+
+.paginacion a:hover {
+  background: var(--color-primario-claro);
+}
