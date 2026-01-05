@@ -72,6 +72,7 @@ class LogRepoData
     public static function contarErroresPorHora($id, $desde = null)
     {
         $query = DB::table('logs_detalle AS ld')
+            ->selectRaw('HOUR(ld.fecha_hora_log) AS hora, COUNT(*) AS total')
             ->leftJoin('logs AS l', 'ld.log_id', '=', 'l.log_id')
             ->where('l.proyecto_id', $id)
             ->where('ld.nivel', 'ERROR');
@@ -80,7 +81,7 @@ class LogRepoData
             $query->where('ld.fecha_hora_log', '>=', $desde);
         }
 
-        return $query->selectRaw('HOUR(ld.fecha_hora_log) AS hora, COUNT(*) AS total')
+        return $query
             ->groupByRaw('HOUR(ld.fecha_hora_log)')
             ->orderBy('hora')
             ->get();
@@ -89,9 +90,9 @@ class LogRepoData
     public static function contarDistribucionPorNivel($id)
     {
         return DB::table('logs_detalle AS ld')
+            ->selectRaw("COALESCE(NULLIF(TRIM(ld.nivel), ''), 'OTROS') AS nivel, COUNT(*) AS total")
             ->leftJoin('logs AS l', 'ld.log_id', '=', 'l.log_id')
             ->where('l.proyecto_id', $id)
-            ->selectRaw("COALESCE(NULLIF(TRIM(ld.nivel), ''), 'OTROS') AS nivel, COUNT(*) AS total")
             ->groupByRaw("COALESCE(NULLIF(TRIM(ld.nivel), ''), 'OTROS')")
             ->orderByDesc('total')
             ->get();
@@ -101,11 +102,11 @@ class LogRepoData
     public static function listarTopCodigosInternosMensaje($proyectoId, $limit = 5)
     {
         return DB::table('logs_detalle AS ld')
+            ->selectRaw('ld.codigo_interno_mensaje AS codigo_interno_mensaje, COUNT(*) AS total')
             ->leftJoin('logs AS l', 'l.log_id', '=', 'ld.log_id')
             ->where('l.proyecto_id', $proyectoId)
             ->whereNotNull('ld.codigo_interno_mensaje')
             ->where('ld.codigo_interno_mensaje', '<>', '')
-            ->selectRaw('ld.codigo_interno_mensaje AS codigo_interno_mensaje, COUNT(*) AS total')
             ->groupBy('ld.codigo_interno_mensaje')
             ->orderByDesc('total')
             ->limit($limit)
@@ -115,12 +116,12 @@ class LogRepoData
     public static function listarTopArchivosErrores($id, $limit = 5)
     {
         return DB::table('logs_detalle AS ld')
+            ->selectRaw('ld.archivo, COUNT(*) AS total')
             ->leftJoin('logs AS l', 'l.log_id', '=', 'ld.log_id')
             ->where('l.proyecto_id', $id)
             ->where('ld.nivel', 'ERROR')
             ->whereNotNull('ld.archivo')
             ->where('ld.archivo', '<>', '')
-            ->selectRaw('ld.archivo, COUNT(*) AS total')
             ->groupBy('ld.archivo')
             ->orderByDesc('total')
             ->limit($limit)
