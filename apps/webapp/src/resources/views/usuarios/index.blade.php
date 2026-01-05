@@ -201,7 +201,7 @@
                     <div class="crear-usuario-cards">
                         @forelse($proyectos as $proyecto)
                         <label class="crear-usuario-card">
-                            <input type="checkbox" name="proyectos[]" value="{{$proyecto->proyecto_id}}">
+                            <input type="checkbox" name="proyectos[]" :value="{{ $proyecto->proyecto_id }}" v-model="editar.proyectos">
                             <div class="crear-usuario-card-info">
                                 <span class="crear-usuario-card-titulo">{{$proyecto->nombre}}</span>
                             </div>
@@ -317,7 +317,8 @@
                                 id: {{ $usuario->usuario_id }},
                                 usuario: @js($usuario->usuario),
                                 email: @js($usuario->email),
-                                nombreCorto: @js($usuario->nombre_corto ?? 'Usuario')
+                                nombreCorto: @js($usuario->nombre_corto ?? 'Usuario'),
+                                proyectos: @js($usuario->proyectos->pluck('proyecto_id'))
                             })">
                                 <img src="{{ asset('assets/icons/editar.svg') }}" alt="Boton de Editar">
                             </button>
@@ -361,7 +362,7 @@
                             @forelse($usuario->proyectos as $proyecto)
                                 <div class="proyecto-card">
                                     <span class="proyecto-nombre">{{ $proyecto->nombre }}</span>
-                                    <span class="proyecto-estado">{{$proyecto->status}}</span>
+                                    <span class="badge-status {{ $proyecto->status === 'ACTIVO' ? 'badge-activo' : 'badge-inactivo' }}">{{$proyecto->status}}</span>
                                 </div>
                             @empty
                                 <div class="usuario-panel-vacio">
@@ -401,12 +402,15 @@ createApp({
 
             editar: {
                 id: null,
-                nombre: '',
+                usuario: '',
+                email: '',
+                nombreCorto: '',
+                proyectos: []
             },
 
             eliminar: {
                 id: null,
-                nombre: '',
+                usuario: '',
             },
 
             rutaActualizarTemplate: @json(route('usuarios.actualizar', ['id' => ':id'])),
@@ -465,6 +469,7 @@ createApp({
             this.editar.usuario = payload.usuario || '';
             this.editar.email = payload.email || '';
             this.editar.nombreCorto = payload.nombreCorto || 'Usuario';
+            this.editar.proyectos = payload.proyectos || [];
             this.abrirModal('editar');
         },
 
