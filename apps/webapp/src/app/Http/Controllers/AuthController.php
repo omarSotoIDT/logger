@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\AuthService;
-use Exception;
 use Illuminate\Http\Request;
+use Throwable;
 
 class AuthController extends Controller
 {
@@ -31,10 +31,10 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->route('dashboard.index')
+            return redirect()->route('proyectos.dashboard')
                 ->with('success', 'Inicio de sesión exitoso');
 
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return back()->with('error', 'Ocurrió un error inesperado.');
         }
     }

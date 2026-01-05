@@ -13,6 +13,14 @@
 
     {{-- CDN Vue--}}
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/dayjs/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs/plugin/localizedFormat.js"></script>
+    <script src="https://unpkg.com/dayjs/locale/es.js"></script>
+    <script>
+        dayjs.extend(dayjs_plugin_localizedFormat);
+        dayjs.locale('es');
+    </script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
 
     {{-- Head adicional por vista --}}
     @yield('head')
@@ -25,7 +33,7 @@
         <div class="barra-superior-interior">
 
             {{-- Marca --}}
-            <a href="{{ route('dashboard.index') }}" class="barra-superior-marca">
+            <a href="{{ route('proyectos.dashboard') }}" class="barra-superior-marca">
                 <span class="barra-superior-logo" aria-hidden="true">
                     <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -48,8 +56,8 @@
 
             {{-- Navegación --}}
             <nav class="barra-superior-navegacion">
-                <a href="{{ route('dashboard.index') }}"
-                class="barra-superior-enlace {{ request()->routeIs('dashboard.*') ? 'esta-activo' : '' }}">
+                <a href="{{ route('proyectos.dashboard') }}"
+                class="barra-superior-enlace {{ request()->routeIs('proyectos.dashboard', 'proyectos.obtener') ? 'esta-activo' : '' }}">
                     <span class="barra-superior-icono" aria-hidden="true">
                         <img
                             src="{{ asset('assets/icons/dashboard.svg') }}"
@@ -61,7 +69,7 @@
                 </a>
 
                 <a href="{{ route('proyectos.index') }}"
-                class="barra-superior-enlace {{ request()->routeIs('proyectos.*') ? 'esta-activo' : '' }}">
+                class="barra-superior-enlace {{ request()->routeIs('proyectos.index') ? 'esta-activo' : '' }}">
                     <span class="barra-superior-icono" aria-hidden="true">
                         <img
                             src="{{ asset('assets/icons/proyectos.svg') }}"

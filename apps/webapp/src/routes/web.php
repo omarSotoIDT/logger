@@ -36,6 +36,12 @@ Route::middleware(['auth'])
                 Route::post('/', 'crear')->name('crear');
                 Route::patch('/{id}', 'actualizar')->name('actualizar');
                 Route::delete('/{id}', 'eliminar')->name('eliminar');
+
+                /* Dashboard */
+                Route::get('/dashboard', 'dashboard')->name('dashboard');
+                Route::get('/{id}', 'obtener')->name('obtener');
+                Route::post('/sync', 'sincronizarDetalles')->name('sync');
+
             });
 
         /* Tipos de Proyecto */
