@@ -13,6 +13,7 @@ class LogRH
             'path'          => 'l.path',
             'logFecha'      => 'l.log_fecha',
             'registroFecha' => 'l.registro_fecha',
+            'ultimaSincronizacion' => 'l.ultima_sincronizacion',
         ];
 
         if (empty($columnas)) {

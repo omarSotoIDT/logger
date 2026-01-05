@@ -35,7 +35,8 @@ class UtilsRequest
 
         if (!$resp->successful()) {
             $body = mb_substr((string)$resp->body(), 0, 400);
-            throw new Exception("Error HTTP {$resp->status()} | URL: {$url} | Body: {$body}");
+            $status = (int)$resp->status();
+            throw new Exception("Error HTTP {$status} | URL: {$url} | Body: {$body}", $status);
         }
 
         $json = $resp->json();
@@ -50,9 +51,11 @@ class UtilsRequest
             throw new Exception("JSON sin 'codigo' | URL: {$url} | Body: {$body}");
         }
 
-        if ((int)$json['codigo'] !== 200) {
+        $codigo = is_numeric($json['codigo']) ? (int)$json['codigo'] : 0;
+
+        if ($codigo !== 200) {
             $msg = $json['mensaje'] ?? 'Error remoto';
-            throw new Exception("Endpoint respondió con error: {$msg} | URL: {$url}");
+            throw new Exception("Endpoint respondió con error: {$msg} | URL: {$url}", $codigo);
         }
 
         return $json;

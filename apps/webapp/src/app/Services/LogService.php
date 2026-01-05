@@ -111,8 +111,8 @@ class LogService
         return LogBO::parsearContenido($contenido, $logId);
     }
 
-    public static function actualizarLog($id, $data) {
-        $update = LogBO::armarUpdateActualizarLog($data);
+    public static function actualizarLog($id) {
+        $update = LogBO::armarUpdateActualizarLog();
         LogRepoAction::actualizarLog($id, $update);
     }
 }
