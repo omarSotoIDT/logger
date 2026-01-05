@@ -13,6 +13,10 @@ class LogService
         return LogRepoData::listarLogs($filtros, $columnas, $limit, $offset, $orden);
     }
 
+    public static function listarLogsDetalle($filtros = [], $columnas = '', $limit = null, $offset = null, $orden = '')
+    {
+        return LogRepoData::listarLogsDetalle($filtros, $columnas, $limit, $offset, $orden);
+    }
 
     public static function obtenerLog($id, $filtros = [], $columnas = '')
     {

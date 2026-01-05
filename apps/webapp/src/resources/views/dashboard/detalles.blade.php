@@ -82,13 +82,15 @@
         </div>
 
         <div class="dia-right">
-            <a href="#" class="btn-pill-outline btn-pill">
-                <img
-                    src="{{ asset('assets/icons/doc.svg') }}"
-                    class="btn-pill-ico"
-                >
-                Ver Logs
+            <a
+            :href="`{{ route('proyectos.detalles', ['id' => '__LOG__']) }}`.replace('__LOG__', log.log_id)"
+            class="btn-pill-outline btn-pill"
+            >
+            <img src="{{ asset('assets/icons/doc.svg') }}" class="btn-pill-ico">
+            Ver Logs
             </a>
+
+
 
             <form
                 method="POST"

@@ -72,6 +72,22 @@ class ProyectoController extends Controller
         }
     }
 
+    public function verDetalles(Request $request, $id) {
+        try {
+            $filtros = [
+                'nivel' => $request->input('nivel'),
+                'search' => $request->input('search'),
+                'archivo' => $request->input('archivo'),
+                'codigoInterno' => $request->input('codigoInterno'),
+            ];
+
+            [$logs, $proyecto] = ProyectoCoordinator::obtenerDetallesLogs($id, $filtros);
+            return view('dashboard.logDetalle', compact('logs', 'proyecto'));
+        } catch(Throwable $e) {
+            return back()->with('error', 'Hubo un problema al recuperar los los del día');
+        }
+    }
+
     public function crear(Request $request) {
         try {
             $validator = Validator::make($request->all(), [

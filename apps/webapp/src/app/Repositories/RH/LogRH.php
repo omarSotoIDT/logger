@@ -103,6 +103,10 @@ class LogRH
         }
 
         if (!empty($filtros['logId'])) {
+            $query->where('l.log_id', $filtros['logId']);
+        }
+
+        if (!empty($filtros['logId'])) {
             $query->where('ld.log_id', $filtros['logId']);
         }
 
@@ -121,8 +125,13 @@ class LogRH
         }
 
         if (!empty($filtros['search'])) {
-            $s = $filtros['search'];
-            $query->where('ld.mensaje', 'LIKE', "%{$s}%");
+            $search = $filtros['search'];
+            $query->where('ld.mensaje', 'LIKE', "%{$search}%");
+        }
+
+        if (!empty($filtros['archivo'])) {
+            $archivo = $filtros['archivo'];
+            $query->where('ld.archivo', 'LIKE', "%{$archivo}%");
         }
     }
 
