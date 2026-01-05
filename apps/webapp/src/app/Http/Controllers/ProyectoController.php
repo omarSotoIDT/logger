@@ -82,7 +82,7 @@ class ProyectoController extends Controller
             ];
 
             [$logs, $proyecto] = ProyectoCoordinator::obtenerDetallesLogs($id, $filtros);
-            return view('dashboard.logs', compact('logs', 'proyecto'));
+            return view('dashboard.logDetalle', compact('logs', 'proyecto'));
         } catch(Throwable $e) {
             return back()->with('error', 'Hubo un problema al recuperar los los del día');
         }
