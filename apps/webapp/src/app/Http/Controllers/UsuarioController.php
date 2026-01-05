@@ -29,6 +29,9 @@ class UsuarioController
                 'email' => 'required',
                 'nombreCorto' => 'required',
                 'password' => 'required|min:8',
+
+                'proyectos' => 'nullable|array',
+                'proyectos.*' => 'integer'
             ]);
 
             if($validar->fails()) {
@@ -37,7 +40,7 @@ class UsuarioController
 
             $data = $validar->validated();
 
-            UsuarioService::agregarUsuario($data);
+            UsuarioCoordinator::agregarUsuarioConProyecto($data);
 
             return back()->with('success', 'El usuario se creo correctamente');
 
@@ -46,13 +49,16 @@ class UsuarioController
         }
     }
 
-    public function actualizar(Request $request, $id) {
+    public function actualizar(Request $request, $usuarioId) {
         try {
             $validator = Validator::make($request->all(), [
                 'usuario' => 'required',
                 'email' => 'required',
                 'nombreCorto' => 'required',
-                'password' => 'nullable|min:8'
+                'password' => 'nullable|min:8',
+
+                'proyectos' => 'nullable|array',
+                'proyectos.*' => 'integer'
             ]);
 
             if($validator->fails()) {
@@ -61,7 +67,7 @@ class UsuarioController
 
             $data = $validator->validated();
 
-            UsuarioService::editarUsuario($data, $id);
+            UsuarioCoordinator::actualizarUsuarioConProyecto($data, $usuarioId);
 
             return back()->with('success', 'Usuario actualizado correctamente');
 
