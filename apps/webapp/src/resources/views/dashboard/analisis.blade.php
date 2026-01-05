@@ -131,9 +131,9 @@
     </main>
 @endsection
 
+@section('usar_chartjs', true)
+
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
     <script>
         {
