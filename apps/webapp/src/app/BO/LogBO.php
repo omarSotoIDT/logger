@@ -38,13 +38,11 @@ class LogBO
 
     public static function armarInsertAgregarDetalle(array $item): array
     {
-        $codigoInternoMensaje = $item['codigo_interno_mensaje'] ?? null;
-
         return [
             'log_id'           => $item['log_id'],
             'codigo_excepcion' => (string)($item['codigo_excepcion'] ?? '0'),
             'codigo_interno'   => (string)$item['codigo_interno'],
-            'codigo_interno_mensaje' => $codigoInternoMensaje !== null ? (string)$codigoInternoMensaje : null,
+            'codigo_interno_mensaje' => $item['codigo_interno_mensaje'] ?? null,
             'mensaje'          => (string)($item['mensaje'] ?? ''),
             'nivel'            => (string)$item['nivel'],
             'fecha_hora_log'   => (string)$item['fecha_hora_log'],
