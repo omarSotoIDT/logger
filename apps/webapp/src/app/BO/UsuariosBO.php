@@ -43,4 +43,14 @@ class UsuariosBO{
             'actualizacion_autor_id' => Auth::id()
         ];
     }
+
+    public static function agregarRelacionProyecto($usuarioId, $proyectoId){
+        return [
+            'usuario_id' => $usuarioId,
+            'proyecto_id' => $proyectoId,
+
+            'registro_fecha' => now(),
+            'registro_autor_id' => Auth::id()
+        ];
+    }
 }
