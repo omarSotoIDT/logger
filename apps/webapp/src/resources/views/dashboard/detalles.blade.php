@@ -73,6 +73,21 @@
             <div class="dia-texto">
                 <p class="dia-fecha">
                     @{{ formatearFechaLarga(log.log_fecha) }}
+                    <span
+                        v-if="log.disponible_remoto === false"
+                        class="dia-no-disponible"
+                        title="Este archivo ya no existe en el remoto"
+                    >
+                        Sincronización no disponible
+                    </span>
+                    <span
+                        v-else-if="log.ultima_sincronizacion"
+                        class="dia-sincronizado"
+                        :title="`Sincronizado el ${formatearFechaLarga(log.ultima_sincronizacion)}`"
+                    >
+                        Sincronizado
+                    </span>
+                    <span v-else class="dia-pendiente">Pendiente</span>
                 </p>
 
                 <p class="dia-sub">
@@ -139,4 +154,3 @@
 </script>
 
 @endsection
-

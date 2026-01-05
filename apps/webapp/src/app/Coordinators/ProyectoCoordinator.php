@@ -42,6 +42,15 @@ class ProyectoCoordinator
         }
 
         return DB::transaction(function () use ($proyecto, $logsRemotos, $syncWarning) {
+            $remotosPorNombre = [];
+            if (empty($syncWarning)) {
+                foreach ($logsRemotos as $logRemoto) {
+                    $nombre = $logRemoto['nombre'] ?? null;
+                    if (!empty($nombre)) {
+                        $remotosPorNombre[$nombre] = true;
+                    }
+                }
+            }
 
             if (!empty($logsRemotos)) {
                 LogService::insertarNuevosLogsDeProyecto($proyecto->proyecto_id, $logsRemotos);
@@ -50,6 +59,12 @@ class ProyectoCoordinator
             $diasDisponibles = LogService::listarLogs([
                 'proyectoId' => $proyecto->proyecto_id
             ]);
+
+            if (empty($syncWarning)) {
+                foreach ($diasDisponibles as $diaDisponible) {
+                    $diaDisponible->disponible_remoto = isset($remotosPorNombre[$diaDisponible->nombre]);
+                }
+            }
 
             return [$proyecto, $diasDisponibles, $syncWarning];
 
@@ -68,12 +83,20 @@ class ProyectoCoordinator
 
         $urlContenido = UtilsRequest::armarUrlContenidoLog($proyecto->url_endpoint, $log->nombre);
 
-        $json = UtilsRequest::hacerPeticionGet($urlContenido, $proyecto->api_key, 30);
+        try {
+            $json = UtilsRequest::hacerPeticionGet($urlContenido, $proyecto->api_key, 30);
+        } catch (Exception $e) {
+            if ($e->getCode() === 404) {
+                throw new Exception('No se pudo encontrar el archivo en el remoto para sincronizar.');
+            }
+            throw $e;
+        }
         $contenido = $json['datos']['contenido'] ?? '';
 
         $items = LogService::parsearContenido($contenido, $logId);
 
-        return DB::transaction(function () use ($proyecto, $items) {
+        return DB::transaction(function () use ($proyecto, $items, $log) {
+            LogService::actualizarLog($log->log_id);
             return LogService::insertarLogsDetalleProyecto($proyecto->proyecto_id, $items);
         }, 5);
     }
