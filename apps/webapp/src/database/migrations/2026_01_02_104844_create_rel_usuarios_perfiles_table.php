@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('perfil_id');
             $table->unsignedBigInteger('usuario_id');
-            $table->string('status', 20)->default('INACTIVO');
+            $table->string('status', 20)->default('ACTIVO');
 
             // Auditoría
             $table->timestamp('registro_fecha');
