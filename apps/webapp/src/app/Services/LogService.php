@@ -5,6 +5,8 @@ namespace App\Services;
 use App\BO\LogBO;
 use App\Repositories\RepoAction\LogRepoAction;
 use App\Repositories\RepoData\LogRepoData;
+use App\Utils\UtilsChart;
+use App\Utils\UtilsObtenerFechaDesde;
 
 class LogService
 {
@@ -38,25 +40,17 @@ class LogService
             'topCodigosInternos' => LogRepoData::listarTopCodigosInternosMensaje($id),
             'topArchivosErrores' => LogRepoData::listarTopArchivosErrores($id),
             'ultimosLogs'        => LogRepoData::listarUltimosLogs($id)
-        ];
+        ]; 
 
-        $desde = self::resolverFechaDesde($rango);
+        $desde = UtilsChart::resolverFechaDesde($rango);
         $rows = LogRepoData::contarErroresPorHora($id, $desde);
-        $map = [];
-        foreach ($rows as $row) {
-            $map[(int)$row->hora] = (int)$row->total;
-        }
 
-        $labels = [];
-        $data   = [];
-        for ($i = 0; $i < 24; $i++) {
-            $labels[] = str_pad((string)$i, 2, '0', STR_PAD_LEFT) . ':00';
-            $data[]   = $map[$i] ?? 0;
-        }
+        $hourToTotal = UtilsChart::mapearTotalesPorHora($rows);
+        $dataset = UtilsChart::generarDataset24Horas($hourToTotal);
 
-        $analisis['erroresPorHoraLabels'] = $labels;
-        $analisis['erroresPorHoraData']   = $data;
-        $analisis['rangoSeleccionado']    = $rango;
+        $analisis['erroresPorHoraLabels'] = $dataset['labels'];
+        $analisis['erroresPorHoraData'] = $dataset['data'];
+        $analisis['rangoSeleccionado'] = $rango;
 
         $dist = LogRepoData::contarDistribucionPorNivel($id);
 
@@ -72,27 +66,6 @@ class LogService
         
         return $analisis;
     }
-
-    private static function resolverFechaDesde($rango)
-    {
-        $rango = strtolower((string)$rango);
-
-        switch ($rango) {
-            case '24h':
-                return now()->subHours(24);
-            case '1w':
-                return now()->subWeek();
-            case '1m':
-                return now()->subMonth();
-            case '3m':
-                return now()->subMonths(3);
-            case '1y':
-                return now()->subYear();
-            default:
-                return null;
-        }
-    }
-
 
 
     public static function insertarNuevosLogsDeProyecto($proyectoId, $logsRemotos)
