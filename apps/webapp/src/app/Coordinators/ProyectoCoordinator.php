@@ -45,7 +45,7 @@ class ProyectoCoordinator
             $remotosPorNombre = [];
             if (empty($syncWarning)) {
                 foreach ($logsRemotos as $logRemoto) {
-                    $nombre = is_array($logRemoto) ? ($logRemoto['nombre'] ?? null) : ($logRemoto->nombre ?? null);
+                    $nombre = $logRemoto['nombre'] ?? null;
                     if (!empty($nombre)) {
                         $remotosPorNombre[$nombre] = true;
                     }
