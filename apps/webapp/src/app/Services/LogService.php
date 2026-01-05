@@ -25,11 +25,6 @@ class LogService
         return LogRepoData::obtenerLog($id, $filtros, $columnas);
     }
 
-    public static function obtenerAnalisisLogs($id)
-    {
-        return self::obtenerAnalisisLogsRango($id, 'all');
-    }
-
     public static function obtenerAnalisisLogsRango($id, $rango = 'all')
     {
         $analisis = [
