@@ -20,11 +20,27 @@ class UsuarioService{
         return UsuarioRepoAction::agregar($insertarUsuario);
     }
 
+    public static function agregarRelacionProyecto($usuarioId, $proyectoId)
+    {
+        $insertarRelacion = UsuariosBO::agregarRelacionProyecto($usuarioId, $proyectoId);
+        UsuarioRepoAction::agregarRelacionProyecto($insertarRelacion);
+    }
+
     public static function editarUsuario($datos, $id){
 
         $actualizarDatos = UsuariosBO::editar($datos);
 
         return UsuarioRepoAction::editar($actualizarDatos, $id);
+    }
+
+    public static function nuevaRelacionProyecto($usuarioId, $proyectos)
+    {
+        UsuarioRepoAction::eliminarRelacionProyecto($usuarioId);
+
+        foreach($proyectos as $proyectoId){
+            $datos = UsuariosBO::agregarRelacionProyecto($usuarioId, $proyectoId);
+            UsuarioRepoAction::agregarRelacionProyecto($datos);
+        }
     }
 
     public static function eliminarUsuario($id)
