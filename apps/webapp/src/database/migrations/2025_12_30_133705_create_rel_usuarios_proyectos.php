@@ -16,13 +16,11 @@ return new class extends Migration
 
             $table->unsignedBigInteger('usuario_id');
             $table->unsignedBigInteger('proyecto_id');
-            $table->string('status', 20)->default('INACTIVO');
+            $table->string('status', 20)->default('ACTIVO');
 
              // Auditoría
             $table->timestamp('registro_fecha');
             $table->unsignedBigInteger('registro_autor_id');
-            $table->timestamp('actualizacion_fecha')->nullable();
-            $table->unsignedBigInteger('actualizacion_autor_id')->nullable();
 
             $table->foreign('usuario_id')
             ->references('usuario_id')
