@@ -17,7 +17,6 @@ return new class extends Migration
 
             $table->string('codigo_excepcion');
             $table->string('codigo_interno', 50);
-            $table->string('codigo_interno_mensaje', 255)->nullable();
             $table->text('mensaje');
             $table->string('nivel', 20);
             $table->timestamp('fecha_hora_log');
