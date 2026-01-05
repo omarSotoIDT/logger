@@ -1810,18 +1810,6 @@ body.modal-abierto {
   font-weight: 500;
 }
 
-.proyecto-estado {
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-weight: 600;
-}
-
-.proyecto-estado {
-  background: #e6f7ee;
-  color: var(--color-exito);
-}
-
 /* VACÍO */
 .usuario-panel-vacio {
   font-size: var(--fuente-tamano-base);
@@ -1864,7 +1852,6 @@ body.modal-abierto {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--espacio-sm);
 }
 
 .crear-usuario-card {
