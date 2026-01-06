@@ -47,7 +47,7 @@
                         <button type="submit" class="btn btn-principal">Agregar</button>
                         <button
                             type="button"
-                            class="btn btn-secundario"
+                            class="btn btn-terciario"
                             @click.prevent="cerrarModal('crear')"
                         >Cancelar</button>
                     </footer>
@@ -100,7 +100,7 @@
                         <button type="submit" class="btn-principal">Guardar cambios</button>
                         <button
                             type="button"
-                            class="btn-secundario"
+                            class="btn-terciario"
                             @click.prevent="cerrarModal('editar')"
                         >Cancelar</button>
                     </footer>
@@ -145,7 +145,7 @@
                         <footer class="modal-pie">
                             <button
                                 type="button"
-                                class="btn-secundario"
+                                class="btn-terciario"
                                 @click.prevent="cerrarModal('eliminar')"
                             >Cancelar</button>
                             <button type="submit" class="btn-peligro">Sí, eliminar</button>
