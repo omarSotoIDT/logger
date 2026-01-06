@@ -158,46 +158,44 @@
                     </thead>
 
                     <tbody class="tabla-cuerpo">
-                        @forelse ($tipos as $tipo)
-                            <tr class="tabla-fila">
-                                <td class="tabla-col-id">{{ $tipo->tipo_proyecto_id }}</td>
+                        <tr class="tabla-fila" v-for="tipo in tipos" :key="tipo.tipo_proyecto_id">
+                            <td class="tabla-col-id" v-text="tipo.tipo_proyecto_id"></td>
 
-                                <td>
-                                    <div class="tabla-nombre">
-                                        <img
-                                            src="{{ asset('assets/icons/tipos.svg') }}"
-                                            alt="Icono de proyectos"
-                                            class=""
-                                        >
-                                        <span>{{ $tipo->nombre }}</span>
-                                    </div>
-                                </td>
+                            <td>
+                                <div class="tabla-nombre">
+                                    <img
+                                        src="{{ asset('assets/icons/tipos.svg') }}"
+                                        alt="Icono de proyectos"
+                                        class=""
+                                    >
+                                    <span v-text="tipo.nombre"></span>
+                                </div>
+                            </td>
 
-                                <td>
-                                    <span class="badge-status {{ $tipo->status === 'ACTIVO' ? 'badge-activo' : 'badge-inactivo' }}">
-                                        {{ $tipo->status }}
-                                    </span>
-                                </td>
+                            <td>
+                                <span
+                                    :class="['badge-status', tipo.status === 'ACTIVO' ? 'badge-activo' : 'badge-inactivo']"
+                                    v-text="tipo.status"
+                                ></span>
+                            </td>
 
-                                <td class="tabla-col-acciones">
-                                    <div class="tabla-acciones">
-                                        <button
-                                            type="button"
-                                            class="btn-terciario"
-                                            @click="abrirEditar({ id: {{ $tipo->tipo_proyecto_id }}, nombre: @js($tipo->nombre), status: @js($tipo->status ?? 'ACTIVO') })"
-                                        >
-                                            Editar
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr class="tabla-fila">
-                                <td colspan="4" class="tabla-vacia">
-                                    No hay tipos de proyectos agregados aún.
-                                </td>
-                            </tr>
-                        @endforelse
+                            <td class="tabla-col-acciones">
+                                <div class="tabla-acciones">
+                                    <button
+                                        type="button"
+                                        class="btn-terciario"
+                                        @click="abrirEditar({ id: tipo.tipo_proyecto_id, nombre: tipo.nombre, status: tipo.status || 'ACTIVO' })"
+                                    >
+                                        Editar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="tabla-fila" v-if="!tipos.length">
+                            <td colspan="4" class="tabla-vacia">
+                                No hay tipos de proyectos agregados aún.
+                            </td>
+                        </tr>
                     </tbody>
 
                 </table>
@@ -225,6 +223,8 @@ createApp({
                 nombre: '',
                 status: 'ACTIVO',
             },
+
+            tipos: @json($tipos),
 
             rutaActualizarTemplate: @json(route('tipos.actualizar', ['id' => ':id'])),
 
@@ -269,7 +269,7 @@ createApp({
         abrirEditar(payload) {
             this.editar.id = payload.id;
             this.editar.nombre = payload.nombre || '';
-            this.editar.status = payload.status || 'ACTIVO';
+            this.editar.status = payload.status || '';
             this.abrirModal('editar');
         },
 
