@@ -38,4 +38,12 @@ class ProyectoRepoData
             ->where('p.proyecto_id', $id)
             ->first();
     }
+
+    public static function tieneSincronizacion($id)
+    {
+        return DB::table('logs AS l')
+            ->where('l.proyecto_id', $id)
+            ->whereNotNull('l.ultima_sincronizacion')
+            ->exists();
+    }
 }
