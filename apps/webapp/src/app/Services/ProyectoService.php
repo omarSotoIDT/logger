@@ -19,7 +19,7 @@ class ProyectoService
 
     public static function obtenerProyecto($id, $filtros = [], $columnas = '')
     {
-        return ProyectoRepoData::obtener($id, $columnas);
+        return ProyectoRepoData::obtener($id, $filtros, $columnas);
     }
 
     public static function agregarProyecto($data)
