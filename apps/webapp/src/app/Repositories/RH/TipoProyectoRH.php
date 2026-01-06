@@ -46,7 +46,7 @@ class TipoProyectoRH
             $query->where('ctp.tipo_proyecto_id', '!=', $filtros['excluirId']);
         }
 
-        if (array_key_exists('status', $filtros) && !empty($filtros['status'])) {
+        if (!empty($filtros['status'])) {
             $status = $filtros['status'];
 
             if (is_array($status)) {
