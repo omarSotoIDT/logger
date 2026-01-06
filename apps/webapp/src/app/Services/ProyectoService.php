@@ -5,6 +5,7 @@ namespace App\Services;
 use App\BO\ProyectoBO;
 use App\Repositories\RepoAction\ProyectoRepoAction;
 use App\Repositories\RepoData\ProyectoRepoData;
+use Exception;
 
 class ProyectoService
 {
@@ -31,7 +32,11 @@ class ProyectoService
 
     public static function eliminarProyecto($id)
     {
-        $uptade = ProyectoBO::armarUpdateEliminarProyecto();
-        return ProyectoRepoAction::actualizar($id, $uptade);
+        if (ProyectoRepoData::tieneSincronizacion($id)) {
+            throw new Exception('El proyecto no puede ser eliminado porque contiene sincronizaciones.');
+        }
+
+        $update = ProyectoBO::armarUpdateEliminarProyecto();
+        return ProyectoRepoAction::actualizar($id, $update);
     }
 }

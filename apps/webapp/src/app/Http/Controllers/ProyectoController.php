@@ -155,7 +155,7 @@ class ProyectoController extends Controller
 
             return back()->with('success', 'Proyecto eliminado correctamente');
         } catch (Throwable $e) {
-            return back()->with('error', 'Error al eliminar el proyecto');
+            return back()->with('error', $e->getMessage());
         }
     }
 }
