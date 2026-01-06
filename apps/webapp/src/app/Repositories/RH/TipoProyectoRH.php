@@ -47,7 +47,13 @@ class TipoProyectoRH
         }
 
         if (array_key_exists('status', $filtros) && !empty($filtros['status'])) {
-            $query->where('ctp.status', $filtros['status']);
+            $status = $filtros['status'];
+
+            if (is_array($status)) {
+                $query->whereIn('ctp.status', $status);
+            } else {
+                $query->where('ctp.status', $status);
+            }
         }
 
     }

@@ -12,7 +12,7 @@ class TipoProyectoController extends Controller
 {
     public function gestor() {
         try {
-            $tipos = TipoProyectoService::listarTipos(['status' => StatusConsts::ACTIVO]);
+            $tipos = TipoProyectoService::listarTipos();
 
             return view('tipos.index', compact('tipos'));
         } catch(Throwable $e) {
@@ -46,6 +46,7 @@ class TipoProyectoController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'nombre' => 'required|max:80',
+                'status' => 'required|in:ACTIVO,INACTIVO',
             ]);
 
             if($validator->fails()) {

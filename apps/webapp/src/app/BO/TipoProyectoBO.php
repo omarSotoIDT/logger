@@ -23,6 +23,7 @@ class TipoProyectoBO
     {
         return [
             'nombre'                 => $data['nombre'],
+            'status'                 => $data['status'],
             'actualizacion_fecha'    => now(),
             'actualizacion_autor_id' => Auth::id()
         ];
