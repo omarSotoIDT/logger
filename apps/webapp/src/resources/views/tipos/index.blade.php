@@ -184,7 +184,7 @@
                                     <button
                                         type="button"
                                         class="btn-terciario"
-                                        @click="abrirEditar({ id: tipo.tipo_proyecto_id, nombre: tipo.nombre, status: tipo.status || 'ACTIVO' })"
+                                        @click="abrirEditar(tipo)"
                                     >
                                         Editar
                                     </button>
@@ -219,7 +219,7 @@ createApp({
             },
 
             editar: {
-                id: null,
+                tipo_proyecto_id: null,
                 nombre: '',
                 status: 'ACTIVO',
             },
@@ -234,8 +234,7 @@ createApp({
 
     computed: {
         formEditarAction() {
-            if (!this.editar.id) return '';
-            return this.rutaActualizarTemplate.replace(':id', this.editar.id);
+            return this.rutaActualizarTemplate.replace(':id', this.editar.tipo_proyecto_id);
         },
     },
 
@@ -266,10 +265,8 @@ createApp({
             this.aplicarBodyClass();
         },
 
-        abrirEditar(payload) {
-            this.editar.id = payload.id;
-            this.editar.nombre = payload.nombre || '';
-            this.editar.status = payload.status || '';
+        abrirEditar(tipo) {
+            this.editar = tipo;
             this.abrirModal('editar');
         },
 
