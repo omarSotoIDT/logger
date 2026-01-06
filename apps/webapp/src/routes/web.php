@@ -61,7 +61,7 @@ Route::middleware(['auth'])
             ->prefix('usuarios')
             ->name('usuarios.')
             ->group(function () {
-                Route::get('/', 'gestor')->name('index');
+                Route::get('/', 'gestor')->name('gestor');
                 Route::post('/', 'agregar')->name('crear');
                 Route::patch('/{id}', 'actualizar')->name('actualizar');
                 Route::delete('/{id}', 'eliminar')->name('eliminar');
