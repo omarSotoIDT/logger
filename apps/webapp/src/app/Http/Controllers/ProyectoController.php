@@ -53,6 +53,10 @@ class ProyectoController extends Controller
                 $data['log_id']
             );
 
+            if(empty($insertados)) {
+                return back()->with('success', 'EL archivo ya está al día con los últimos cambios');
+            }
+
             return back()->with('success', "Sincronización completa. Insertados: {$insertados}");
         } catch (Throwable $e) {
             return back()->with('error', $e->getMessage());
