@@ -1876,8 +1876,9 @@ body.modal-abierto {
   height: 18px;
 }
 
-.crear-usuario-icono {
-  font-size: 22px;
+.crear-usuario-icono img{
+  width: 18px;
+  height: 18px;
 }
 
 .crear-usuario-card-info {
@@ -1890,7 +1891,7 @@ body.modal-abierto {
 }
 
 .crear-usuario-card input:checked ~ .crear-usuario-card-info,
-.crear-usuario-card input:checked + .crear-usuario-icono {
+.crear-usuario-card input:checked{
   color: #6366f1;
 }
 
