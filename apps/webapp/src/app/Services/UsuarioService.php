@@ -7,10 +7,12 @@ use App\const\StatusConsts;
 use App\Repositories\RepoAction\UsuarioRepoAction;
 use App\Repositories\RepoData\UsuarioRepoData;
 
-class UsuarioService{
+class UsuarioService
+{
 
-    public static function listarUsuarios($columna, $filtros, $limite, $offset, $orden){
-        return UsuarioRepoData::listar($columna, $filtros, $limite, $offset, $orden);
+    public static function listarUsuarios($columna = [], $filtros = ['status' => StatusConsts::ACTIVO], $limite = null, $offset = null, $orden = null, $paginar = 5)
+    {
+        return UsuarioRepoData::listar($columna, $filtros, $limite, $offset, $orden, $paginar);
     }
 
     public static function agregarUsuario($datos)
@@ -26,7 +28,8 @@ class UsuarioService{
         UsuarioRepoAction::agregarRelacionProyecto($insertarRelacion);
     }
 
-    public static function editarUsuario($datos, $id){
+    public static function editarUsuario($datos, $id)
+    {
 
         $actualizarDatos = UsuariosBO::editar($datos);
 
@@ -37,7 +40,7 @@ class UsuarioService{
     {
         UsuarioRepoAction::eliminarRelacionProyecto($usuarioId);
 
-        foreach($proyectos as $proyectoId){
+        foreach ($proyectos as $proyectoId) {
             $datos = UsuariosBO::agregarRelacionProyecto($usuarioId, $proyectoId);
             UsuarioRepoAction::agregarRelacionProyecto($datos);
         }
@@ -45,9 +48,7 @@ class UsuarioService{
 
     public static function eliminarUsuario($id)
     {
-        $status = StatusConsts::ELIMINADO;
-
-        $eliminarUsuario = UsuariosBO::eliminar($status);
+        $eliminarUsuario = UsuariosBO::eliminar();
 
         return UsuarioRepoAction::editar($eliminarUsuario, $id);
     }
