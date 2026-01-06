@@ -140,8 +140,15 @@
     {{-- Scripts --}}
     <script src="{{ asset('js/flash.js') }}"></script>
 
+    {{-- Vendors condicionales --}}
+    @hasSection('usar_chartjs')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    @endif
+
     {{-- Scripts por vista --}}
     @yield('scripts')
+
 
 </body>
 </html>

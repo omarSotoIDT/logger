@@ -1325,24 +1325,83 @@ body.modal-abierto {
   border-color: rgba(20, 184, 166, 0.24);
 }
 
-@media (max-width: 1024px) {
-  .log-filtros-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* =========================
+   ANALISIS
+========================= */
+
+.totales {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
-@media (max-width: 720px) {
-  .log-filtros-grid {
-    grid-template-columns: 1fr;
-  }
+.estadisticas {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  grid-template-rows: repeat(2, 1fr);
+}
 
-  .log-card-cabecera {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.card-conteo {
+  padding: 0px 20px;
+}
+.card-chart {
+  height: 320px;
+  padding: 12px;
+}
+.codigo-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.card-codigo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.codigo-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.codigo {
+  background-color: #e4e4e4;
+  padding: 5px 20px;
+  border-radius: var(--radio-sm);
+}
+.codigo-mensaje {
+  color: #6b7280;
+  font-size: 14px;
+}
+.archivo-item {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-archivos {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
-  .log-acciones {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.archivo {
+  display: inline-block;
+  background-color: #ffe6e6;
+  padding: 5px 8px;
+  border-radius: var(--radio-sm);
+}
+.archivo-item .total{
+  color: var(--color-error);
+}
+.rango {
+  margin-top: 20px;
+  width: 20%;
+}
+.rango select {
+  margin-top: 10px;
+}
+.ultimos-logs {
+  margin-top: 25px;
 }

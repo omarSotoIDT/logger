@@ -39,6 +39,7 @@ Route::middleware(['auth'])
 
                 /* Dashboard */
                 Route::get('/dashboard', 'dashboard')->name('dashboard');
+                Route::get('/{id}/analisis', 'verAnalisis')->name('analisis');
                 Route::get('/{id}/detalles', 'verDetalles')->name('detalles');
                 Route::get('/{id}', 'obtener')->name('obtener');
                 Route::post('/sync', 'sincronizarDetalles')->name('sync');

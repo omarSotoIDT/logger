@@ -5,6 +5,8 @@ namespace App\Services;
 use App\BO\LogBO;
 use App\Repositories\RepoAction\LogRepoAction;
 use App\Repositories\RepoData\LogRepoData;
+use App\Utils\UtilsChart;
+use App\Utils\UtilsObtenerFechaDesde;
 
 class LogService
 {
@@ -21,6 +23,43 @@ class LogService
     public static function obtenerLog($id, $filtros = [], $columnas = '')
     {
         return LogRepoData::obtenerLog($id, $filtros, $columnas);
+    }
+
+    public static function obtenerAnalisisLogsRango($id, $rango = 'all')
+    {
+        $analisis = [
+            'conteoDetalles' => LogRepoData::contarLogsDetalle($id),
+            'conteoWarning'  => LogRepoData::contarLogsDetalleNivel($id, 'WARNING'),
+            'conteoError'    => LogRepoData::contarLogsDetalleNivel($id, 'ERROR'),
+            'conteoDebug'    => LogRepoData::contarLogsDetalleNivel($id, 'DEBUG'),
+            'topCodigosInternos' => LogRepoData::listarTopCodigosInternosMensaje($id),
+            'topArchivosErrores' => LogRepoData::listarTopArchivosErrores($id),
+            'ultimosLogs'        => LogRepoData::listarUltimosLogs($id)
+        ]; 
+
+        $desde = UtilsChart::resolverFechaDesde($rango);
+        $rows = LogRepoData::contarErroresPorHora($id, $desde);
+
+        $hourToTotal = UtilsChart::mapearTotalesPorHora($rows);
+        $dataset = UtilsChart::generarDataset24Horas($hourToTotal);
+
+        $analisis['erroresPorHoraLabels'] = $dataset['labels'];
+        $analisis['erroresPorHoraData'] = $dataset['data'];
+        $analisis['rangoSeleccionado'] = $rango;
+
+        $dist = LogRepoData::contarDistribucionPorNivel($id);
+
+        $nivelesLabels = [];
+        $nivelesData   = [];
+        foreach ($dist as $row) {
+            $nivelesLabels[] = strtoupper((string)$row->nivel);
+            $nivelesData[]   = (int)$row->total;
+        }
+
+        $analisis['nivelesLabels'] = $nivelesLabels;
+        $analisis['nivelesData']   = $nivelesData;
+        
+        return $analisis;
     }
 
 

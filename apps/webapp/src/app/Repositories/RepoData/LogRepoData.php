@@ -52,4 +52,90 @@ class LogRepoData
         return $query->get();
     }
 
+    public static function contarLogsDetalle($id)
+    {
+        return DB::table('logs_detalle AS ld')
+            ->leftJoin('logs AS l', 'ld.log_id', '=', 'l.log_id')
+            ->where('l.proyecto_id', $id)
+            ->count();
+    }
+
+    public static function contarLogsDetalleNivel($id, $nivel)
+    {
+        return DB::table('logs_detalle AS ld')
+            ->leftJoin('logs AS l', 'ld.log_id', '=', 'l.log_id')
+            ->where('l.proyecto_id', $id)
+            ->where('ld.nivel', $nivel)
+            ->count();
+    }
+
+    public static function contarErroresPorHora($id, $desde = null)
+    {
+        $query = DB::table('logs_detalle AS ld')
+            ->selectRaw('HOUR(ld.fecha_hora_log) AS hora, COUNT(*) AS total')
+            ->leftJoin('logs AS l', 'ld.log_id', '=', 'l.log_id')
+            ->where('l.proyecto_id', $id)
+            ->where('ld.nivel', 'ERROR');
+
+        if (!empty($desde)) {
+            $query->where('ld.fecha_hora_log', '>=', $desde);
+        }
+
+        return $query
+            ->groupByRaw('HOUR(ld.fecha_hora_log)')
+            ->orderBy('hora')
+            ->get();
+    }
+
+    public static function contarDistribucionPorNivel($id)
+    {
+        return DB::table('logs_detalle AS ld')
+            ->selectRaw("COALESCE(NULLIF(TRIM(ld.nivel), ''), 'OTROS') AS nivel, COUNT(*) AS total")
+            ->leftJoin('logs AS l', 'ld.log_id', '=', 'l.log_id')
+            ->where('l.proyecto_id', $id)
+            ->groupByRaw("COALESCE(NULLIF(TRIM(ld.nivel), ''), 'OTROS')")
+            ->orderByDesc('total')
+            ->get();
+    }
+
+
+    public static function listarTopCodigosInternosMensaje($proyectoId, $limit = 5)
+    {
+        return DB::table('logs_detalle AS ld')
+            ->selectRaw('ld.codigo_interno_mensaje AS codigo_interno_mensaje, COUNT(*) AS total')
+            ->leftJoin('logs AS l', 'l.log_id', '=', 'ld.log_id')
+            ->where('l.proyecto_id', $proyectoId)
+            ->whereNotNull('ld.codigo_interno_mensaje')
+            ->where('ld.codigo_interno_mensaje', '<>', '')
+            ->groupBy('ld.codigo_interno_mensaje')
+            ->orderByDesc('total')
+            ->limit($limit)
+            ->get();
+    }
+
+    public static function listarTopArchivosErrores($id, $limit = 5)
+    {
+        return DB::table('logs_detalle AS ld')
+            ->selectRaw('ld.archivo, COUNT(*) AS total')
+            ->leftJoin('logs AS l', 'l.log_id', '=', 'ld.log_id')
+            ->where('l.proyecto_id', $id)
+            ->where('ld.nivel', 'ERROR')
+            ->whereNotNull('ld.archivo')
+            ->where('ld.archivo', '<>', '')
+            ->groupBy('ld.archivo')
+            ->orderByDesc('total')
+            ->limit($limit)
+            ->get();
+    }
+
+    public static function listarUltimosLogs($id, $limit = 5)
+    {
+        return DB::table('logs_detalle AS ld')
+            ->leftJoin('logs AS l', 'l.log_id', '=', 'ld.log_id')
+            ->where('l.proyecto_id', $id)
+            ->orderBy('log_detalle_id', 'desc')
+            ->limit($limit)
+            ->get();
+    }
+
 }

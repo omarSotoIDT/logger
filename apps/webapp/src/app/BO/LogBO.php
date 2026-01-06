@@ -42,6 +42,7 @@ class LogBO
             'log_id'           => $item['log_id'],
             'codigo_excepcion' => (string)($item['codigo_excepcion'] ?? '0'),
             'codigo_interno'   => (string)$item['codigo_interno'],
+            'codigo_interno_mensaje' => $item['codigo_interno_mensaje'] ?? null,
             'mensaje'          => (string)($item['mensaje'] ?? ''),
             'nivel'            => (string)$item['nivel'],
             'fecha_hora_log'   => (string)$item['fecha_hora_log'],
@@ -114,6 +115,7 @@ class LogBO
                         'log_id'           => $logId,
                         'codigo_excepcion' => '0',
                         'codigo_interno'   => null,
+                        'codigo_interno_mensaje' => null,
                         'mensaje'          => null,
                         'nivel'            => $nivel,
                         'fecha_hora_log'   => $fecha,
@@ -128,11 +130,20 @@ class LogBO
                 if (str_starts_with($texto, 'CodigoInterno:')) {
                     $val = trim(substr($texto, strlen('CodigoInterno:')));
 
-                    if (preg_match('/\[(.+)\]\s*$/', $val, $mm)) {
-                        $curr['codigo_interno'] = trim($mm[1]);
+                    if (preg_match('/^(.*)\[(.+)\]\s*$/', $val, $mm)) {
+                        $mensaje = trim($mm[1]);
+                        $codigo = trim($mm[2]);
+                        $curr['codigo_interno'] = $codigo !== '' ? $codigo : null;
+                        $curr['codigo_interno_mensaje'] = $mensaje !== '' ? $mensaje : null;
                     } else {
-                        $curr['codigo_interno'] = $val;
+                        $curr['codigo_interno'] = $val !== '' ? $val : null;
                     }
+                    continue;
+                }
+
+                if (str_starts_with($texto, 'CodigoInternoMensaje:')) {
+                    $val = trim(substr($texto, strlen('CodigoInternoMensaje:')));
+                    $curr['codigo_interno_mensaje'] = $val !== '' ? $val : null;
                     continue;
                 }
 
@@ -170,6 +181,19 @@ class LogBO
             if ($curr && $modoMultilinea) {
                 $campo = $modoMultilinea;
                 $curr[$campo] = ($curr[$campo] ?? '') . "\n" . $linea;
+            }
+
+            if ($curr && str_starts_with($linea, 'CodigoInterno:')) {
+                $val = trim(substr($linea, strlen('CodigoInterno:')));
+                if (preg_match('/^(.*)\[(.+)\]\s*$/', $val, $mm)) {
+                    $mensaje = trim($mm[1]);
+                    $codigo = trim($mm[2]);
+                    $curr['codigo_interno'] = $codigo !== '' ? $codigo : null;
+                    $curr['codigo_interno_mensaje'] = $mensaje !== '' ? $mensaje : null;
+                } else {
+                    $curr['codigo_interno'] = $val !== '' ? $val : null;
+                }
+                $modoMultilinea = null;
             }
         }
 

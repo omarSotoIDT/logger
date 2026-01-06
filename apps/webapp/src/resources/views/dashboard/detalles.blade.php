@@ -43,7 +43,7 @@
         </div>
         
         <a
-            href="{{ route('proyectos.obtener', ['id' => $proyecto->proyecto_id]) }}"
+            href="{{ route('proyectos.analisis', ['id' => $proyecto->proyecto_id]) }}"
             class="btn-analisis"
             >
             Dashboard Analítico
