@@ -2,6 +2,11 @@
 
 @section('titulo', 'Dashboard Analitico')
 
+@section('usar_chartjs')
+    1
+@endsection
+
+
 @section('contenido')
     <main class="contenedor analisis-page">
         <div>
@@ -131,7 +136,6 @@
     </main>
 @endsection
 
-@section('usar_chartjs', true)
 
 @section('scripts')
 
