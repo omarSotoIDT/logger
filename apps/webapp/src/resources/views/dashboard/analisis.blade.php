@@ -2,9 +2,7 @@
 
 @section('titulo', 'Dashboard Analitico')
 
-@section('usar_chartjs')
-    1
-@endsection
+@section('usar_chartjs', true)
 
 
 @section('contenido')
