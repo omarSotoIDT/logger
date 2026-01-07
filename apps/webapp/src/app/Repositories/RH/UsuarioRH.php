@@ -4,7 +4,8 @@ namespace App\Repositories\RH;
 
 class UsuarioRH
 {
-    public static function obtenerColumnas($columnas, &$query){
+    public static function obtenerColumnas($columnas, &$query)
+    {
 
         $camposUsuarios = [
             'usuariosId' => 'usuario_id',
@@ -20,13 +21,13 @@ class UsuarioRH
             'actualizacionAutorId' => 'actualizacion_autor_id'
         ];
 
-        if(empty($columnas)){
-            foreach($camposUsuarios as $value){
+        if (empty($columnas)) {
+            foreach ($camposUsuarios as $value) {
                 $query->addSelect($value);
             }
-        }else{
-            foreach($camposUsuarios as $value){
-                if(isset($camposUsuarios[$value])){
+        } else {
+            foreach ($camposUsuarios as $value) {
+                if (isset($camposUsuarios[$value])) {
                     $query->addSelect($camposUsuarios[$value]);
                 }
             }
@@ -35,24 +36,23 @@ class UsuarioRH
 
     public static function obtenerFiltro($filtro, &$query)
     {
-        $filtros_usuarios = [
-            'usuario' => 'usuario',
-            'status' => 'status'
-        ];
+        if (!empty($filtro['search'])) {
+            $query->where('usuario', 'LIKE', "%{$filtro['search']}%");
+        }
 
-        foreach($filtro as $key => $value){
-            if(!empty($filtros_usuarios[$key])){
-                if(is_array($value)){
-                    $query->whereIn($key, $value);
-                }else{
-                    $query->where($key, $value);
-                }
+        if (!empty($filtro['status'])) {
+            $status = $filtro['status'];
+
+            if (is_array($status)) {
+                $query->whereIn('status', $status);
+            } else {
+                $query->where('status', $status);
             }
         }
     }
 
-    public static function obtenerOrden($orden, &$query){
-
+    public static function obtenerOrden($orden, &$query)
+    {
         $ordersDisponibles = [
 
             'usuario_id_asc' => ['usuario_id', 'asc'],
@@ -70,14 +70,17 @@ class UsuarioRH
 
         $defaultKey = 'usuario_id_asc';
 
-        $key = !empty($orden) ? $orden : $defaultKey;
-
-        if (!isset($ordersDisponibles[$key])) {
-            $key = $defaultKey;
+        if (empty($orden)) {
+            $ordenes = [$defaultKey];
+        } elseif (is_array($orden)) {
+            $ordenes = $orden;
+        } else {
+            $ordenes = [$orden];
         }
 
-        [$columna, $direccion] = $ordersDisponibles[$key];
-
-        $query->orderBy($columna, $direccion);
+        foreach ($ordenes as $orden) {
+            [$columna, $direccion] = $ordersDisponibles[$orden] ?? $ordersDisponibles[$defaultKey];
+            $query->orderBy($columna, $direccion);
+        }
     }
 }
