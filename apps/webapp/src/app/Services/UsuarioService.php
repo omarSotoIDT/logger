@@ -10,7 +10,7 @@ use App\Repositories\RepoData\UsuarioRepoData;
 class UsuarioService
 {
 
-    public static function listarUsuarios($columna = [], $filtros = ['status' => StatusConsts::ACTIVO], $limite = null, $offset = null, $orden = null, $paginar = 5)
+    public static function listarUsuarios($columna = '', $filtros = [], $limite = null, $offset = null, $orden = null, $paginar = null)
     {
         return UsuarioRepoData::listar($columna, $filtros, $limite, $offset, $orden, $paginar);
     }
@@ -36,13 +36,25 @@ class UsuarioService
         return UsuarioRepoAction::editar($actualizarDatos, $id);
     }
 
-    public static function nuevaRelacionProyecto($usuarioId, $proyectos)
+    public static function eliminarRelacionesProyecto($usuarioId, $proyectos)
     {
-        UsuarioRepoAction::eliminarRelacionProyecto($usuarioId);
+        $datos = UsuariosBO::eliminarRelacionProyecto();
+        UsuarioRepoAction::eliminarRelacionProyecto($usuarioId, $proyectos, $datos);
+    }
+
+    public static function actualizarRelacionProyecto($usuarioId, $proyectos)
+    {
+        $proyectos = $proyectos ?? [];
+
+        self::eliminarRelacionesProyecto($usuarioId, $proyectos);
 
         foreach ($proyectos as $proyectoId) {
-            $datos = UsuariosBO::agregarRelacionProyecto($usuarioId, $proyectoId);
-            UsuarioRepoAction::agregarRelacionProyecto($datos);
+            $existe = UsuarioRepoData::proyectoActivo(['usuario_id' => $usuarioId, 'proyecto_id' => $proyectoId, 'status' => StatusConsts::ACTIVO]);
+
+            if (!$existe) {
+                $datos = UsuariosBO::agregarRelacionProyecto($usuarioId, $proyectoId);
+                UsuarioRepoAction::agregarRelacionProyecto($datos);
+            }
         }
     }
 

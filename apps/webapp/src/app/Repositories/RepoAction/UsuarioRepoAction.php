@@ -2,6 +2,7 @@
 
 namespace App\Repositories\RepoAction;
 
+use App\const\StatusConsts;
 use Illuminate\Support\Facades\DB;
 
 class UsuarioRepoAction
@@ -21,8 +22,12 @@ class UsuarioRepoAction
         DB::table('rel_usuarios_proyectos')->insert($datos);
     }
 
-    public static function eliminarRelacionProyecto($usuarioId)
+    public static function eliminarRelacionProyecto($usuarioId, $proyectos, $datos)
     {
-        DB::table('rel_usuarios_proyectos')->where('usuario_id', $usuarioId)->delete();
+        DB::table('rel_usuarios_proyectos')
+            ->where('usuario_id', $usuarioId)
+            ->whereNotIn('proyecto_id', $proyectos)
+            ->where('status', StatusConsts::ACTIVO)
+            ->update($datos);
     }
 }
