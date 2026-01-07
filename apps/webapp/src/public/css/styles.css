@@ -4,12 +4,12 @@
 
 :root {
   /* === Marca / Primario === */
-  --color-primario: #5b3df5;
-  --color-primario-hover: #4a2fe0;
+  --color-primario: #4F46E5;
+  --color-primario-hover: #2e26b5;
   --color-primario-claro: #ede9ff;
 
   /* === Fondos === */
-  --color-fondo-pagina: #eef3ff;
+  --color-fondo-pagina: #F9FAFB;
   --color-fondo-tarjeta: #ffffff;
   --color-fondo-muted: #f7f8fc;
 
@@ -233,8 +233,8 @@ input:focus {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 9px 12px;
-  border-radius: 999px;
+  padding: 6px 8px;
+  border-radius: var(--radio-md);
   text-decoration: none;
   font-size: var(--fuente-tamano-base);
   color: var(--color-texto-muted);
@@ -583,7 +583,7 @@ select:focus {
 /* Cabecera tabla */
 
 .tabla-cabecera {
-  background-color: var(--color-primario-claro);
+  background-color: var(--color-fondo-pagina);
 }
 .tabla-cabecera th {
   text-align: left;
@@ -610,7 +610,7 @@ select:focus {
 
 .badge-status {
   display: inline-block;
-  padding: 4px 10px;
+  padding: 6px 10px;
   border-radius: 999px;
   font-size: var(--fuente-tamano-sm);
   font-weight: 600;
@@ -619,8 +619,9 @@ select:focus {
 }
 
 .badge-activo {
-  background: rgba(34, 197, 94, 0.15); /* verde suave */
-  color: #166534;
+  text-transform: capitalize;
+  background-color: #22C55E;
+  color: #fff;
 }
 
 .badge-inactivo {

@@ -145,7 +145,7 @@
         </section>
 
         {{-- Tabla --}}
-        <section class="card card-seccion">
+        <section class="card-seccion">
             <div class="tabla-contenedor">
                 <table class="tabla">
                     <thead class="tabla-cabecera">

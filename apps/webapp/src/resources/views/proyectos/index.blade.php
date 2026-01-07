@@ -301,7 +301,7 @@
         </section>
 
         {{-- Tabla --}}
-        <section class="card card-seccion">
+        <section class="card-seccion">
             <div class="tabla-contenedor">
                 <table class="tabla">
                     <thead class="tabla-cabecera">
@@ -342,7 +342,7 @@
 
                                 <td>
                                     <span class="badge-status {{ $proyecto->status === 'ACTIVO' ? 'badge-activo' : 'badge-inactivo' }}">
-                                        {{ $proyecto->status }}
+                                        {{ strtolower($proyecto->status) }}
                                     </span>
                                 </td>
 

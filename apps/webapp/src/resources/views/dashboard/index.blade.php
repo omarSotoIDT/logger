@@ -23,7 +23,7 @@
                     >
 
                     <span class="badge-status {{ $proyecto->status === 'ACTIVO' ? 'badge-activo' : 'badge-inactivo' }}">
-                        {{ $proyecto->status }}
+                        {{ strtolower($proyecto->status) }}
                     </span>
                 </div>
 
@@ -32,7 +32,7 @@
 
                     <div>
                         <img
-                                src="{{ asset('assets/icons/tipos.svg') }}"
+                                src="{{ asset('assets/icons/activity.svg') }}"
                                 alt="Icono de tipos"
                                 class=""
                             >   
