@@ -18,19 +18,23 @@ return new class extends Migration
             $table->unsignedBigInteger('proyecto_id');
             $table->string('status', 20)->default('ACTIVO');
 
-             // Auditoría
+            // Auditoría
             $table->timestamp('registro_fecha');
             $table->unsignedBigInteger('registro_autor_id');
+            $table->timestamp('actualizacion_fecha')->nullable();
+            $table->unsignedBigInteger('actualizacion_autor_id')->nullable();
+
+            $table->unique(['usuario_id', 'proyecto_id', 'status']);
 
             $table->foreign('usuario_id')
-            ->references('usuario_id')
-            ->on('sys_usuarios')
-            ->onDelete('cascade');
+                ->references('usuario_id')
+                ->on('sys_usuarios')
+                ->onDelete('cascade');
 
             $table->foreign('proyecto_id')
-            ->references('proyecto_id')
-            ->on('proyectos')
-            ->onDelete('cascade');
+                ->references('proyecto_id')
+                ->on('proyectos')
+                ->onDelete('cascade');
         });
     }
 

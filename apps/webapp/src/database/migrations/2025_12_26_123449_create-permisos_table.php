@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sys_permisos', function (Blueprint $table){
+        Schema::create('sys_permisos', function (Blueprint $table) {
             $table->bigIncrements('permiso_id');
 
-            $table->string('codigo',150)->unique();
-            $table->string('titulo',75);
-            $table->string('descripcion',350);
-            $table->string('seccion',350);
+            $table->string('codigo', 150)->unique();
+            $table->string('titulo', 75);
+            $table->string('descripcion', 350);
+            $table->string('seccion', 350);
             $table->decimal('orden');
         });
     }
