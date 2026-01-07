@@ -6,6 +6,108 @@
 @section('contenido')
 <div id="app-usuarios">
     {{-- =========================
+       MAIN
+    ========================= --}}
+    <main class="contenedor">
+        {{-- Cabecera --}}
+        <section class="pagina-encabezado">
+            <div class="pagina-encabezado-texto">
+                <h1 class="titulo pagina-titulo">Gestion de usuarios</h1>
+                <p class="pagina-descripcion">Administra usuarios y asigna permisos a proyectos</p>
+            </div>
+
+            <button
+                type="button"
+                class="btn-principal btn-encabezado"
+                @click="abrirModal('crear')">
+                <span class="btn-icono">+</span>
+                Agregar Usuario
+            </button>
+        </section>
+
+        {{-- usuarios --}}
+        <section class="card card-seccion">
+            <section class="lista-usuarios">
+                <template v-for="usuario in usuarios" :key="usuario.usuario_id">
+                    <article class="usuario-item">
+                        <div class="usuario-info">
+                            <div class="usuario-icono">
+                                <img src="{{ asset('assets/icons/usuarios.svg') }}" alt="Usuario">
+                            </div>
+
+                            <div class="usuario-datos">
+                                <p class="usuario-nombre">@{{ usuario.usuario }}</p>
+                                <p class="usuario-email">@{{ usuario.email }}</p>
+                                <div class="datos-proyecto">
+                                    <p class="usuario-nameCorto">@{{ usuario.nombre_corto }}</p>
+                                    <p class="usuario-proyectos">@{{ usuario.proyectos?.length || 0}} proyectos</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="usuario-accion">
+                            <button class="btn-accion" @click="abrirEditar(usuario)">
+                                <img src="{{ asset('assets/icons/editar.svg') }}" alt="Boton de Editar">
+                            </button>
+
+                            <button class="btn-accion" @click="abrirEliminar(usuario)">
+                                <img src="{{ asset('assets/icons/eliminar.svg') }}" alt="Boton de Eliminar">
+                            </button>
+
+                            <span class="flecha" @click="toggleUsuario(usuario.usuario_id)">@{{ usuarioActivo === usuario.usuario_id ? '▴' : '▾' }}</span>
+                        </div>
+                    </article>
+                    {{-- =========================
+                                PANEL
+                    ========================= --}}
+                    <div
+                        v-if="usuarioActivo === usuario.usuario_id"
+                        class="usuario-panel" ref="panelUsuario">
+                        <!-- PERFILES -->
+                        <div class="usuario-panel-seccion">
+                            <h4 class="usuario-panel-titulo">Perfiles Asignados</h4>
+
+                            <div v-if="!usuario.perfiles || usuario.perfiles.length === 0" class="usuario-panel-vacio">
+                                No se encontraron perfiles asignados
+                            </div>
+
+                            <div v-for="perfil in usuario.perfiles" :key="perfil.perfil_id" class="perfil-card">
+                                <div class="crear-usuario-icono">
+                                    <img src="{{ asset('assets/icons/perfil.svg') }}" alt="Perfil">
+                                </div>
+                                <div class="perfil-info">
+                                    <span class="perfil-nombre">@{{ perfil.titulo }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PROYECTOS -->
+                        <div class="usuario-panel-seccion">
+                            <h4 class="usuario-panel-titulo">Proyectos Asignados</h4>
+
+                            <div v-if="!usuario.proyectos || usuario.proyectos.length === 0" class="usuario-panel-vacio">
+                                No se encontraron proyectos asignados
+                            </div>
+
+                            <div v-for="proyecto in usuario.proyectos" :key="proyecto.proyecto_id" class="proyecto-card">
+                                <span class="proyecto-nombre">@{{ proyecto.nombre }}</span>
+                                <span class="badge-status" :class="proyecto.status === 'ACTIVO' ? 'badge-activo' : 'badge-inactivo' ">@{{ proyecto.status }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p v-if="usuarios.length === 0">No se encontraron usuarios registrados</p>
+                </template>
+            </section>
+        </section>
+
+        <div class="paginacion">
+            @if($usuarios instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                Página {{ $usuarios->currentPage() }} de {{ $usuarios->lastPage() }}
+                {{ $usuarios->links() }}
+            @endif
+        </div>
+    </main>
+
+    {{-- =========================
        MODAL CREAR USUARIO
     ========================= --}}
     <transition name="transicion-modal">
@@ -13,103 +115,98 @@
             v-if="modales.crear"
             class="modal-overlay"
             id="modal-usuario-crear"
-            @click.self="cerrarModal('crear')"
-        >
-        <div class="modal crear-usuario-modal">
-            
-            <header class="modal-cabecera">
-                <h2 class="modal-titulo">Agregar Usuario</h2>
+            @click.self="cerrarModal('crear')">
+            <div class="modal crear-usuario-modal">
 
-                <button
-                    type="button"
-                    class="modal-cerrar"
-                    aria-label="Cerrar"
-                    @click.prevent="cerrarModal('crear')"
-                >✕</button>
-            </header>
+                <header class="modal-cabecera">
+                    <h2 class="modal-titulo">Agregar Usuario</h2>
 
-            <form class="modal-cuerpo" method="POST" action="{{ route('usuarios.crear') }}">
-                @csrf
+                    <button
+                        type="button"
+                        class="modal-cerrar"
+                        aria-label="Cerrar"
+                        @click.prevent="cerrarModal('crear')">✕</button>
+                </header>
 
-                <div class="crear-usuario-grid">
+                <form class="modal-cuerpo" method="POST" action="{{ route('usuarios.crear') }}">
+                    @csrf
+
+                    <div class="crear-usuario-grid">
+                        <div class="crear-usuario-campo">
+                            <label>Nombre de Usuario</label>
+                            <input
+                                type="text"
+                                name="usuario"
+                                value="{{ old('usuario') }}"
+                                placeholder="User1"
+                                required
+                                ref="inputusuarioCrear">
+                        </div>
+
+                        <div class="crear-usuario-campo">
+                            <label>Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value="{{ old('email') }}"
+                                placeholder="usuario@ejemplo.com"
+                                required>
+                        </div>
+                    </div>
+                    <div class="crear-usuario-grid">
+                        <div class="crear-usuario-campo">
+                            <label for="nombreCorto">Tipo Usuario</label>
+                            <select id="nombreCorto" name="nombreCorto" required>
+                                <option value="Administrador" {{ old('nombreCorto', 'Administrador') === 'Administrador' ? 'selected' : '' }}>Administrador</option>
+                                <option value="Usuario" {{ old('nombreCorto') === 'Usuario' ? 'selected' : '' }}>Usuario</option>
+                            </select>
+                        </div>
+                        <div class="crear-usuario-campo">
+                            <label>Contraseña</label>
+                            <input type="password" id="password" value="{{ old('password') }}" placeholder="Contraseña" name="password" required>
+                        </div>
+                    </div>
+
+                    <!-- PERFILES -->
                     <div class="crear-usuario-campo">
-                        <label>Nombre de Usuario</label>
-                        <input
-                            type="text"
-                            name="usuario"
-                            value="{{ old('usuario') }}"
-                            placeholder="User1"
-                            required
-                            ref="inputusuarioCrear"
-                        >
+                        <label>Perfiles</label>
+
+                        <div class="crear-usuario-cards">
+                            <label class="crear-usuario-card">
+                                <input type="checkbox" name="perfiles[]" value="1">
+                                <div class="crear-usuario-icono">
+                                    <img src="{{ asset('assets/icons/perfil.svg') }}" alt="Perfil">
+                                </div>
+                                <div class="crear-usuario-card-info">
+                                    <span class="crear-usuario-card-titulo">Administrador</span>
+                                    <small>10 permisos</small>
+                                </div>
+                            </label>
+                        </div>
                     </div>
 
+                    <!-- PROYECTOS -->
                     <div class="crear-usuario-campo">
-                        <label>Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value="{{ old('email') }}"
-                            placeholder="usuario@ejemplo.com"
-                            required
-                        >
-                    </div>
-                </div>
-                <div class="crear-usuario-grid">
-                    <div class="crear-usuario-campo">
-                        <label for="nombreCorto">Tipo Usuario</label>
-                        <select id="nombreCorto" name="nombreCorto" required>
-                            <option value="Administrador" {{ old('nombreCorto', 'Administrador') === 'Administrador' ? 'selected' : '' }}>Administrador</option>
-                            <option value="Usuario" {{ old('nombreCorto') === 'Usuario' ? 'selected' : '' }}>Usuario</option>
-                        </select>
-                    </div>
-                    <div class="crear-usuario-campo">
-                        <label>Contraseña</label>
-                        <input type="password" id="password" value="{{ old('password') }}" placeholder="Contraseña" name="password" required>
-                    </div>
-                </div>
+                        <label>Proyectos Asignados</label>
 
-                <!-- PERFILES -->
-                <div class="crear-usuario-campo">
-                    <label>Perfiles</label>
-
-                    <div class="crear-usuario-cards">
-                        <label class="crear-usuario-card">
-                            <input type="checkbox" name="perfiles[]" value="1">
-                            <div class="crear-usuario-icono">🛡</div>
-                            <div class="crear-usuario-card-info">
-                                <span class="crear-usuario-card-titulo">Administrador</span>
-                                <small>10 permisos</small>
-                            </div>
-                        </label>
+                        <div class="crear-usuario-cards">
+                            <span v-if="!proyectos || proyectos.length === 0" class="crear-usuario-card-titulo">No se encontró ningún proyecto</span>
+                            <label v-for="proyecto in proyectos" :key="proyecto.proyecto_id" class="crear-usuario-card">
+                                <input type="checkbox" name="proyectos[]" value="proyecto.proyecto_id">
+                                <div class="crear-usuario-card-info">
+                                    <span class="crear-usuario-card-titulo">@{{proyecto.nombre}}</span>
+                                </div>
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                <!-- PROYECTOS -->
-                <div class="crear-usuario-campo">
-                    <label>Proyectos Asignados</label>
-               
-                    <div class="crear-usuario-cards">
-                        @forelse($proyectos as $proyecto)
-                        <label class="crear-usuario-card">
-                            <input type="checkbox" name="proyectos[]" value="{{$proyecto->proyecto_id}}">
-                            <div class="crear-usuario-card-info">
-                                <span class="crear-usuario-card-titulo">{{$proyecto->nombre}}</span>
-                            </div>
-                        </label>
-                        @empty
-                            <span class="crear-usuario-card-titulo">No se encontró ningún proyecto</span>
-                        @endforelse
-                    </div>
-                </div>
-                
-                <footer class="modal-pie">
-                    <button type="submit" class="btn-principal">Agregar</button>
-                    <button type="button" class="btn-terciario" @click.prevent="cerrarModal('crear')">Cancelar</button>
-                </footer>
-            </form>
-        </div>
+                    <footer class="modal-pie">
+                        <button type="submit" class="btn-principal">Agregar</button>
+                        <button type="button" class="btn-terciario" @click.prevent="cerrarModal('crear')">Cancelar</button>
+                    </footer>
+                </form>
+            </div>
         </div>
     </transition>
 
@@ -121,8 +218,7 @@
             v-if="modales.editar"
             class="modal-overlay"
             id="modal-tipo-editar"
-            @click.self="cerrarModal('editar')"
-        >
+            @click.self="cerrarModal('editar')">
             <div class="modal">
                 <header class="modal-cabecera">
                     <h2 class="modal-titulo">Editar Usuario</h2>
@@ -131,8 +227,7 @@
                         type="button"
                         class="modal-cerrar"
                         aria-label="Cerrar"
-                        @click.prevent="cerrarModal('editar')"
-                    >✕</button>
+                        @click.prevent="cerrarModal('editar')">✕</button>
                 </header>
 
                 <form class="modal-cuerpo" method="POST" id="form-editar-tipo" :action="formEditarAction">
@@ -140,89 +235,85 @@
                     @method('PATCH')
 
                     <div class="crear-usuario-grid">
+                        <div class="crear-usuario-campo">
+                            <label>Nombre de Usuario</label>
+                            <input
+                                type="text"
+                                name="usuario"
+                                v-model="editar.usuario"
+                                placeholder="User1"
+                                required
+                                ref="inputusuarioCrear">
+                        </div>
+
+                        <div class="crear-usuario-campo">
+                            <label>Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                v-model="editar.email"
+                                placeholder="usuario@ejemplo.com"
+                                required>
+                        </div>
+                    </div>
+                    <div class="crear-usuario-grid">
+                        <div class="crear-usuario-campo">
+                            <label for="nombreCorto">Tipo Usuario</label>
+                            <select id="nombreCorto" name="nombreCorto" v-model="editar.nombreCorto" required>
+                                <option value="Administrador" {{ old('nombreCorto', 'Administrador') === 'Administrador' ? 'selected' : '' }}>Administrador</option>
+                                <option value="Usuario" {{ old('nombreCorto') === 'Usuario' ? 'selected' : '' }}>Usuario</option>
+                            </select>
+                        </div>
+                        <div class="crear-usuario-campo">
+                            <label>Contraseña</label>
+                            <input type="password" id="password" value="{{ old('password') }}" placeholder="Contraseña" name="password">
+                        </div>
+                    </div>
+
+                    <!-- PERFILES -->
                     <div class="crear-usuario-campo">
-                        <label>Nombre de Usuario</label>
-                        <input
-                            type="text"
-                            name="usuario"
-                            v-model="editar.usuario"
-                            placeholder="User1"
-                            required
-                            ref="inputusuarioCrear"
-                        >
+                        <label>Perfiles</label>
+
+                        <div class="crear-usuario-cards">
+                            <label class="crear-usuario-card">
+                                <input type="checkbox" name="perfiles[]" value="1">
+                                <div class="crear-usuario-icono">
+                                    <img src="{{ asset('assets/icons/perfil.svg') }}" alt="Perfil">
+                                </div>
+                                <div class="crear-usuario-card-info">
+                                    <span class="crear-usuario-card-titulo">Administrador</span>
+                                    <small>10 permisos</small>
+                                </div>
+                            </label>
+                        </div>
                     </div>
 
+                    <!-- PROYECTOS -->
                     <div class="crear-usuario-campo">
-                        <label>Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            v-model="editar.email"
-                            placeholder="usuario@ejemplo.com"
-                            required
-                        >
-                    </div>
-                </div>
-                <div class="crear-usuario-grid">
-                    <div class="crear-usuario-campo">
-                        <label for="nombreCorto">Tipo Usuario</label>
-                        <select id="nombreCorto" name="nombreCorto" v-model="editar.nombreCorto" required>
-                            <option value="Administrador" {{ old('nombreCorto', 'Administrador') === 'Administrador' ? 'selected' : '' }}>Administrador</option>
-                            <option value="Usuario" {{ old('nombreCorto') === 'Usuario' ? 'selected' : '' }}>Usuario</option>
-                        </select>
-                    </div>
-                    <div class="crear-usuario-campo">
-                        <label>Contraseña</label>
-                        <input type="password" id="password" value="{{ old('password') }}" placeholder="Contraseña" name="password">
-                    </div>
-                </div>
+                        <label>Proyectos Asignados</label>
 
-                 <!-- PERFILES -->
-                <div class="crear-usuario-campo">
-                    <label>Perfiles</label>
-
-                    <div class="crear-usuario-cards">
-                        <label class="crear-usuario-card">
-                            <input type="checkbox" name="perfiles[]" value="1">
-                            <div class="crear-usuario-icono">🛡</div>
-                            <div class="crear-usuario-card-info">
-                                <span class="crear-usuario-card-titulo">Administrador</span>
-                                <small>10 permisos</small>
-                            </div>
-                        </label>
+                        <div class="crear-usuario-cards">
+                            <span v-if="!proyectos || proyectos.length === 0" class="crear-usuario-card-titulo">No se encontró ningún proyecto</span>
+                            <label v-for="proyecto in proyectos" :key="proyecto.proyecto_id" class="crear-usuario-card">
+                                <input type="checkbox" name="proyectos[]" :value="proyecto.proyecto_id" v-model="editar.proyectos">
+                                <div class="crear-usuario-card-info">
+                                    <span class="crear-usuario-card-titulo">@{{proyecto.nombre}}</span>
+                                </div>
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                <!-- PROYECTOS -->
-                <div class="crear-usuario-campo">
-                    <label>Proyectos Asignados</label>
-               
-                    <div class="crear-usuario-cards">
-                        @forelse($proyectos as $proyecto)
-                        <label class="crear-usuario-card">
-                            <input type="checkbox" name="proyectos[]" :value="{{ $proyecto->proyecto_id }}" v-model="editar.proyectos">
-                            <div class="crear-usuario-card-info">
-                                <span class="crear-usuario-card-titulo">{{$proyecto->nombre}}</span>
-                            </div>
-                        </label>
-                        @empty
-                            <span class="crear-usuario-card-titulo">No se encontró ningún proyecto</span>
-                        @endforelse
-                    </div>
-                </div>
-
-                <footer class="modal-pie">
-                    <button type="submit" class="btn-principal">Guardar cambios</button>
-                    <button
-                        type="button"
-                        class="btn-secundario"
-                        @click.prevent="cerrarModal('editar')"
-                    >Cancelar</button>
-                </footer>
-            </form>
+                    <footer class="modal-pie">
+                        <button type="submit" class="btn-principal">Guardar cambios</button>
+                        <button
+                            type="button"
+                            class="btn-secundario"
+                            @click.prevent="cerrarModal('editar')">Cancelar</button>
+                    </footer>
+                </form>
+            </div>
         </div>
-    </div>
     </transition>
 
     {{-- =========================
@@ -233,8 +324,7 @@
             v-if="modales.eliminar"
             class="modal-overlay"
             id="modal-tipo-eliminar"
-            @click.self="cerrarModal('eliminar')"
-        >
+            @click.self="cerrarModal('eliminar')">
             <div class="modal">
                 <header class="modal-cabecera">
                     <h2 class="modal-titulo">Confirmar eliminación</h2>
@@ -243,8 +333,7 @@
                         type="button"
                         class="modal-cerrar"
                         aria-label="Cerrar"
-                        @click.prevent="cerrarModal('eliminar')"
-                    >✕</button>
+                        @click.prevent="cerrarModal('eliminar')">✕</button>
                 </header>
 
                 <div class="modal-cuerpo">
@@ -261,8 +350,7 @@
                             <button
                                 type="button"
                                 class="btn-secundario"
-                                @click.prevent="cerrarModal('eliminar')"
-                            >Cancelar</button>
+                                @click.prevent="cerrarModal('eliminar')">Cancelar</button>
                             <button type="submit" class="btn-peligro">Sí, eliminar</button>
                         </footer>
                     </form>
@@ -270,233 +358,126 @@
             </div>
         </div>
     </transition>
-
-    {{-- =========================
-       MAIN
-    ========================= --}}
-    <main class="contenedor">
-        {{-- Cabecera --}}
-        <section class="pagina-encabezado">
-            <div class="pagina-encabezado-texto">
-                <h1 class="titulo pagina-titulo">Gestion de Usuarios</h1>
-                <p class="pagina-descripcion">Administra usuarios y asigna permisos a proyectos</p>
-            </div>
-
-            <button
-                type="button"
-                class="btn-principal btn-encabezado"
-                @click="abrirModal('crear')"
-            >
-                <span class="btn-icono">+</span>
-                Agregar Usuario
-            </button>
-        </section>
-
-        {{-- usuarios --}}
-        <section class="card card-seccion">
-            <section class="lista-usuarios">
-                @forelse($usuarios as $usuario)
-                    <article class="usuario-item">
-                        <div class="usuario-info">
-                            <div class="usuario-icono">
-                                <img src="{{ asset('assets/icons/usuarios.svg') }}" alt="Usuario">
-                            </div>
-
-                            <div class="usuario-datos">
-                                <p class="usuario-nombre">{{ $usuario->usuario }}</p>
-                                <p class="usuario-email">{{ $usuario->email }}</p>
-                                <div class="datos-proyecto">
-                                    <p class="usuario-nameCorto">{{$usuario->nombre_corto}}</p>
-                                    <p class="usuario-proyectos">{{$usuario->proyectos->count()}} proyectos</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="usuario-accion">
-                             
-                            <button class="btn-accion" @click.stop="abrirEditar({ 
-                                id: {{ $usuario->usuario_id }},
-                                usuario: @js($usuario->usuario),
-                                email: @js($usuario->email),
-                                nombreCorto: @js($usuario->nombre_corto ?? 'Usuario'),
-                                proyectos: @js($usuario->proyectos->pluck('proyecto_id'))
-                            })">
-                                <img src="{{ asset('assets/icons/editar.svg') }}" alt="Boton de Editar">
-                            </button>
-
-                            <button class="btn-accion" @click.stop="abrirEliminar({ id: {{ $usuario->usuario_id }}, usuario: @js($usuario->usuario)})">
-                                <img src="{{ asset('assets/icons/eliminar.svg') }}" alt="Boton de Eliminar">
-                            </button>
-                            
-                            <span class="flecha" @click="toggleUsuario({{ $usuario->usuario_id }})"
-                             v-text="usuarioActivo === {{ $usuario->usuario_id }} ? '▴' : '▾'"></span>
-                        </div>
-                    </article>
-                    {{-- =========================
-                                PANEL
-                    ========================= --}}
-                    <div
-                        v-if="usuarioActivo === {{ $usuario->usuario_id }}"
-                        class="usuario-panel"
-                    >
-                        <!-- PERFILES -->
-                        <div class="usuario-panel-seccion">
-                            <h4 class="usuario-panel-titulo">Perfiles Asignados</h4>
-
-                            @forelse($usuario->perfiles as $perfil)
-                                <div class="perfil-card">
-                                    <span class="perfil-icono">🛡</span>
-                                    <div class="perfil-info">
-                                        <span class="perfil-nombre">{{ $perfil->titulo }}</span>
-                                    </div>
-                                </div>
-                            @empty
-                                <div class="usuario-panel-vacio">
-                                    No se encontraron perfiles asignados
-                                </div>
-                            @endforelse
-                        </div>
-                         <!-- PROYECTOS -->
-                        <div class="usuario-panel-seccion">
-                            <h4 class="usuario-panel-titulo">Proyectos Asignados</h4>
-
-                            @forelse($usuario->proyectos as $proyecto)
-                                <div class="proyecto-card">
-                                    <span class="proyecto-nombre">{{ $proyecto->nombre }}</span>
-                                    <span class="badge-status {{ $proyecto->status === 'ACTIVO' ? 'badge-activo' : 'badge-inactivo' }}">{{$proyecto->status}}</span>
-                                </div>
-                            @empty
-                                <div class="usuario-panel-vacio">
-                                    No se encontraron proyectos asignados
-                                </div>
-                            @endforelse
-                        </div>
-                    </div>
-                @empty
-                    <p>No se encontraron usuarios registrados</p>
-                @endforelse
-            </section>
-        </section>
-       
-        <div class="paginacion">
-            Página {{ $usuarios->currentPage() }} de {{ $usuarios->lastPage() }}
-            {{ $usuarios->links() }}
-        </div>
-    </main>
 </div>
 @endsection
 
 @section('scripts')
 <script>
+    const {
+        createApp,
+        nextTick
+    } = Vue;
 
-const { createApp, nextTick } = Vue;
+    createApp({
+        data() {
+            return {
+                modales: {
+                    crear: false,
+                    editar: false,
+                    eliminar: false,
+                },
+                usuarioActivo: null,
 
-createApp({
-    data() {
-        return {
-            modales: {
-                crear: false,
-                editar: false,
-                eliminar: false,
+                editar: {
+                    id: null,
+                    usuario: '',
+                    email: '',
+                    nombreCorto: '',
+                    proyectos: []
+                },
+
+                eliminar: {
+                    id: null,
+                    usuario: '',
+                },
+
+                rutaActualizarTemplate: @json(route('usuarios.actualizar', ['id' => ':id'])),
+                rutaEliminarTemplate: @json(route('usuarios.eliminar', ['id' => ':id'])),
+
+                abrirCrearPorErrores: @json($errors -> any()),
+
+                usuarios: @json($usuarios instanceof \Illuminate\Pagination\LengthAwarePaginator ? $usuarios->items() : $usuarios->all()),
+                proyectos: @json($proyectos),
+            }
+        },
+
+        computed: {
+            formEditarAction() {
+                if (!this.editar.id) return '';
+                return this.rutaActualizarTemplate.replace(':id', this.editar.id);
             },
-            usuarioActivo: null,
 
-            editar: {
-                id: null,
-                usuario: '',
-                email: '',
-                nombreCorto: '',
-                proyectos: []
+            formEliminarAction() {
+                if (!this.eliminar.id) return '';
+                return this.rutaEliminarTemplate.replace(':id', this.eliminar.id);
+            },
+        },
+
+        methods: {
+            aplicarBodyClass() {
+                const algunoActivo = this.modales.crear || this.modales.editar || this.modales.eliminar;
+                document.body.classList.toggle('modal-abierto', !!algunoActivo);
             },
 
-            eliminar: {
-                id: null,
-                usuario: '',
+            abrirModal(key) {
+                this.modales[key] = true;
+                this.aplicarBodyClass();
+
+                nextTick(() => {
+                    if (key === 'crear') this.$refs.inputNombreCrear?.focus?.();
+                    if (key === 'editar') this.$refs.inputNombreEditar?.focus?.();
+                });
             },
 
-            rutaActualizarTemplate: @json(route('usuarios.actualizar', ['id' => ':id'])),
-            rutaEliminarTemplate:   @json(route('usuarios.eliminar',   ['id' => ':id'])),
+            cerrarModal(key) {
+                this.modales[key] = false;
+                this.aplicarBodyClass();
+            },
 
-            abrirCrearPorErrores: @json($errors->any()),
-        }
-    },
+            cerrarTodos() {
+                this.modales.crear = false;
+                this.modales.editar = false;
+                this.modales.eliminar = false;
+                this.aplicarBodyClass();
+            },
 
-    computed: {
-        formEditarAction() {
-            if (!this.editar.id) return '';
-            return this.rutaActualizarTemplate.replace(':id', this.editar.id);
+            toggleUsuario(id) {
+                this.usuarioActivo = this.usuarioActivo === id ? null : id;
+            },
+
+            abrirEditar(payload) {
+                this.editar.id = payload.usuario_id;
+                this.editar.usuario = payload.usuario;
+                this.editar.email = payload.email;
+                this.editar.nombreCorto = payload.nombre_corto;
+                this.editar.proyectos = payload.proyectos ? payload.proyectos.map(p => p.proyecto_id) : [];
+
+                this.abrirModal('editar');
+            },
+
+            abrirEliminar(payload) {
+                this.eliminar.id = payload.usuario_id;
+                this.eliminar.usuario = payload.usuario;
+                this.abrirModal('eliminar');
+            },
+
+            onKeydown(e) {
+                if (e.key === 'Escape') this.cerrarTodos();
+            },
         },
 
-        formEliminarAction() {
-            if (!this.eliminar.id) return '';
-            return this.rutaEliminarTemplate.replace(':id', this.eliminar.id);
-        },
-    },
+        mounted() {
+            document.addEventListener('keydown', this.onKeydown);
 
-    methods: {
-        aplicarBodyClass() {
-            const algunoActivo = this.modales.crear || this.modales.editar || this.modales.eliminar;
-            document.body.classList.toggle('modal-abierto', !!algunoActivo);
+            if (this.abrirCrearPorErrores) {
+                this.abrirModal('crear');
+            }
         },
 
-        abrirModal(key) {
-            this.modales[key] = true;
-            this.aplicarBodyClass();
-
-            nextTick(() => {
-                if (key === 'crear') this.$refs.inputNombreCrear?.focus?.();
-                if (key === 'editar') this.$refs.inputNombreEditar?.focus?.();
-            });
+        beforeUnmount() {
+            document.removeEventListener('keydown', this.onKeydown);
+            document.body.classList.remove('modal-abierto');
         },
-
-        cerrarModal(key) {
-            this.modales[key] = false;
-            this.aplicarBodyClass();
-        },
-
-        cerrarTodos() {
-            this.modales.crear = false;
-            this.modales.editar = false;
-            this.modales.eliminar = false;
-            this.aplicarBodyClass();
-        },
-
-        toggleUsuario(id) {
-            this.usuarioActivo = this.usuarioActivo === id ? null : id;
-        },
-
-        abrirEditar(payload) {
-            this.editar.id = payload.id;
-            this.editar.usuario = payload.usuario || '';
-            this.editar.email = payload.email || '';
-            this.editar.nombreCorto = payload.nombreCorto || 'Usuario';
-            this.editar.proyectos = payload.proyectos || [];
-            this.abrirModal('editar');
-        },
-
-        abrirEliminar(payload) {
-            this.eliminar.id = payload.id;
-            this.eliminar.usuario = payload.usuario || '';
-            this.abrirModal('eliminar');
-        },
-
-        onKeydown(e) {
-            if (e.key === 'Escape') this.cerrarTodos();
-        },
-    },
-    
-    mounted() {
-        document.addEventListener('keydown', this.onKeydown);
-
-        if (this.abrirCrearPorErrores) {
-            this.abrirModal('crear');
-        }
-    },
-
-    beforeUnmount() {
-        document.removeEventListener('keydown', this.onKeydown);
-        document.body.classList.remove('modal-abierto');
-    },
-}).mount('#app-usuarios')
-
+    }).mount('#app-usuarios')
 </script>
 @endsection
