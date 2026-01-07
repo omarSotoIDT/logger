@@ -35,10 +35,24 @@
                 <p>Timezone</p>
                 <p>{{ $proyecto->timezone}}</p>
             </div>
+
+            <div class="detalles-campo">
+                <p>Última sincronización</p>
+                <p>
+                    @if (!empty($proyecto->ultima_sincronizacion))
+                        {{ \Carbon\Carbon::parse($proyecto->ultima_sincronizacion)->format('d/m/Y H:i') }}
+                    @else
+                        Sin sincronizar
+                    @endif
+                </p>
+            </div>
+            
             <div class="detalles-campo">
                 <p>Endpoint</p>
                 <span>{{ $proyecto->url_endpoint }}</span>
             </div>
+            
+            
         </div>
         
         <a

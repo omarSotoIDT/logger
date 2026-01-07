@@ -44,12 +44,12 @@
                     </div>
 
                     <footer class="modal-pie">
-                        <button type="submit" class="btn btn-principal">Agregar</button>
                         <button
                             type="button"
                             class="btn btn-terciario"
                             @click.prevent="cerrarModal('crear')"
                         >Cancelar</button>
+                        <button type="submit" class="btn btn-principal">Agregar</button>
                     </footer>
                 </form>
             </div>
@@ -110,12 +110,12 @@
                     </div>
 
                     <footer class="modal-pie">
-                        <button type="submit" class="btn-principal">Guardar cambios</button>
                         <button
                             type="button"
                             class="btn-terciario"
                             @click.prevent="cerrarModal('editar')"
                         >Cancelar</button>
+                        <button type="submit" class="btn-principal">Guardar cambios</button>
                     </footer>
                 </form>
             </div>
@@ -183,10 +183,10 @@
                                 <div class="tabla-acciones">
                                     <button
                                         type="button"
-                                        class="btn-terciario"
+                                        class="acciones"
                                         @click="abrirEditar(tipo)"
                                     >
-                                        Editar
+                                    <img src="{{ asset('assets/icons/lapiz.svg') }}" alt="Icono de tipos">
                                     </button>
                                 </div>
                             </td>

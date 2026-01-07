@@ -116,7 +116,7 @@
         <section class="ultimos-logs card">
             <div class="log-card-cabecera analisis-titulo-cabecera">
                 <div class="analisis-titulo">
-                    <span class="analisis-titulo-icono" aria-hidden="true">
+                    <span aria-hidden="true">
                         <img src="{{ asset('assets/icons/reloj.svg') }}" alt="">
                     </span>
                     <h2 class="log-filtros-titulo">Últimos Registros</h2>

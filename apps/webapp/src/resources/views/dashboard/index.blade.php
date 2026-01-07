@@ -34,9 +34,16 @@
                         <img
                                 src="{{ asset('assets/icons/activity.svg') }}"
                                 alt="Icono de tipos"
-                                class=""
                             >   
                         <p>{{$proyecto->tipo_nombre}}</p>
+                    </div>
+
+                    <div>
+                        <img
+                                src="{{ asset('assets/icons/calendario-dias.svg') }}"
+                                alt="Icono de tipos"
+                            >   
+                        <p>Última sync: {{$proyecto->ultima_sincronizacion ?? 'Sin sincronizaciones'}}</p>
                     </div>
                 </section>
 

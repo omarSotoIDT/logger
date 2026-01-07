@@ -107,8 +107,8 @@
                     </div>
 
                     <footer class="modal-pie">
-                        <button type="submit" class="btn-principal">Agregar</button>
                         <button type="button" class="btn-terciario" @click.prevent="cerrarModal('crear')">Cancelar</button>
+                        <button type="submit" class="btn-principal">Agregar</button>
                     </footer>
                 </form>
             </div>
@@ -227,8 +227,8 @@
                     </div>
 
                     <footer class="modal-pie">
-                        <button type="submit" class="btn-principal">Guardar cambios</button>
                         <button type="button" class="btn-terciario" @click.prevent="cerrarModal('editar')">Cancelar</button>
+                        <button type="submit" class="btn-principal">Guardar cambios</button>
                     </footer>
                 </form>
             </div>
@@ -349,8 +349,8 @@
                                 <td class="tabla-col-acciones">
                                     <div class="tabla-acciones">
                                         <button
+                                            class="acciones"
                                             type="button"
-                                            class="btn-terciario"
                                             @click="abrirEditar({
                                                 id: {{ $proyecto->proyecto_id }},
                                                 nombre: @js($proyecto->nombre ?? ''),
@@ -361,18 +361,18 @@
                                                 status: @js($proyecto->status ?? 'ACTIVO'),
                                             })"
                                         >
-                                            Editar
+                                            <img src="{{ asset('assets/icons/lapiz.svg') }}" alt="Icono de tipos">
                                         </button>
 
                                         <button
                                             type="button"
-                                            class="btn-peligro"
+                                            class="acciones"
                                             @click="abrirEliminar({
                                                 id: {{ $proyecto->proyectoId ?? $proyecto->proyecto_id }},
                                                 nombre: @js($proyecto->nombre ?? ''),
                                             })"
                                         >
-                                            Eliminar
+                                            <img src="{{ asset('assets/icons/basura.svg') }}" alt="Icono de tipos">
                                         </button>
                                     </div>
                                 </td>
