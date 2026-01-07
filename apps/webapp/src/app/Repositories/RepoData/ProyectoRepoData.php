@@ -29,8 +29,7 @@ class ProyectoRepoData
 
     public static function listarProyectosPorUsuario($columnas, $filtros,$limit, $offset, $orden){
         $query = DB::table('rel_usuarios_proyectos AS rup')
-            ->join('proyectos AS p', 'p.proyecto_id', '=', 'rup.proyecto_id')
-            ->select('p.*');
+            ->join('proyectos AS p', 'p.proyecto_id', '=', 'rup.proyecto_id');
     
         ProyectoRH::obtenerColumnas($query, $columnas);
         ProyectoRH::obtenerFiltros($query, $filtros);
