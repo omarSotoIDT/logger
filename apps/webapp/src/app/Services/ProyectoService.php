@@ -39,4 +39,10 @@ class ProyectoService
         $update = ProyectoBO::armarUpdateEliminarProyecto();
         return ProyectoRepoAction::actualizar($id, $update);
     }
+
+    public static function actualizarUltimaSincronizacion($id)
+    {
+        $update = ProyectoBO::armarUpdateUltimaSincronizacion();
+        return ProyectoRepoAction::actualizar($id, $update);
+    }
 }

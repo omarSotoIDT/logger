@@ -97,6 +97,7 @@ class ProyectoCoordinator
 
         return DB::transaction(function () use ($proyecto, $items, $log) {
             LogService::actualizarLog($log->log_id);
+            ProyectoService::actualizarUltimaSincronizacion($proyecto->proyecto_id);
             return LogService::insertarLogsDetalleProyecto($proyecto->proyecto_id, $items);
         }, 5);
     }
