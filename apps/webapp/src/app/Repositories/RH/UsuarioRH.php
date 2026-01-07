@@ -49,6 +49,14 @@ class UsuarioRH
                 $query->where('status', $status);
             }
         }
+
+        if (!empty($filtro['usuario_id'])) {
+            $query->where('usuario_id', $filtro['usuario_id']);
+        }
+
+        if (!empty($filtro['proyecto_id'])) {
+            $query->where('proyecto_id', $filtro['proyecto_id']);
+        }
     }
 
     public static function obtenerOrden($orden, &$query)

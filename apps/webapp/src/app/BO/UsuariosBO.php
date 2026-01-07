@@ -59,4 +59,14 @@ class UsuariosBO
             'registro_autor_id' => Auth::id()
         ];
     }
+
+    public static function eliminarRelacionProyecto()
+    {
+        return [
+            'status' => StatusConsts::ELIMINADO,
+
+            'actualizacion_fecha' => now(),
+            'actualizacion_autor_id' => Auth::id()
+        ];
+    }
 }
