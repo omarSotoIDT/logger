@@ -23,8 +23,9 @@
                         type="button"
                         class="modal-cerrar"
                         aria-label="Cerrar"
-                        @click.prevent="cerrarModal('crear')"
-                    >✕</button>
+                        @click.prevent="cerrarModal('crear')">
+                        <img src="{{ asset('assets/icons/x.svg') }}" alt="icono">
+                    </button>
                 </header>
 
                 <form class="modal-cuerpo" method="POST" action="{{ route('tipos.crear') }}">
@@ -75,8 +76,9 @@
                         type="button"
                         class="modal-cerrar"
                         aria-label="Cerrar"
-                        @click.prevent="cerrarModal('editar')"
-                    >✕</button>
+                        @click.prevent="cerrarModal('editar')">
+                        <img src="{{ asset('assets/icons/x.svg') }}" alt="icono">
+                    </button>
                 </header>
 
                 <form class="modal-cuerpo" method="POST" id="form-editar-tipo" :action="formEditarAction">
