@@ -100,10 +100,10 @@
         </section>
 
         <div class="paginacion">
-            @if($usuarios instanceof \Illuminate\Pagination\LengthAwarePaginator)
-                Página {{ $usuarios->currentPage() }} de {{ $usuarios->lastPage() }}
-                {{ $usuarios->links() }}
-            @endif
+        @if($paginacion)
+            Página {{ $paginacion->currentPage() }} de {{ $paginacion->lastPage() }}
+            {{ $paginacion->links() }}
+        @endif
         </div>
     </main>
 
@@ -125,7 +125,9 @@
                         type="button"
                         class="modal-cerrar"
                         aria-label="Cerrar"
-                        @click.prevent="cerrarModal('crear')">✕</button>
+                        @click.prevent="cerrarModal('crear')">
+                        <img src="{{ asset('assets/icons/x.svg') }}" alt="icono">
+                    </button>
                 </header>
 
                 <form class="modal-cuerpo" method="POST" action="{{ route('usuarios.crear') }}">
@@ -173,14 +175,14 @@
                         <label>Perfiles</label>
 
                         <div class="crear-usuario-cards">
-                            <label class="crear-usuario-card">
-                                <input type="checkbox" name="perfiles[]" value="1">
+                            <span v-if="!perfiles || perfiles.length === 0" class="crear-usuario-card-titulo">No se encontró ningún perfil</span>
+                            <label v-for="perfil in perfiles" :key="perfil.perfil_id" class="crear-usuario-card">
+                                <input type="checkbox" name="perfiles[]" value="perfil.perfil_id">
                                 <div class="crear-usuario-icono">
                                     <img src="{{ asset('assets/icons/perfil.svg') }}" alt="Perfil">
                                 </div>
                                 <div class="crear-usuario-card-info">
-                                    <span class="crear-usuario-card-titulo">Administrador</span>
-                                    <small>10 permisos</small>
+                                    <span class="crear-usuario-card-titulo">@{{perfil.titulo}}</span>
                                 </div>
                             </label>
                         </div>
@@ -227,7 +229,9 @@
                         type="button"
                         class="modal-cerrar"
                         aria-label="Cerrar"
-                        @click.prevent="cerrarModal('editar')">✕</button>
+                        @click.prevent="cerrarModal('editar')">
+                        <img src="{{ asset('assets/icons/x.svg') }}" alt="icono">
+                    </button>
                 </header>
 
                 <form class="modal-cuerpo" method="POST" id="form-editar-tipo" :action="formEditarAction">
@@ -276,14 +280,14 @@
                         <label>Perfiles</label>
 
                         <div class="crear-usuario-cards">
-                            <label class="crear-usuario-card">
-                                <input type="checkbox" name="perfiles[]" value="1">
+                            <span v-if="!perfiles || perfiles.length === 0" class="crear-usuario-card-titulo">No se encontró ningún perfil</span>
+                            <label v-for="perfil in perfiles" :key="perfil.perfil_id" class="crear-usuario-card">
+                                <input type="checkbox" name="perfiles[]" :value="perfil.perfil_id" v-model="editar.perfiles">
                                 <div class="crear-usuario-icono">
                                     <img src="{{ asset('assets/icons/perfil.svg') }}" alt="Perfil">
                                 </div>
                                 <div class="crear-usuario-card-info">
-                                    <span class="crear-usuario-card-titulo">Administrador</span>
-                                    <small>10 permisos</small>
+                                    <span class="crear-usuario-card-titulo">@{{perfil.titulo}}</span>
                                 </div>
                             </label>
                         </div>
@@ -333,7 +337,9 @@
                         type="button"
                         class="modal-cerrar"
                         aria-label="Cerrar"
-                        @click.prevent="cerrarModal('eliminar')">✕</button>
+                        @click.prevent="cerrarModal('eliminar')">
+                        <img src="{{ asset('assets/icons/x.svg') }}" alt="icono">
+                    </button>
                 </header>
 
                 <div class="modal-cuerpo">
@@ -383,7 +389,8 @@
                     usuario: '',
                     email: '',
                     nombreCorto: '',
-                    proyectos: []
+                    proyectos: [],
+                    perfiles: []
                 },
 
                 eliminar: {
@@ -396,8 +403,9 @@
 
                 abrirCrearPorErrores: @json($errors -> any()),
 
-                usuarios: @json($usuarios instanceof \Illuminate\Pagination\LengthAwarePaginator ? $usuarios->items() : $usuarios->all()),
+                usuarios: @json($usuarios),
                 proyectos: @json($proyectos),
+                perfiles: @json($perfiles),
             }
         },
 
@@ -451,6 +459,7 @@
                 this.editar.email = payload.email;
                 this.editar.nombreCorto = payload.nombre_corto;
                 this.editar.proyectos = payload.proyectos ? payload.proyectos.map(p => p.proyecto_id) : [];
+                this.editar.perfiles = payload.perfiles ? payload.perfiles.map(p => p.perfil_id) : [];
 
                 this.abrirModal('editar');
             },
