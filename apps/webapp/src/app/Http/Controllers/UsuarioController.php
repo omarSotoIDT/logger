@@ -11,19 +11,20 @@ use Illuminate\Support\Facades\Validator;
 
 class UsuarioController
 {
-    public function gestor() {
-        try{
+    public function gestor()
+    {
+        try {
             [$usuarios, $proyectos] = UsuarioCoordinator::listarProyectosyUsuarios();
 
             return view('usuarios.index', compact('usuarios', 'proyectos'));
-        }catch(Exception $e){
-            return back()->with('error', "Error al listar los usuarios");
+        } catch (Exception $e) {
+            return back()->with('error', 'Error al listar los usuarios');
         }
     }
 
     public function agregar(Request $request)
     {
-        try{
+        try {
             $validar = Validator::make($request->all(), [
                 'usuario' => 'required',
                 'email' => 'required',
@@ -34,7 +35,7 @@ class UsuarioController
                 'proyectos.*' => 'integer'
             ]);
 
-            if($validar->fails()) {
+            if ($validar->fails()) {
                 return back()->withErrors($validar)->withInput();
             }
 
@@ -43,13 +44,13 @@ class UsuarioController
             UsuarioCoordinator::agregarUsuarioConProyecto($data);
 
             return back()->with('success', 'El usuario se creo correctamente');
-
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return back()->with('error', 'No se agrego el usuario correctamente');
         }
     }
 
-    public function actualizar(Request $request, $usuarioId) {
+    public function actualizar(Request $request, $usuarioId)
+    {
         try {
             $validator = Validator::make($request->all(), [
                 'usuario' => 'required',
@@ -61,7 +62,7 @@ class UsuarioController
                 'proyectos.*' => 'integer'
             ]);
 
-            if($validator->fails()) {
+            if ($validator->fails()) {
                 return back()->withErrors($validator)->withInput();
             }
 
@@ -70,18 +71,18 @@ class UsuarioController
             UsuarioCoordinator::actualizarUsuarioConProyecto($data, $usuarioId);
 
             return back()->with('success', 'Usuario actualizado correctamente');
-
         } catch (Exception $e) {
             return back()->with('error', 'Error al actualizar el usuario');
         }
     }
 
-    public function eliminar($id) {
+    public function eliminar($id)
+    {
         try {
             UsuarioService::eliminarUsuario($id);
 
             return back()->with('success', 'Usuario eliminado correctamente');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return back()->with('error', 'Error al eliminar el Usuario');
         }
     }
