@@ -12,22 +12,34 @@ class UsuarioCoordinator
 {
     public static function listarProyectosyUsuarios()
     {
-        $usuarios = UsuarioService::listarUsuarios();
+        $usuariosRaw = UsuarioService::listarUsuarios('', ['status' => StatusConsts::ACTIVO], null, null, null, 5);
+
+        $usuarios = $usuariosRaw instanceof \Illuminate\Pagination\LengthAwarePaginator ? collect($usuariosRaw->items()) : $usuariosRaw;
+
+        $paginacion = $usuariosRaw instanceof \Illuminate\Pagination\LengthAwarePaginator ? $usuariosRaw : null;
 
         $proyectos = ProyectoService::listarProyectos([
             'status' => [StatusConsts::ACTIVO]
         ]);
 
-        $proyectoPorUsuario = ProyectoService::listarProyectosPorUsuario()->groupBy('usuario_id');
+        $perfiles = PerfilService::listarPerfil('', ['status' => StatusConsts::ACTIVO]);
 
-        $perfilPorUsuario = PerfilService::listarPerfilesPorUsuarios()->groupBy('usuario_id');
+        $proyectoPorUsuario = ProyectoService::listarProyectosPorUsuario(
+            'nombre,id,status',
+            ['rup.status' => StatusConsts::ACTIVO, 'p.status' => StatusConsts::ACTIVO]
+        )->groupBy('usuario_id');
+
+        $perfilPorUsuario = PerfilService::listarPerfilesPorUsuarios(
+            'up.usuario_id,pf.perfil_id,pf.nombre',
+            ['pf.status' => StatusConsts::ACTIVO]
+        )->groupBy('usuario_id');
 
         foreach ($usuarios as $usuario) {
             $usuario->proyectos = $proyectoPorUsuario[$usuario->usuario_id] ?? collect();
             $usuario->perfiles  = $perfilPorUsuario[$usuario->usuario_id] ?? collect();
         }
 
-        return [$usuarios, $proyectos];
+        return [$usuarios, $proyectos, $paginacion, $perfiles];
     }
 
     public static function agregarUsuarioConProyecto($data)
@@ -46,7 +58,7 @@ class UsuarioCoordinator
         DB::transaction(function () use ($data, $usuarioId) {
             UsuarioService::editarUsuario($data, $usuarioId);
 
-            UsuarioService::nuevaRelacionProyecto($usuarioId, $data['proyectos'] ?? []);
+            UsuarioService::actualizarRelacionProyecto($usuarioId, $data['proyectos'] ?? []);
         }, attempts: 2);
     }
 }
