@@ -14,9 +14,9 @@ class UsuarioController
     public function gestor()
     {
         try {
-            [$usuarios, $proyectos] = UsuarioCoordinator::listarProyectosyUsuarios();
+            [$usuarios, $proyectos, $paginacion, $perfiles] = UsuarioCoordinator::listarProyectosyUsuarios();
 
-            return view('usuarios.index', compact('usuarios', 'proyectos'));
+            return view('usuarios.index', compact('usuarios', 'proyectos', 'paginacion', 'perfiles'));
         } catch (Exception $e) {
             return back()->with('error', 'Error al listar los usuarios');
         }
