@@ -16,33 +16,34 @@ class ProyectoRepoData
         ProyectoRH::obtenerFiltros($query, $filtros);
         ProyectoRH::obtenerOrden($query, $orden);
 
-        if(!empty($offset)) {
+        if (!empty($offset)) {
             $query->offset($offset);
         }
 
-        if(!empty($limit)) {
+        if (!empty($limit)) {
             $query->limit($limit);
         }
 
         return $query->get();
     }
 
-    public static function listarProyectosPorUsuario($columnas, $filtros,$limit, $offset, $orden){
-        $query = DB::table('rel_usuarios_proyectos AS rup')
+    public static function listarProyectosPorUsuario($columnas = '', $filtros = [], $limit = null, $offset = null, $orden = '')
+    {
+        $query = DB::table('rel_usuarios_proyectos AS rup')->select('rup.usuario_id')
             ->join('proyectos AS p', 'p.proyecto_id', '=', 'rup.proyecto_id');
-    
+
         ProyectoRH::obtenerColumnas($query, $columnas);
         ProyectoRH::obtenerFiltros($query, $filtros);
         ProyectoRH::obtenerOrden($query, $orden);
-    
-        if(!empty($offset)) {
+
+        if (!empty($offset)) {
             $query->offset($offset);
         }
 
-        if(!empty($limit)) {
+        if (!empty($limit)) {
             $query->limit($limit);
         }
-    
+
         return $query->get();
     }
 
@@ -50,7 +51,7 @@ class ProyectoRepoData
     {
         $query = DB::table('proyectos AS p')
             ->leftJoin('cat_tipos_proyecto AS ctp', 'ctp.tipo_proyecto_id', '=', 'p.tipo_proyecto_id');
-        
+
         ProyectoRH::obtenerColumnas($query, $columnas);
 
         return $query
