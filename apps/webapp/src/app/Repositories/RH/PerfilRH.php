@@ -19,8 +19,6 @@ class PerfilRH
         }
         $solicitadas = array_map('trim', explode(',', $columnas));
 
-        $query->select();
-
         foreach ($solicitadas as $col) {
             if (isset($mapa[$col])) {
                 $query->addSelect($mapa[$col]);
