@@ -92,7 +92,7 @@
                     Tipos
                 </a>
 
-                <a href="{{ route('usuarios.index') }}"
+                <a href="{{ route('usuarios.gestor') }}"
                 class="barra-superior-enlace {{ request()->routeIs('usuarios.*') ? 'esta-activo' : '' }}">
                     <span class="barra-superior-icono" aria-hidden="true">
                         <img
