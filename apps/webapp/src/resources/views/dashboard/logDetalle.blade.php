@@ -64,18 +64,33 @@
 
     <section class="log-lista">
         @forelse($logs as $log)
+            @php($nivel = strtoupper($log->nivel ?? 'INFO'))
             <article @class([
                 'card',
-                'log-nivel-error' => ($log->nivel ?? '') === 'ERROR',
-                'log-nivel-warning' => ($log->nivel ?? '') === 'WARNING',
-                'log-nivel-debug' => ($log->nivel ?? '') === 'DEBUG',
-                'log-nivel-info' => !in_array(($log->nivel ?? ''), ['ERROR', 'WARNING', 'DEBUG'], true),
+                'log-nivel-error' => $nivel === 'ERROR',
+                'log-nivel-warning' => $nivel === 'WARNING',
+                'log-nivel-debug' => $nivel === 'DEBUG',
+                'log-nivel-info' => !in_array($nivel, ['ERROR', 'WARNING', 'DEBUG'], true),
             ])>
                 <header class="log-card-cabecera">
                     <div class="log-card-meta">
-                        <span class="log-icono">{{ ($log->nivel ?? '') === 'WARNING' ? '!' : 'x' }}</span>
-                        <span class="log-pill log-pill-nivel">{{ $log->nivel ?? 'INFO' }}</span>
-                        <span class="log-pill log-pill-codigo">{{ $log->codigo_excepcion ?? $log->codigo_interno ?? 'SIN_CODIGO' }}</span>
+                        <span class="log-icono" aria-hidden="true">
+                            @switch($nivel)
+                                @case('ERROR')
+                                    <img src="{{ asset('assets/icons/exclamacion-circulo.svg') }}" alt="">
+                                    @break
+                                @case('WARNING')
+                                    <img src="{{ asset('assets/icons/exclamacion-triangulo.svg') }}" alt="">
+                                    @break
+                                @case('DEBUG')
+                                    <img src="{{ asset('assets/icons/bug.svg') }}" alt="">
+                                    @break
+                                @default
+                                    <span class="log-icono-fallback">i</span>
+                            @endswitch
+                        </span>
+                        <span class="log-pill log-pill-nivel">{{ $nivel }}</span>
+                        <span class="log-pill log-pill-codigo">Código Interno: {{ $log->codigo_interno ?? 'SIN MENSAJE' }}</span>
                     </div>
                     <span class="log-hora">{{ $log->fecha_hora_log ?? '--:--' }}</span>
                 </header>
@@ -95,7 +110,6 @@
                         </div>
                     </details>
 
-                    <button type="button" class="log-raw">Ver raw</button>
                 </div>
             </article>
         @empty

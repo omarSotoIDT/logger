@@ -14,7 +14,8 @@ class ProyectoRH
             'urlEndpoint' => 'p.url_endpoint',
             'apiKey' => 'p.api_key',
             'timezone' => 'p.timezone',
-            'status' => 'p.status'
+            'status' => 'p.status',
+            'ultimaSincronizacion' => 'p.ultima_sincronizacion',
         ];
 
         if(empty($columnas)) {

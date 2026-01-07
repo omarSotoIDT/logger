@@ -9,7 +9,6 @@
             <img
                 src="{{ asset('assets/icons/arrow-back.svg') }}"
                 alt="Icono de tipos"
-                class=""
             > 
             Volver al dashboard
         </a>
@@ -23,7 +22,7 @@
             </div>
 
             <span class="badge-status {{ $proyecto->status === 'ACTIVO' ? 'badge-activo' : 'badge-inactivo' }}">
-                {{ $proyecto->status }}
+                {{ strtolower($proyecto->status) }}
             </span>
         </div>
 
@@ -36,16 +35,31 @@
                 <p>Timezone</p>
                 <p>{{ $proyecto->timezone}}</p>
             </div>
+
+            <div class="detalles-campo">
+                <p>Última sincronización</p>
+                <p>
+                    @if (!empty($proyecto->ultima_sincronizacion))
+                        {{ \Carbon\Carbon::parse($proyecto->ultima_sincronizacion)->format('d/m/Y H:i') }}
+                    @else
+                        Sin sincronizar
+                    @endif
+                </p>
+            </div>
+            
             <div class="detalles-campo">
                 <p>Endpoint</p>
                 <span>{{ $proyecto->url_endpoint }}</span>
             </div>
+            
+            
         </div>
         
         <a
             href="{{ route('proyectos.analisis', ['id' => $proyecto->proyecto_id]) }}"
             class="btn-analisis"
             >
+            <img src="{{ asset('assets/icons/grafica.svg') }}" alt="Icono error">
             Dashboard Analítico
         </a>
     </section>
@@ -101,7 +115,7 @@
             :href="`{{ route('proyectos.detalles', ['id' => '__LOG__']) }}`.replace('__LOG__', log.log_id)"
             class="btn-pill-outline btn-pill"
             >
-            <img src="{{ asset('assets/icons/doc.svg') }}" class="btn-pill-ico">
+            <img src="{{ asset('assets/icons/doc.svg') }}" class="btn-pill-ico" alt="icono documento">
             Ver Logs
             </a>
 
@@ -119,6 +133,7 @@
                     <img
                         src="{{ asset('assets/icons/sync.svg') }}"
                         class="btn-pill-ico"
+                        alt="icono de sincronizacion"
                     >
                     Sincronizar
                 </button>

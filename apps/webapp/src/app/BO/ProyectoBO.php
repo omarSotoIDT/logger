@@ -45,4 +45,11 @@ class ProyectoBO
             'actualizacion_autor_id' => Auth::id(),
         ];
     }
+
+    public static function armarUpdateUltimaSincronizacion()
+    {
+        return [
+            'ultima_sincronizacion' => now(),
+        ];
+    }
 }
