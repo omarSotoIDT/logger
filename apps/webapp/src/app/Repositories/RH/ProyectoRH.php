@@ -18,15 +18,13 @@ class ProyectoRH
             'ultimaSincronizacion' => 'p.ultima_sincronizacion',
         ];
 
-        if(empty($columnas)) {
+        if (empty($columnas)) {
             $columnas = implode(',', array_keys($mapa));
         }
         $solicitadas = array_map('trim', explode(',', $columnas));
-        
-        $query->select();
-        
-        foreach($solicitadas as $col) {
-            if(isset($mapa[$col])) {
+
+        foreach ($solicitadas as $col) {
+            if (isset($mapa[$col])) {
                 $query->addSelect($mapa[$col]);
             }
         }
@@ -34,11 +32,11 @@ class ProyectoRH
 
     public static function obtenerFiltros(&$query, $filtros)
     {
-        if(!empty($filtros['search'])) {
+        if (!empty($filtros['search'])) {
             $query->where('p.nombre', 'LIKE', "%{$filtros['search']}%");
         }
 
-        if(!empty($filtros['status'])) {
+        if (!empty($filtros['status'])) {
             $status = $filtros['status'];
 
             if (is_array($status)) {
@@ -47,11 +45,24 @@ class ProyectoRH
                 $query->where('p.status', $status);
             }
         }
+
+        if (!empty($filtros['rup.status'])) {
+            $status = $filtros['rup.status'];
+
+            if (is_array($status)) {
+                $query->whereIn('rup.status', $status);
+            } else {
+                $query->where('rup.status', $status);
+            }
+        }
     }
 
     public static function obtenerOrden(&$query, $orden)
     {
         $ordersDisponibles = [
+            'usuario_id_asc'          => ['rup.usuario_id', 'asc'],
+            'usuario_id_desc'         => ['rup.usuario_id', 'desc'],
+
             'nombre_asc'          => ['p.nombre', 'asc'],
             'nombre_desc'         => ['p.nombre', 'desc'],
 
