@@ -45,12 +45,12 @@
                             </div>
                         </div>
                         <div class="usuario-accion">
-                            <button class="btn-accion" @click="abrirEditar(usuario)">
-                                <img src="{{ asset('assets/icons/editar.svg') }}" alt="Boton de Editar">
+                            <button class="acciones" @click="abrirEditar(usuario)">
+                                <img src="{{ asset('assets/icons/lapiz.svg') }}" alt="Boton de Editar">
                             </button>
 
-                            <button class="btn-accion" @click="abrirEliminar(usuario)">
-                                <img src="{{ asset('assets/icons/eliminar.svg') }}" alt="Boton de Eliminar">
+                            <button class="acciones" @click="abrirEliminar(usuario)">
+                                <img src="{{ asset('assets/icons/basura.svg') }}" alt="Boton de Eliminar">
                             </button>
 
                             <span class="flecha" @click="toggleUsuario(usuario.usuario_id)">@{{ usuarioActivo === usuario.usuario_id ? '▴' : '▾' }}</span>
@@ -72,7 +72,7 @@
 
                             <div v-for="perfil in usuario.perfiles" :key="perfil.perfil_id" class="perfil-card">
                                 <div class="crear-usuario-icono">
-                                    <img src="{{ asset('assets/icons/perfil.svg') }}" alt="Perfil">
+                                    <img src="{{ asset('assets/icons/escudo.svg') }}" alt="Perfil">
                                 </div>
                                 <div class="perfil-info">
                                     <span class="perfil-nombre">@{{ perfil.titulo }}</span>
@@ -177,7 +177,7 @@
                             <label v-for="perfil in perfiles" :key="perfil.perfil_id" class="crear-usuario-card">
                                 <input type="checkbox" name="perfiles[]" value="perfil.perfil_id">
                                 <div class="crear-usuario-icono">
-                                    <img src="{{ asset('assets/icons/perfil.svg') }}" alt="Perfil">
+                                    <img src="{{ asset('assets/icons/escudo.svg') }}" alt="Perfil">
                                 </div>
                                 <div class="crear-usuario-card-info">
                                     <span class="crear-usuario-card-titulo">@{{perfil.titulo}}</span>
@@ -282,7 +282,7 @@
                             <label v-for="perfil in perfiles" :key="perfil.perfil_id" class="crear-usuario-card">
                                 <input type="checkbox" name="perfiles[]" :value="perfil.perfil_id" v-model="editar.perfiles">
                                 <div class="crear-usuario-icono">
-                                    <img src="{{ asset('assets/icons/perfil.svg') }}" alt="Perfil">
+                                    <img src="{{ asset('assets/icons/escudo.svg') }}" alt="Perfil">
                                 </div>
                                 <div class="crear-usuario-card-info">
                                     <span class="crear-usuario-card-titulo">@{{perfil.titulo}}</span>
