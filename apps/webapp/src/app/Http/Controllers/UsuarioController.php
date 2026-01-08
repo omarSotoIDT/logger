@@ -5,19 +5,19 @@ namespace App\Http\Controllers;
 use App\const\StatusConsts;
 use App\Coordinators\UsuarioCoordinator;
 use App\Services\UsuarioService;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Throwable;
 
 class UsuarioController
 {
     public function gestor()
     {
         try {
-            [$usuarios, $proyectos, $paginacion, $perfiles] = UsuarioCoordinator::listarProyectosyUsuarios();
+            [$usuarios, $proyectos, $perfiles] = UsuarioCoordinator::listarProyectosyUsuarios();
 
-            return view('usuarios.index', compact('usuarios', 'proyectos', 'paginacion', 'perfiles'));
-        } catch (Exception $e) {
+            return view('usuarios.index', compact('usuarios', 'proyectos', 'perfiles'));
+        } catch (Throwable $e) {
             return back()->with('error', 'Error al listar los usuarios');
         }
     }
@@ -44,7 +44,7 @@ class UsuarioController
             UsuarioCoordinator::agregarUsuarioConProyecto($data);
 
             return back()->with('success', 'El usuario se creo correctamente');
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return back()->with('error', 'No se agrego el usuario correctamente');
         }
     }
@@ -71,7 +71,7 @@ class UsuarioController
             UsuarioCoordinator::actualizarUsuarioConProyecto($data, $usuarioId);
 
             return back()->with('success', 'Usuario actualizado correctamente');
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return back()->with('error', 'Error al actualizar el usuario');
         }
     }
@@ -82,7 +82,7 @@ class UsuarioController
             UsuarioService::eliminarUsuario($id);
 
             return back()->with('success', 'Usuario eliminado correctamente');
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return back()->with('error', 'Error al eliminar el Usuario');
         }
     }
