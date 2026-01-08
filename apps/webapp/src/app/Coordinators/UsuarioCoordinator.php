@@ -12,11 +12,7 @@ class UsuarioCoordinator
 {
     public static function listarProyectosyUsuarios()
     {
-        $usuariosRaw = UsuarioService::listarUsuarios('', ['status' => StatusConsts::ACTIVO], null, null, null, 5);
-
-        $usuarios = $usuariosRaw instanceof \Illuminate\Pagination\LengthAwarePaginator ? collect($usuariosRaw->items()) : $usuariosRaw;
-
-        $paginacion = $usuariosRaw instanceof \Illuminate\Pagination\LengthAwarePaginator ? $usuariosRaw : null;
+        $usuarios = UsuarioService::listarUsuarios('', ['status' => StatusConsts::ACTIVO], null, null, null, 5);
 
         $proyectos = ProyectoService::listarProyectos([
             'status' => [StatusConsts::ACTIVO]
@@ -39,7 +35,7 @@ class UsuarioCoordinator
             $usuario->perfiles  = $perfilPorUsuario[$usuario->usuario_id] ?? collect();
         }
 
-        return [$usuarios, $proyectos, $paginacion, $perfiles];
+        return [$usuarios, $proyectos, $perfiles];
     }
 
     public static function agregarUsuarioConProyecto($data)

@@ -100,10 +100,8 @@
         </section>
 
         <div class="paginacion">
-        @if($paginacion)
-            Página {{ $paginacion->currentPage() }} de {{ $paginacion->lastPage() }}
-            {{ $paginacion->links() }}
-        @endif
+            Página {{ $usuarios->currentPage() }} de {{ $usuarios->lastPage() }}
+            {{ $usuarios->links() }}
         </div>
     </main>
 
@@ -403,7 +401,7 @@
 
                 abrirCrearPorErrores: @json($errors -> any()),
 
-                usuarios: @json($usuarios),
+                usuarios: @json($usuarios->items()),
                 proyectos: @json($proyectos),
                 perfiles: @json($perfiles),
             }
