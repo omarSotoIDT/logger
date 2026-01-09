@@ -10,4 +10,9 @@ class PermisoService
     {
         return PermisoRepoData::listar($columna, $filtros, $limite, $offset, $orden);
     }
+
+    public static function listarPermisosPorPerfil($columna = '', $filtros = [])
+    {
+        return PermisoRepoData::listarPermisosPorPerfil($columna, $filtros);
+    }
 }

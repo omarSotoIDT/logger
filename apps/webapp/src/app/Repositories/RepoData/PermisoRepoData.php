@@ -26,4 +26,15 @@ class PermisoRepoData
 
         return $query->get();
     }
+
+    public static function listarPermisosPorPerfil($columnas = '', $filtros = [])
+    {
+        $query = DB::table('rel_perfiles_permisos as rp')->select('rp.perfil_id', 'rp.permiso_id')
+            ->join('sys_permisos as p', 'p.permiso_id', '=', 'rp.permiso_id');
+
+        PermisoRH::obtenerColumnas($query, $columnas);
+        PermisoRH::obtenerFiltros($query, $filtros);
+
+        return $query->get();
+    }
 }
