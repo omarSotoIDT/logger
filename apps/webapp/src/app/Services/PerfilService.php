@@ -32,4 +32,23 @@ class PerfilService
 
         return PerfilRepoAction::agregarRelacion($datosRel);
     }
+
+    public static function editar($datos, $perfilId)
+    {
+        $datosPerfil = PerfilBO::editar($datos);
+
+        return PerfilRepoAction::editar($datosPerfil, $perfilId);
+    }
+
+    public static function eliminar($perfilId)
+    {
+        $datosPerfil = PerfilBO::eliminar();
+
+        return PerfilRepoAction::editar($datosPerfil, $perfilId);
+    }
+
+    public static function editarRelacion($perfilId)
+    {
+        return PerfilRepoAction::eliminarRelaciones($perfilId);
+    }
 }

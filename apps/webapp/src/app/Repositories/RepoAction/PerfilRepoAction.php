@@ -15,4 +15,16 @@ class PerfilRepoAction
     {
         DB::table('rel_perfiles_permisos')->insert($datos);
     }
+
+    public static function editar($datos, $perfilId)
+    {
+        DB::table('sys_perfiles')
+            ->where('perfil_id', $perfilId)
+            ->update($datos);
+    }
+
+    public static function eliminarRelaciones($perfilId)
+    {
+        DB::table('rel_perfiles_permisos')->where('perfil_id', $perfilId)->delete();
+    }
 }

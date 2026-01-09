@@ -46,4 +46,41 @@ class PerfilController
             return back()->with('error', 'No se agrego el perfil correctamente');
         }
     }
+
+    public function editar(Request $request, $perfilId)
+    {
+        try {
+            $validar = Validator::make($request->all(), [
+                'titulo' => 'required',
+                'clave' => 'required',
+                'descripcion' => 'required',
+
+                'permisos' => 'nullable|array',
+                'permisos.*' => 'integer'
+            ]);
+
+            if ($validar->failed()) {
+                return back()->withErrors($validar)->withInput();
+            }
+
+            $data = $validar->validate();
+
+            PerfilCoordinator::editar($data, $perfilId);
+
+            return back()->with('success', 'Perfil actualizado correctamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error al actualizar el perfil');
+        }
+    }
+
+    public function eliminar($perfilId)
+    {
+        try {
+            PerfilService::eliminar($perfilId);
+
+            return back()->with('success', 'Perfil eliminado correctamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error al eliminar el perfil');
+        }
+    }
 }
