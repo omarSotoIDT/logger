@@ -141,6 +141,132 @@
             </div>
         </div>
     </transition>
+
+    {{-- =========================
+       MODAL EDITAR PERFIL
+    ========================= --}}
+    <transition name="transicion-modal">
+        <div
+            v-if="modales.editar"
+            class="modal-overlay"
+            id="modal-tipo-editar"
+            @click.self="cerrarModal('editar')">
+            <div class="modal">
+                <header class="modal-cabecera">
+                    <h2 class="modal-titulo">Editar Perfil</h2>
+
+                    <button
+                        type="button"
+                        class="modal-cerrar"
+                        aria-label="Cerrar"
+                        @click.prevent="cerrarModal('editar')">
+                        <img src="{{ asset('assets/icons/x.svg') }}" alt="icono">
+                    </button>
+                </header>
+
+                <form class="modal-cuerpo" method="POST" id="form-editar-tipo" :action="formEditarAction">
+                    @csrf
+                    @method('PATCH')
+
+                    <div class="crear-usuario-grid">
+                        <div class="crear-usuario-campo">
+                            <label>Nombre del perfil</label>
+                            <input
+                                type="text"
+                                name="titulo"
+                                v-model="editar.titulo"
+                                placeholder="Developer"
+                                required
+                                ref="inputtituloCrear">
+                        </div>
+
+                        <div class="crear-usuario-campo">
+                            <label>Clave</label>
+                            <input
+                                type="clave"
+                                id="clave"
+                                name="clave"
+                                v-model="editar.clave"
+                                placeholder="clave-001"
+                                required>
+                        </div>
+                    </div>
+                    <div class="crear-usuario-campo">
+                        <label>Descripción</label>
+                        <input type="text" id="descripcion" v-model="editar.descripcion" placeholder="ver_proyectos" name="descripcion" required>
+                    </div>
+
+                    <!-- PERMISOS -->
+                    <div class="crear-usuario-campo">
+                        <label>Permisos</label>
+
+                        <div class="permisos-grid permisos-columnas">
+                            <span v-if="!permisos || permisos.length === 0" class="crear-usuario-card-titulo">No se encontró ningún permiso</span>
+                            <label v-for="permiso in permisos" :key="permiso.permiso_id" class="permiso-card">
+                                <input type="checkbox" name="permisos[]" :value="permiso.permiso_id" v-model="editar.permisos">
+                                <div class="permiso-textos">
+                                    <span class="permiso-titulo">@{{ permiso.titulo }}</span>
+                                    <small class="permiso-subtitulo">@{{permiso.codigo}}</small>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <footer class="modal-pie">
+                        <button type="submit" class="btn-principal">Guardar cambios</button>
+                        <button
+                            type="button"
+                            class="btn-secundario"
+                            @click.prevent="cerrarModal('editar')">Cancelar</button>
+                    </footer>
+                </form>
+            </div>
+        </div>
+    </transition>
+
+    {{-- =========================
+       MODAL CONFIRMAR ELIMINACIÓN
+    ========================= --}}
+    <transition name="transicion-modal">
+        <div
+            v-if="modales.eliminar"
+            class="modal-overlay"
+            id="modal-tipo-eliminar"
+            @click.self="cerrarModal('eliminar')">
+            <div class="modal">
+                <header class="modal-cabecera">
+                    <h2 class="modal-titulo">Confirmar eliminación</h2>
+
+                    <button
+                        type="button"
+                        class="modal-cerrar"
+                        aria-label="Cerrar"
+                        @click.prevent="cerrarModal('eliminar')">
+                        <img src="{{ asset('assets/icons/x.svg') }}" alt="icono">
+                    </button>
+                </header>
+
+                <div class="modal-cuerpo">
+                    <p class="modal-texto">
+                        ¿Seguro que deseas eliminar el perfil
+                        <strong id="tipo-eliminar-nombre">@{{ eliminar.titulo || '—' }}</strong>?
+                    </p>
+
+                    <form method="POST" id="form-eliminar-tipo" :action="formEliminarAction">
+                        @csrf
+                        @method('DELETE')
+
+                        <footer class="modal-pie">
+                            <button
+                                type="button"
+                                class="btn-secundario"
+                                @click.prevent="cerrarModal('eliminar')">Cancelar</button>
+                            <button type="submit" class="btn-peligro">Sí, eliminar</button>
+                        </footer>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </transition>
 </div>
 @endsection
 
@@ -172,6 +298,9 @@
                     id: null,
                     titulo: '',
                 },
+
+                rutaActualizarTemplate: @json(route('perfiles.actualizar', ['id' => ':id'])),
+                rutaEliminarTemplate: @json(route('perfiles.eliminar', ['id' => ':id'])),
 
                 abrirCrearPorErrores: @json($errors->any()),
 
@@ -227,6 +356,10 @@
                 this.editar.clave = payload.clave;
                 this.editar.descripcion = payload.descripcion;
                 this.editar.permisos = payload.permisos ? payload.permisos.map(p => p.permiso_id) : [];
+
+                console.log(this.editar.permisos);
+                console.log(this.permisos.map(p => p.permiso_id));
+
 
                 this.abrirModal('editar');
             },

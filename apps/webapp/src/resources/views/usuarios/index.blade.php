@@ -175,7 +175,7 @@
                         <div class="crear-usuario-cards">
                             <span v-if="!perfiles || perfiles.length === 0" class="crear-usuario-card-titulo">No se encontró ningún perfil</span>
                             <label v-for="perfil in perfiles" :key="perfil.perfil_id" class="crear-usuario-card">
-                                <input type="checkbox" name="perfiles[]" value="perfil.perfil_id">
+                                <input type="checkbox" name="perfiles[]" :value="perfil.perfil_id">
                                 <div class="crear-usuario-icono">
                                     <img src="{{ asset('assets/icons/escudo.svg') }}" alt="Perfil">
                                 </div>
@@ -194,7 +194,7 @@
                         <div class="crear-usuario-cards">
                             <span v-if="!proyectos || proyectos.length === 0" class="crear-usuario-card-titulo">No se encontró ningún proyecto</span>
                             <label v-for="proyecto in proyectos" :key="proyecto.proyecto_id" class="crear-usuario-card">
-                                <input type="checkbox" name="proyectos[]" value="proyecto.proyecto_id">
+                                <input type="checkbox" name="proyectos[]" :value="proyecto.proyecto_id">
                                 <div class="crear-usuario-card-info">
                                     <span class="crear-usuario-card-titulo">@{{proyecto.nombre}}</span>
                                 </div>
