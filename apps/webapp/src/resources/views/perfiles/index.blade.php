@@ -357,10 +357,6 @@
                 this.editar.descripcion = payload.descripcion;
                 this.editar.permisos = payload.permisos ? payload.permisos.map(p => p.permiso_id) : [];
 
-                console.log(this.editar.permisos);
-                console.log(this.permisos.map(p => p.permiso_id));
-
-
                 this.abrirModal('editar');
             },
 
