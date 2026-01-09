@@ -41,6 +41,16 @@ class PerfilRH
                 $query->where('pf.status', $status);
             }
         }
+
+        if (!empty($filtros['up.status'])) {
+            $status = $filtros['up.status'];
+
+            if (is_array($status)) {
+                $query->whereIn('up.status', $status);
+            } else {
+                $query->where('up.status', $status);
+            }
+        }
     }
 
     public static function obtenerOrden(&$query, $orden)

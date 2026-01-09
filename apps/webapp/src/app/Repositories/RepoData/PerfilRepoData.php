@@ -31,7 +31,7 @@ class PerfilRepoData
 
     public static function listarPerfilesPorUsuario($columnas = '', $filtros = [], $limit = null, $offset = null, $orden = '')
     {
-        $query = DB::table('rel_usuarios_perfiles AS up')->select('pf.perfil_id')
+        $query = DB::table('rel_usuarios_perfiles AS up')->select('up.usuario_id')
             ->join('sys_perfiles AS pf', 'pf.perfil_id', '=', 'up.perfil_id');
 
         PerfilRH::obtenerColumnas($query, $columnas);
