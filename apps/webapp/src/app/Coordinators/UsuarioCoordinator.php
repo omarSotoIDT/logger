@@ -26,8 +26,8 @@ class UsuarioCoordinator
         )->groupBy('usuario_id');
 
         $perfilPorUsuario = PerfilService::listarPerfilesPorUsuarios(
-            'up.usuario_id,pf.perfil_id,pf.nombre',
-            ['pf.status' => StatusConsts::ACTIVO]
+            'titulo,id,status',
+            ['up.status' => StatusConsts::ACTIVO, 'pf.status' => StatusConsts::ACTIVO]
         )->groupBy('usuario_id');
 
         foreach ($usuarios as $usuario) {
@@ -43,6 +43,10 @@ class UsuarioCoordinator
         DB::transaction(function () use ($data) {
             $usuarioId = UsuarioService::agregarUsuario($data);
 
+            foreach ($data['perfiles'] ?? [] as $perfilId) {
+                UsuarioService::agregarPerfiles($usuarioId, $perfilId);
+            }
+
             foreach ($data['proyectos'] ?? [] as $proyectoId) {
                 UsuarioService::agregarRelacionProyecto($usuarioId, $proyectoId);
             }
@@ -54,6 +58,7 @@ class UsuarioCoordinator
         DB::transaction(function () use ($data, $usuarioId) {
             UsuarioService::editarUsuario($data, $usuarioId);
 
+            UsuarioService::actualizarRelacionPerfil($usuarioId, $data['perfiles'] ?? []);
             UsuarioService::actualizarRelacionProyecto($usuarioId, $data['proyectos'] ?? []);
         }, attempts: 2);
     }

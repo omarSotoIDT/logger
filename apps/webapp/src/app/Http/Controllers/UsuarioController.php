@@ -32,7 +32,10 @@ class UsuarioController
                 'password' => 'required|min:8',
 
                 'proyectos' => 'nullable|array',
-                'proyectos.*' => 'integer'
+                'proyectos.*' => 'integer',
+
+                'perfiles' => 'nullable|array',
+                'perfiles.*' => 'integer'
             ]);
 
             if ($validar->fails()) {
@@ -59,7 +62,10 @@ class UsuarioController
                 'password' => 'nullable|min:8',
 
                 'proyectos' => 'nullable|array',
-                'proyectos.*' => 'integer'
+                'proyectos.*' => 'integer',
+
+                'perfiles' => 'nullable|array',
+                'perfiles.*' => 'integer'
             ]);
 
             if ($validator->fails()) {

@@ -30,4 +30,18 @@ class UsuarioRepoAction
             ->where('status', StatusConsts::ACTIVO)
             ->update($datos);
     }
+
+    public static function agregarRelacionPerfil($datos)
+    {
+        DB::table('rel_usuarios_perfiles')->insert($datos);
+    }
+
+    public static function eliminarRelacionPerfil($usuarioId, $perfiles, $datos)
+    {
+        DB::table('rel_usuarios_perfiles')
+            ->where('usuario_id', $usuarioId)
+            ->whereNotIn('perfil_id', $perfiles)
+            ->where('status', StatusConsts::ACTIVO)
+            ->update($datos);
+    }
 }

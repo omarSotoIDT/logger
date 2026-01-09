@@ -69,4 +69,15 @@ class UsuariosBO
             'actualizacion_autor_id' => Auth::id()
         ];
     }
+
+    public static function agregarRelacionPerfiles($usuarioId, $perfilId)
+    {
+        return [
+            'usuario_id' => $usuarioId,
+            'perfil_id' => $perfilId,
+
+            'registro_fecha' => now(),
+            'registro_autor_id' => Auth::id()
+        ];
+    }
 }
