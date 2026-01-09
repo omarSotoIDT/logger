@@ -181,6 +181,7 @@
                                 </div>
                                 <div class="crear-usuario-card-info">
                                     <span class="crear-usuario-card-titulo">@{{perfil.titulo}}</span>
+                                    <small>@{{perfil.total_permisos ?? 0}} permisos</small>
                                 </div>
                             </label>
                         </div>
@@ -286,6 +287,7 @@
                                 </div>
                                 <div class="crear-usuario-card-info">
                                     <span class="crear-usuario-card-titulo">@{{perfil.titulo}}</span>
+                                    <small>@{{perfil.total_permisos ?? 0}} permisos</small>
                                 </div>
                             </label>
                         </div>

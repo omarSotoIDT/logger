@@ -10,7 +10,9 @@ class PerfilRepoData
 
     public static function listar($columnas = '', $filtros = [], $limit = null, $offset = null, $orden = '', $paginar = null)
     {
-        $query = DB::table('sys_perfiles AS pf')->select('pf.perfil_id');
+        $query = DB::table('sys_perfiles AS pf')->select('pf.perfil_id', DB::raw('COUNT(pp.permiso_id) as total_permisos'))
+            ->leftJoin('rel_perfiles_permisos AS pp', 'pp.perfil_id', '=', 'pf.perfil_id')
+            ->groupBy('pf.perfil_id');
 
         PerfilRH::obtenerColumnas($query, $columnas);
         PerfilRH::obtenerFiltros($query, $filtros);

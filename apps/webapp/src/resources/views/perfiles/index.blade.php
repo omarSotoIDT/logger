@@ -38,7 +38,7 @@
                             <div class="usuario-datos">
                                 <p class="usuario-nombre">@{{ perfil.titulo }}</p>
                                 <div class="datos-proyecto">
-                                    <p class="usuario-nameCorto">@{{ perfiles.length || 0 }} permisos asignados</p>
+                                    <p class="usuario-nameCorto">@{{ perfil.total_permisos || 0 }} permisos asignados</p>
                                 </div>
                             </div>
                         </div>
