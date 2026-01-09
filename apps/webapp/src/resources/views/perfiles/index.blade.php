@@ -94,11 +94,11 @@
                             <label>Nombre del perfil</label>
                             <input
                                 type="text"
-                                name="perfil"
-                                value="{{ old('perfil') }}"
+                                name="titulo"
+                                value="{{ old('titulo') }}"
                                 placeholder="Developer"
                                 required
-                                ref="inputperfilCrear">
+                                ref="inputtituloCrear">
                         </div>
 
                         <div class="crear-usuario-campo">
@@ -108,7 +108,7 @@
                                 id="clave"
                                 name="clave"
                                 value="{{ old('clave') }}"
-                                placeholder="Clave-001"
+                                placeholder="clave-001"
                                 required>
                         </div>
                     </div>
