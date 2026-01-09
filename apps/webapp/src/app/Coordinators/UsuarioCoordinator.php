@@ -22,12 +22,12 @@ class UsuarioCoordinator
 
         $proyectoPorUsuario = ProyectoService::listarProyectosPorUsuario(
             'nombre,id,status',
-            ['rup.status' => StatusConsts::ACTIVO, 'p.status' => StatusConsts::ACTIVO]
+            ['statusUsuarioProyecto' => StatusConsts::ACTIVO, 'status' => StatusConsts::ACTIVO]
         )->groupBy('usuario_id');
 
         $perfilPorUsuario = PerfilService::listarPerfilesPorUsuarios(
             'titulo,id,status',
-            ['up.status' => StatusConsts::ACTIVO, 'pf.status' => StatusConsts::ACTIVO]
+            ['statusUsuarioPerfil' => StatusConsts::ACTIVO, 'statusPerfiles' => StatusConsts::ACTIVO]
         )->groupBy('usuario_id');
 
         foreach ($usuarios as $usuario) {
