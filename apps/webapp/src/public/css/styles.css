@@ -1859,6 +1859,7 @@ body.modal-abierto {
 .crear-usuario-card-info {
   display: flex;
   flex-direction: column;
+  gap: var(--espacio-xs);
 }
 
 .crear-usuario-card-titulo {
