@@ -23,7 +23,7 @@ class PerfilCoordinator
         DB::transaction(function () use ($datos) {
             $perfilId = PerfilService::agregar($datos);
 
-            foreach ($data['permisos'] ?? [] as $permisoId) {
+            foreach ($datos['permisos'] ?? [] as $permisoId) {
                 PerfilService::agregarRelacion($perfilId, $permisoId);
             }
         }, attempts: 2);

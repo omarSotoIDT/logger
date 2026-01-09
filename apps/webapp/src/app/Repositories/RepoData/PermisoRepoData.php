@@ -24,8 +24,6 @@ class PermisoRepoData
             $query->offset($offset);
         }
 
-        // dd($query);
-
         return $query->get();
     }
 }

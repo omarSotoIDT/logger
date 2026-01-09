@@ -9,7 +9,7 @@ class PerfilBO
     public static function agregar($datos)
     {
         return [
-            'titulo' => $datos['titutlo'],
+            'titulo' => $datos['titulo'],
             'clave' => $datos['clave'],
             'descripcion' => $datos['descripcion'],
 
