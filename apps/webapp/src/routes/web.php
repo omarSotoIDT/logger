@@ -74,6 +74,8 @@ Route::middleware(['auth'])
             ->group(function () {
                 Route::get('/', 'gestor')->name('gestor');
                 Route::post('/', 'agregar')->name('crear');
+                Route::patch('/{id}', 'editar')->name('actualizar');
+                Route::delete('/{id}', 'eliminar')->name('eliminar');
             });
 
         /* Logout */
