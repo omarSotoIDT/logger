@@ -45,12 +45,12 @@
                             </div>
                         </div>
                         <div class="usuario-accion">
-                            <button class="btn-accion" @click="abrirEditar(usuario)">
-                                <img src="{{ asset('assets/icons/editar.svg') }}" alt="Boton de Editar">
+                            <button class="acciones" @click="abrirEditar(usuario)">
+                                <img src="{{ asset('assets/icons/lapiz.svg') }}" alt="Boton de Editar">
                             </button>
 
-                            <button class="btn-accion" @click="abrirEliminar(usuario)">
-                                <img src="{{ asset('assets/icons/eliminar.svg') }}" alt="Boton de Eliminar">
+                            <button class="acciones" @click="abrirEliminar(usuario)">
+                                <img src="{{ asset('assets/icons/basura.svg') }}" alt="Boton de Eliminar">
                             </button>
 
                             <span class="flecha" @click="toggleUsuario(usuario.usuario_id)">@{{ usuarioActivo === usuario.usuario_id ? '▴' : '▾' }}</span>
@@ -72,7 +72,7 @@
 
                             <div v-for="perfil in usuario.perfiles" :key="perfil.perfil_id" class="perfil-card">
                                 <div class="crear-usuario-icono">
-                                    <img src="{{ asset('assets/icons/perfil.svg') }}" alt="Perfil">
+                                    <img src="{{ asset('assets/icons/escudo.svg') }}" alt="Perfil">
                                 </div>
                                 <div class="perfil-info">
                                     <span class="perfil-nombre">@{{ perfil.titulo }}</span>
@@ -175,12 +175,13 @@
                         <div class="crear-usuario-cards">
                             <span v-if="!perfiles || perfiles.length === 0" class="crear-usuario-card-titulo">No se encontró ningún perfil</span>
                             <label v-for="perfil in perfiles" :key="perfil.perfil_id" class="crear-usuario-card">
-                                <input type="checkbox" name="perfiles[]" value="perfil.perfil_id">
+                                <input type="checkbox" name="perfiles[]" :value="perfil.perfil_id">
                                 <div class="crear-usuario-icono">
-                                    <img src="{{ asset('assets/icons/perfil.svg') }}" alt="Perfil">
+                                    <img src="{{ asset('assets/icons/escudo.svg') }}" alt="Perfil">
                                 </div>
                                 <div class="crear-usuario-card-info">
                                     <span class="crear-usuario-card-titulo">@{{perfil.titulo}}</span>
+                                    <small>@{{perfil.total_permisos ?? 0}} permisos</small>
                                 </div>
                             </label>
                         </div>
@@ -193,7 +194,7 @@
                         <div class="crear-usuario-cards">
                             <span v-if="!proyectos || proyectos.length === 0" class="crear-usuario-card-titulo">No se encontró ningún proyecto</span>
                             <label v-for="proyecto in proyectos" :key="proyecto.proyecto_id" class="crear-usuario-card">
-                                <input type="checkbox" name="proyectos[]" value="proyecto.proyecto_id">
+                                <input type="checkbox" name="proyectos[]" :value="proyecto.proyecto_id">
                                 <div class="crear-usuario-card-info">
                                     <span class="crear-usuario-card-titulo">@{{proyecto.nombre}}</span>
                                 </div>
@@ -282,10 +283,11 @@
                             <label v-for="perfil in perfiles" :key="perfil.perfil_id" class="crear-usuario-card">
                                 <input type="checkbox" name="perfiles[]" :value="perfil.perfil_id" v-model="editar.perfiles">
                                 <div class="crear-usuario-icono">
-                                    <img src="{{ asset('assets/icons/perfil.svg') }}" alt="Perfil">
+                                    <img src="{{ asset('assets/icons/escudo.svg') }}" alt="Perfil">
                                 </div>
                                 <div class="crear-usuario-card-info">
                                     <span class="crear-usuario-card-titulo">@{{perfil.titulo}}</span>
+                                    <small>@{{perfil.total_permisos ?? 0}} permisos</small>
                                 </div>
                             </label>
                         </div>

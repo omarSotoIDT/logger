@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\TipoController;
 use App\Http\Controllers\TipoProyectoController;
@@ -9,7 +10,7 @@ use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 
- /* Autenticación */
+/* Autenticación */
 
 Route::get('/', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.logger');
@@ -64,6 +65,16 @@ Route::middleware(['auth'])
                 Route::get('/', 'gestor')->name('gestor');
                 Route::post('/', 'agregar')->name('crear');
                 Route::patch('/{id}', 'actualizar')->name('actualizar');
+                Route::delete('/{id}', 'eliminar')->name('eliminar');
+            });
+
+        Route::controller(PerfilController::class)
+            ->prefix('perfiles')
+            ->name('perfiles.')
+            ->group(function () {
+                Route::get('/', 'gestor')->name('gestor');
+                Route::post('/', 'agregar')->name('crear');
+                Route::patch('/{id}', 'editar')->name('actualizar');
                 Route::delete('/{id}', 'eliminar')->name('eliminar');
             });
 

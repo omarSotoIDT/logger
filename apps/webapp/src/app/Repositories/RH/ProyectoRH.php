@@ -46,8 +46,8 @@ class ProyectoRH
             }
         }
 
-        if (!empty($filtros['rup.status'])) {
-            $status = $filtros['rup.status'];
+        if (!empty($filtros['statusUsuarioProyecto'])) {
+            $status = $filtros['statusUsuarioProyecto'];
 
             if (is_array($status)) {
                 $query->whereIn('rup.status', $status);

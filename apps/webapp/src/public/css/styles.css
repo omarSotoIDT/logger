@@ -1712,21 +1712,6 @@ body.modal-abierto {
   color: var(--color-texto-titulo);
 }
 
-.btn-accion {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 6px;
-  display: flex;
-  align-items: center;
-}
-
-.btn-accion img {
-  width: 20px;
-  height: 20px;
-  display: block;
-}
-
 .flecha {
   font-size: 20px;
   cursor: pointer;
@@ -1874,6 +1859,7 @@ body.modal-abierto {
 .crear-usuario-card-info {
   display: flex;
   flex-direction: column;
+  gap: var(--espacio-xs);
 }
 
 .crear-usuario-card-titulo {
@@ -1921,3 +1907,69 @@ body.modal-abierto {
 .paginacion a:hover {
   background: var(--color-primario-claro);
 }
+
+/* =========================
+   PERMISOS
+========================= */
+
+.permisos-columnas {
+  max-height: 350px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 8px;
+}
+
+.permisos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0px 5px;
+}
+
+.permiso-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.permiso-card:hover {
+  border-color: #6366f1;
+  background: #f5f7ff;
+}
+
+.permiso-card input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.permiso-textos {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.permiso-titulo {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.permiso-subtitulo {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.permiso-card input:checked ~ .permiso-textos,
+.permiso-card input:checked {
+  color: #6366f1;
+}
+
+

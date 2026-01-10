@@ -64,4 +64,33 @@ class UsuarioService
 
         return UsuarioRepoAction::editar($eliminarUsuario, $id);
     }
+
+    public static function agregarPerfiles($usuarioId, $perfilId)
+    {
+        $agregarRelacion = UsuariosBO::agregarRelacionPerfiles($usuarioId, $perfilId);
+
+        UsuarioRepoAction::agregarRelacionPerfil($agregarRelacion);
+    }
+
+    public static function eliminarRelacionesPerfil($usuarioId, $perfiles)
+    {
+        $datos = UsuariosBO::eliminarRelacionProyecto();
+        UsuarioRepoAction::eliminarRelacionPerfil($usuarioId, $perfiles, $datos);
+    }
+
+    public static function actualizarRelacionPerfil($usuarioId, $perfiles)
+    {
+        $perfiles = $perfiles ?? [];
+
+        self::eliminarRelacionesPerfil($usuarioId, $perfiles);
+
+        foreach ($perfiles as $perfilId) {
+            $existe = UsuarioRepoData::perfilesActivo(['usuario_id' => $usuarioId, 'perfil_id' => $perfilId, 'status' => StatusConsts::ACTIVO]);
+
+            if (!$existe) {
+                $datos = UsuariosBO::agregarRelacionPerfiles($usuarioId, $perfilId);
+                UsuarioRepoAction::agregarRelacionPerfil($datos);
+            }
+        }
+    }
 }

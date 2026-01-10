@@ -34,4 +34,13 @@ class UsuarioRepoData
 
         return $query->exists();
     }
+
+    public static function perfilesActivo($filtros)
+    {
+        $query = DB::table('rel_usuarios_perfiles');
+
+        UsuarioRH::obtenerFiltro($filtros, $query);
+
+        return $query->exists();
+    }
 }

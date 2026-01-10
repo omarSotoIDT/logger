@@ -10,7 +10,9 @@ class PerfilRepoData
 
     public static function listar($columnas = '', $filtros = [], $limit = null, $offset = null, $orden = '', $paginar = null)
     {
-        $query = DB::table('sys_perfiles AS pf')->select('pf.perfil_id');
+        $query = DB::table('sys_perfiles AS pf')->select('pf.perfil_id')
+            ->leftJoin('rel_perfiles_permisos AS pp', 'pp.perfil_id', '=', 'pf.perfil_id')
+            ->groupBy('pf.perfil_id');
 
         PerfilRH::obtenerColumnas($query, $columnas);
         PerfilRH::obtenerFiltros($query, $filtros);
@@ -29,7 +31,7 @@ class PerfilRepoData
 
     public static function listarPerfilesPorUsuario($columnas = '', $filtros = [], $limit = null, $offset = null, $orden = '')
     {
-        $query = DB::table('rel_usuarios_perfiles AS up')->select('pf.perfil_id')
+        $query = DB::table('rel_usuarios_perfiles AS up')->select('up.usuario_id')
             ->join('sys_perfiles AS pf', 'pf.perfil_id', '=', 'up.perfil_id');
 
         PerfilRH::obtenerColumnas($query, $columnas);

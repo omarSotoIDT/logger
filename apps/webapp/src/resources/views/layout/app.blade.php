@@ -103,6 +103,18 @@
                     </span>
                     Usuarios
                 </a>
+
+                <a href="{{ route('perfiles.gestor') }}"
+                class="barra-superior-enlace {{ request()->routeIs('perfiles.*') ? 'esta-activo' : '' }}">
+                    <span class="barra-superior-icono" aria-hidden="true">
+                        <img
+                            src="{{ asset('assets/icons/escudo.svg') }}"
+                            alt="Icono de perfiles"
+                            class=""
+                        >
+                    </span>
+                    Perfiles
+                </a>
             </nav>
 
             {{-- Usuario --}}

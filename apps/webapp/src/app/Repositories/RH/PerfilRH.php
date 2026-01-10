@@ -2,6 +2,8 @@
 
 namespace App\Repositories\RH;
 
+use Illuminate\Support\Facades\DB;
+
 class PerfilRH
 {
     public static function obtenerColumnas(&$query, $columnas)
@@ -11,7 +13,9 @@ class PerfilRH
             'clave' => 'pf.clave',
             'titulo' => 'pf.titulo',
             'descripcion' => 'pf.descripcion',
-            'status' => 'pf.status'
+            'status' => 'pf.status',
+
+            'total_permisos' => DB::raw('COUNT(pp.permiso_id) AS total_permisos'),
         ];
 
         if (empty($columnas)) {
@@ -32,13 +36,23 @@ class PerfilRH
             $query->where('pf.titulo', 'LIKE', "%{$filtros['search']}%");
         }
 
-        if (!empty($filtros['status'])) {
-            $status = $filtros['status'];
+        if (!empty($filtros['statusPerfiles'])) {
+            $status = $filtros['statusPerfiles'];
 
             if (is_array($status)) {
                 $query->whereIn('pf.status', $status);
             } else {
                 $query->where('pf.status', $status);
+            }
+        }
+
+        if (!empty($filtros['statusUsuarioPerfil'])) {
+            $status = $filtros['statusUsuarioPerfil'];
+
+            if (is_array($status)) {
+                $query->whereIn('up.status', $status);
+            } else {
+                $query->where('up.status', $status);
             }
         }
     }
