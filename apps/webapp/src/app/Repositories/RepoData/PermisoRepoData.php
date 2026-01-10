@@ -38,12 +38,13 @@ class PermisoRepoData
         return $query->get();
     }
 
-    public static function validarPermisos($usuarioId)
+    public static function validarPermisos($usuarioId, $codigo)
     {
         return DB::table('sys_permisos as p')->select('p.codigo')
             ->join('rel_perfiles_permisos as rp', 'rp.permiso_id', '=', 'p.permiso_id')
             ->join('rel_usuarios_perfiles as up', 'up.perfil_id', '=', 'rp.perfil_id')
             ->where('up.usuario_id', '=', $usuarioId)->where('up.status', '=', 'ACTIVO')
-            ->pluck('codigo');
+            ->where('p.codigo', $codigo)
+            ->exists();
     }
 }
