@@ -16,7 +16,7 @@ Route::get('/', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.logger');
 
 
-Route::middleware(['auth'])
+Route::middleware(['auth', 'permisos'])
     ->prefix('logger')
     ->group(function () {
 

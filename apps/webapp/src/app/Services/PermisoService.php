@@ -15,4 +15,9 @@ class PermisoService
     {
         return PermisoRepoData::listarPermisosPorPerfil($columna, $filtros);
     }
+
+    public static function validarPermisos($usuarioId, $codigo)
+    {
+        return PermisoRepoData::validarPermisos($usuarioId, $codigo);
+    }
 }
